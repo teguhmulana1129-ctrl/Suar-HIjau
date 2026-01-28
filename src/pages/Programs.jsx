@@ -213,8 +213,8 @@ export default function Programs() {
                                                 <span
                                                     key={i}
                                                     className={`px-3 py-1 rounded-full text-xs font-semibold ${phase.status === 'completed' ? 'bg-primary/10 text-primary' :
-                                                            phase.status === 'in-progress' ? 'bg-secondary/10 text-secondary' :
-                                                                'bg-neutral-100 text-neutral-500'
+                                                        phase.status === 'in-progress' ? 'bg-secondary/10 text-secondary' :
+                                                            'bg-neutral-100 text-neutral-500'
                                                         }`}
                                                 >
                                                     {phase.phase}
@@ -231,7 +231,7 @@ export default function Programs() {
                                         </span>
                                         <Link
                                             to="/contact"
-                                            className="ml-auto flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-full font-semibold hover:bg-primary-dark transition-colors"
+                                            className="ml-auto flex items-center gap-2 bg-neutral-900 text-white px-6 py-3 rounded-full font-semibold hover:bg-neutral-800 transition-colors"
                                         >
                                             Gabung Sekarang
                                             <ArrowRight className="w-4 h-4" />

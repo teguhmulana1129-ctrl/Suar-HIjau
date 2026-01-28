@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ShieldCheck } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const FadeIn = ({ children, delay = 0, className = "" }) => (
     <motion.div
@@ -15,64 +16,86 @@ const FadeIn = ({ children, delay = 0, className = "" }) => (
 
 export default function About() {
     return (
-        <section id="about" className="relative bg-white py-16 lg:py-24 z-10">
+        <section id="about" className="relative bg-white py-20 lg:py-32 z-10 overflow-hidden">
+            {/* Background Pattern */}
+            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+
             <div className="max-w-screen-2xl mx-auto px-6 lg:px-10">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16 items-center">
-
-                    {/* Title Column */}
-                    <FadeIn>
-                        <p className="text-xs uppercase tracking-[0.2em] text-neutral-400 font-bold mb-6">
-                            Benih Amaran
-                        </p>
-                        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-medium tracking-tight text-neutral-900 leading-[0.95]">
-                            Benih Pilihan Sendiri
-                        </h2>
-                        <div className="mt-10 hidden lg:block w-24 h-0.5 bg-neutral-900" />
-
-                        <div className="mt-8 mb-8 text-xl sm:text-2xl font-medium text-neutral-800 leading-normal">
-                            <p>Reproduksi: Elite</p>
-                            <p>Daya Tumbuh: 99%</p>
-                            <p>Benih Bersertifikat.</p>
-                        </div>
-
-                        <a href="#contact" className="group inline-flex items-center gap-3 bg-green-600 text-white rounded-full py-3 px-5 text-sm font-semibold uppercase tracking-wide hover:scale-105 transition-transform shadow-lg hover:shadow-xl">
-                            <span>Beli Produk Kami</span>
-                            <span className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center">
-                                <ArrowRight className="w-3 h-3" />
-                            </span>
-                        </a>
-                    </FadeIn>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
 
                     {/* Image Column */}
-                    <FadeIn delay={0.2} className="relative aspect-[4/5] rounded-sm overflow-hidden bg-neutral-100">
-                        <img
-                            src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/cb0cfc8f-0c7b-4867-9aeb-9cb2823efaf7_1600w.png"
-                            alt="Lab"
-                            className="absolute inset-0 w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-                        />
-                        <div className="absolute bottom-6 left-6 flex gap-2 flex-wrap">
-                            {['Institut Terkemuka', 'Paten'].map(tag => (
-                                <span key={tag} className="px-3 py-1 bg-white/90 backdrop-blur text-neutral-900 text-[10px] font-bold tracking-widest uppercase shadow-sm rounded-sm">
-                                    {tag}
-                                </span>
-                            ))}
+                    <FadeIn className="relative order-2 lg:order-1">
+                        <div className="aspect-[4/5] rounded-3xl overflow-hidden bg-neutral-100 relative z-10">
+                            <img
+                                src="https://images.pexels.com/photos/957024/forest-trees-perspective-bright-957024.jpeg?auto=compress&cs=tinysrgb&w=1600"
+                                alt="Hutan Bambu Suar Hijau"
+                                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                            />
+                            {/* Overlay Card */}
+                            <div className="absolute bottom-8 left-8 right-8 p-6 bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20">
+                                <div className="flex items-center gap-4 mb-4">
+                                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                        <ShieldCheck className="w-5 h-5" />
+                                    </div>
+                                    <div>
+                                        <p className="text-xs text-neutral-500 uppercase tracking-wider font-semibold">Dampak Nyata</p>
+                                        <p className="font-bold text-neutral-900">Terverifikasi & Transparan</p>
+                                    </div>
+                                </div>
+                                <div className="w-full bg-neutral-100 h-1.5 rounded-full overflow-hidden">
+                                    <div className="w-[75%] h-full bg-primary rounded-full" />
+                                </div>
+                                <div className="flex justify-between mt-2 text-xs font-medium text-neutral-500">
+                                    <span>Target Tahunan</span>
+                                    <span>75% Tercapai</span>
+                                </div>
+                            </div>
                         </div>
+
+                        {/* Decorative Background */}
+                        <div className="absolute -top-10 -left-10 w-full h-full border-2 border-neutral-100 rounded-3xl -z-10" />
                     </FadeIn>
 
-                    {/* Text Column */}
-                    <FadeIn delay={0.4} className="lg:pl-8 lg:pr-24">
-                        <p className="text-xs uppercase tracking-[0.2em] text-neutral-400 font-bold mb-7">
-                            Deskripsi
-                        </p>
-                        <div className="w-full h-px bg-neutral-200 mb-2" />
-                        <p className="text-sm text-neutral-600 leading-6 text-justify mb-8 font-medium">
-                            Amaran adalah tanaman pakan inovatif dengan ketahanan kekeringan tinggi dan kandungan protein tinggi. Sangat ideal untuk pakan seimbang ternak dan unggas. Selain itu, tanaman ini aktif digunakan dalam industri makanan, farmasi, dan kosmetik. Varietas kami mulai aktif digunakan untuk memperluas jangkauan makanan sehat.
+                    {/* Content Column */}
+                    <FadeIn delay={0.2} className="lg:pr-10 order-1 lg:order-2">
+                        <div className="flex items-center gap-3 mb-6">
+                            <span className="w-8 h-px bg-primary" />
+                            <span className="text-sm font-bold text-primary uppercase tracking-widest">Kenapa Suar Hijau?</span>
+                        </div>
+
+                        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-display text-neutral-900 leading-[1.1] mb-8">
+                            Harmoni Alam & <span className="text-primary">Ekonomi Lokal</span>
+                        </h2>
+
+                        <p className="text-lg text-neutral-600 leading-relaxed mb-8">
+                            Kami percaya bahwa pelestarian lingkungan tidak harus mengorbankan pertumbuhan ekonomi. Suar Hijau hadir sebagai jembatan yang menghubungkan program konservasi bambu terukur dengan pemberdayaan UMKM pengrajin lokal.
                         </p>
 
-                        <a href="#" className="group inline-flex items-center gap-2 text-xs uppercase tracking-widest font-bold text-neutral-900 border-b border-neutral-300 pb-1 hover:border-neutral-900 transition-colors">
-                            Selengkapnya
+                        <div className="space-y-6 mb-10">
+                            {[
+                                { title: 'Konservasi Terukur', desc: 'Sistem tracking real-time untuk setiap pohon yang ditanam.' },
+                                { title: 'Pemberdayaan UMKM', desc: 'Akses pasar digital yang adil bagi pengrajin bambu lokal.' },
+                                { title: 'Edukasi Berkelanjutan', desc: 'Pusat pengetahuan untuk gaya hidup ramah lingkungan.' }
+                            ].map((item, i) => (
+                                <div key={i} className="flex gap-4">
+                                    <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-primary flex-shrink-0 mt-1">
+                                        <div className="w-2 h-2 bg-primary rounded-full" />
+                                    </div>
+                                    <div>
+                                        <h4 className="font-bold text-neutral-900 text-lg">{item.title}</h4>
+                                        <p className="text-neutral-500">{item.desc}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <Link
+                            to="/about"
+                            className="group inline-flex items-center gap-3 bg-neutral-900 text-white px-8 py-4 rounded-full font-semibold hover:bg-neutral-800 transition-all hover:shadow-lg hover:-translate-y-1"
+                        >
+                            <span>Pelajari Visi Kami</span>
                             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                        </a>
+                        </Link>
                     </FadeIn>
 
                 </div>

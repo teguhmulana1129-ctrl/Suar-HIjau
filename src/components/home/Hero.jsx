@@ -156,7 +156,7 @@ export default function Hero() {
                                 Konservasi Bambu & Pemberdayaan UMKM Lokal
                             </p>
                             <div className="animate-fade-up opacity-0 pointer-events-auto" style={{ animationDelay: '1000ms', animationFillMode: 'forwards' }}>
-                                <a href="#about" className="group inline-flex items-center gap-3 bg-primary text-white rounded-full py-4 px-8 text-sm font-semibold uppercase tracking-wide hover:bg-primary-dark transition-colors shadow-lg hover:shadow-primary/25">
+                                <a href="#about" className="group inline-flex items-center gap-3 bg-neutral-900 text-white rounded-full py-4 px-8 text-sm font-semibold uppercase tracking-wide hover:bg-neutral-800 transition-colors shadow-lg hover:shadow-primary/25">
                                     <span>Beli Produk Kami</span>
                                     <span className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center group-hover:bg-white/30 transition-colors">
                                         <ArrowDown className="w-3 h-3" />

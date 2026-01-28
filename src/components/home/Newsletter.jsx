@@ -2,6 +2,8 @@
 import { ArrowRight, Mail } from 'lucide-react';
 
 export default function Newsletter() {
+    const marqueeText = "SUAR HIJAU • KONSERVASI BAMBU • PEMBERDAYAAN UMKM • BERKELANJUTAN • ";
+
     return (
         <section className="py-24 bg-neutral-900 text-white overflow-hidden relative">
             {/* Background Gradient */}
@@ -40,6 +42,26 @@ export default function Newsletter() {
                     </div>
                 </div>
             </div>
+
+            {/* Text Marquee */}
+            <div className="mt-16 border-t border-white/10 pt-8 select-none overflow-hidden">
+                <div className="animate-marquee whitespace-nowrap flex">
+                    <span className="text-6xl md:text-8xl font-bold text-white/5 font-display tracking-tight mx-4">
+                        {marqueeText}{marqueeText}{marqueeText}{marqueeText}
+                    </span>
+                </div>
+            </div>
+
+            {/* Marquee Animation Styles */}
+            <style>{`
+                @keyframes marquee {
+                    0% { transform: translateX(0); }
+                    100% { transform: translateX(-50%); }
+                }
+                .animate-marquee {
+                    animation: marquee 30s linear infinite;
+                }
+            `}</style>
         </section>
     );
 }
