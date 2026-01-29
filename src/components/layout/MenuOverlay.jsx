@@ -3,9 +3,23 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MENU_ITEMS } from '../../data/mockData';
 import { X, ArrowRight } from 'lucide-react';
+import { useLanguage } from '../../context/LanguageContext';
+import { translations } from '../../data/translations';
 
 export default function MenuOverlay({ isOpen, onClose }) {
-    const [activeImage, setActiveImage] = useState(MENU_ITEMS[0].image);
+    const { language } = useLanguage();
+    const t = translations[language];
+
+    const menuItems = [
+        { label: t.nav.home, href: "/", image: MENU_ITEMS[0].image },
+        { label: t.nav.about, href: "/about", image: MENU_ITEMS[1].image },
+        { label: t.nav.programs, href: "/programs", image: MENU_ITEMS[2].image },
+        { label: t.nav.products, href: "/products", image: MENU_ITEMS[3].image },
+        { label: t.nav.blog, href: "/blog", image: MENU_ITEMS[4].image },
+        { label: t.nav.contact, href: "/contact", image: MENU_ITEMS[5].image },
+    ];
+
+    const [activeImage, setActiveImage] = useState(menuItems[0].image);
 
     return (
         <AnimatePresence>
@@ -51,10 +65,10 @@ export default function MenuOverlay({ isOpen, onClose }) {
 
                         <div className="flex-1 flex flex-col justify-center px-6 lg:px-16 xl:px-20 max-w-2xl">
                             <p className="text-xs uppercase tracking-[0.2em] text-neutral-400 mb-8 font-medium">
-                                Navigasi
+                                {language === 'ID' ? 'Navigasi' : 'Navigation'}
                             </p>
                             <ul className="space-y-0">
-                                {MENU_ITEMS.map((item, index) => (
+                                {menuItems.map((item, index) => (
                                     <motion.li
                                         key={item.label}
                                         initial={{ opacity: 0, y: 20 }}
@@ -78,9 +92,11 @@ export default function MenuOverlay({ isOpen, onClose }) {
                             </ul>
 
                             <div className="mt-12 pt-8 border-t border-neutral-200">
-                                <p className="text-xs uppercase tracking-[0.2em] text-neutral-400 mb-4 font-medium">Hubungi Kami</p>
+                                <p className="text-xs uppercase tracking-[0.2em] text-neutral-400 mb-4 font-medium">
+                                    {language === 'ID' ? 'Hubungi Kami' : 'Contact Us'}
+                                </p>
                                 <div className="space-y-2">
-                                    <a href="tel:88007008181" className="block text-sm font-medium text-neutral-800 hover:text-neutral-500 transition-colors">8 800 700 81 81</a>
+                                    <a href="tel:05113256089" className="block text-sm font-medium text-neutral-800 hover:text-neutral-500 transition-colors">(0511) 3256089</a>
                                     <a href="mailto:mail@molvest.ru" className="block text-sm font-medium text-neutral-800 hover:text-neutral-500 transition-colors">Info@suarhijau.com</a>
                                 </div>
                             </div>

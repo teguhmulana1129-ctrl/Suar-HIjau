@@ -2,6 +2,8 @@
 import { motion } from 'framer-motion';
 import { TreeDeciduous, Users, CloudRain, Map } from 'lucide-react';
 import { IMPACT_STATS } from '../../data/mockData';
+import { useLanguage } from '../../context/LanguageContext';
+import { translations } from '../../data/translations';
 
 const iconMap = {
     Tree: TreeDeciduous,
@@ -11,14 +13,24 @@ const iconMap = {
 };
 
 export default function ImpactPreview() {
+    const { language } = useLanguage();
+    const t = translations[language].impact;
+
+    const statLabelsMap = {
+        "Bambu Ditanam": t.stats.planted,
+        "Pengrajin Binaan": t.stats.artisans,
+        "Oksigen Dihasilkan": t.stats.oxygen,
+        "Lahan Konservasi": t.stats.conservation
+    };
+
     return (
         <section className="py-20 bg-primary/5">
             <div className="container mx-auto px-6">
                 <div className="text-center max-w-2xl mx-auto mb-16">
-                    <p className="text-secondary font-semibold tracking-wider uppercase text-sm mb-2 font-sans">Dampak Nyata</p>
-                    <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 font-display mb-6">Bersama Mewujudkan Perubahan</h2>
+                    <p className="text-secondary font-semibold tracking-wider uppercase text-sm mb-2 font-sans">{t.badge}</p>
+                    <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 font-display mb-6">{t.title}</h2>
                     <p className="text-neutral-600 font-sans">
-                        Setiap langkah kecil yang kita ambil bersama memberikan dampak besar bagi kelestarian lingkungan dan kesejahteraan masyarakat.
+                        {t.desc}
                     </p>
                 </div>
 
@@ -40,7 +52,9 @@ export default function ImpactPreview() {
                                 <div className="text-3xl md:text-4xl font-bold text-neutral-900 mb-1 font-display">
                                     {stat.value.toLocaleString()}{stat.suffix && <span className="text-lg text-neutral-500 ml-1">{stat.suffix}</span>}
                                 </div>
-                                <p className="text-sm font-semibold text-neutral-500 uppercase tracking-wide">{stat.label}</p>
+                                <p className="text-sm font-semibold text-neutral-500 uppercase tracking-wide">
+                                    {statLabelsMap[stat.label] || stat.label}
+                                </p>
                             </motion.div>
                         );
                     })}

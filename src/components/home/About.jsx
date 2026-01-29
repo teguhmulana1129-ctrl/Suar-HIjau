@@ -1,6 +1,9 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import bambooAbout from '../../assets/bamboo_hero_high_res.png';
+import { useLanguage } from '../../context/LanguageContext';
+import { translations } from '../../data/translations';
 
 const FadeIn = ({ children, delay = 0, className = "" }) => (
     <motion.div
@@ -15,6 +18,9 @@ const FadeIn = ({ children, delay = 0, className = "" }) => (
 );
 
 export default function About() {
+    const { language } = useLanguage();
+    const t = translations[language].about;
+
     return (
         <section id="about" className="relative bg-white py-20 lg:py-32 z-10 overflow-hidden">
             {/* Background Pattern */}
@@ -27,7 +33,7 @@ export default function About() {
                     <FadeIn className="relative order-2 lg:order-1">
                         <div className="aspect-[4/5] rounded-3xl overflow-hidden bg-neutral-100 relative z-10">
                             <img
-                                src="https://images.pexels.com/photos/957024/forest-trees-perspective-bright-957024.jpeg?auto=compress&cs=tinysrgb&w=1600"
+                                src={bambooAbout}
                                 alt="Hutan Bambu Suar Hijau"
                                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                             />
@@ -38,16 +44,16 @@ export default function About() {
                                         <ShieldCheck className="w-5 h-5" />
                                     </div>
                                     <div>
-                                        <p className="text-xs text-neutral-500 uppercase tracking-wider font-semibold">Dampak Nyata</p>
-                                        <p className="font-bold text-neutral-900">Terverifikasi & Transparan</p>
+                                        <p className="text-xs text-neutral-500 uppercase tracking-wider font-semibold">{t.impactBadge}</p>
+                                        <p className="font-bold text-neutral-900">{t.impactTitle}</p>
                                     </div>
                                 </div>
                                 <div className="w-full bg-neutral-100 h-1.5 rounded-full overflow-hidden">
                                     <div className="w-[75%] h-full bg-primary rounded-full" />
                                 </div>
                                 <div className="flex justify-between mt-2 text-xs font-medium text-neutral-500">
-                                    <span>Target Tahunan</span>
-                                    <span>75% Tercapai</span>
+                                    <span>{t.impactTarget}</span>
+                                    <span>75% {t.impactAchieved}</span>
                                 </div>
                             </div>
                         </div>
@@ -60,23 +66,18 @@ export default function About() {
                     <FadeIn delay={0.2} className="lg:pr-10 order-1 lg:order-2">
                         <div className="flex items-center gap-3 mb-6">
                             <span className="w-8 h-px bg-primary" />
-                            <span className="text-sm font-bold text-primary uppercase tracking-widest">Kenapa Suar Hijau?</span>
+                            <span className="text-sm font-bold text-primary uppercase tracking-widest">{t.badge}</span>
                         </div>
 
-                        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-display text-neutral-900 leading-[1.1] mb-8">
-                            Harmoni Alam & <span className="text-primary">Ekonomi Lokal</span>
+                        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-display text-neutral-900 leading-[1.1] mb-8" dangerouslySetInnerHTML={{ __html: t.title.replace('Ekonomi Lokal', '<span class="text-primary">Ekonomi Lokal</span>').replace('Local Economy', '<span class="text-primary">Local Economy</span>') }}>
                         </h2>
 
                         <p className="text-lg text-neutral-600 leading-relaxed mb-8">
-                            Kami percaya bahwa pelestarian lingkungan tidak harus mengorbankan pertumbuhan ekonomi. Suar Hijau hadir sebagai jembatan yang menghubungkan program konservasi bambu terukur dengan pemberdayaan UMKM pengrajin lokal.
+                            {t.desc}
                         </p>
 
                         <div className="space-y-6 mb-10">
-                            {[
-                                { title: 'Konservasi Terukur', desc: 'Sistem tracking real-time untuk setiap pohon yang ditanam.' },
-                                { title: 'Pemberdayaan UMKM', desc: 'Akses pasar digital yang adil bagi pengrajin bambu lokal.' },
-                                { title: 'Edukasi Berkelanjutan', desc: 'Pusat pengetahuan untuk gaya hidup ramah lingkungan.' }
-                            ].map((item, i) => (
+                            {t.features.map((item, i) => (
                                 <div key={i} className="flex gap-4">
                                     <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-primary flex-shrink-0 mt-1">
                                         <div className="w-2 h-2 bg-primary rounded-full" />
@@ -93,7 +94,7 @@ export default function About() {
                             to="/about"
                             className="group inline-flex items-center gap-3 bg-neutral-900 text-white px-8 py-4 rounded-full font-semibold hover:bg-neutral-800 transition-all hover:shadow-lg hover:-translate-y-1"
                         >
-                            <span>Pelajari Visi Kami</span>
+                            <span>{t.button}</span>
                             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </Link>
                     </FadeIn>

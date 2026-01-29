@@ -4,39 +4,57 @@ import { ShoppingBag, ArrowRight, Leaf, Package, Award, CheckCircle2, X, Message
 import { PRODUCTS } from '../data/mockData';
 import { cn } from '../lib/utils';
 import { Link } from 'react-router-dom';
-
-// Extended product data with more details
-const PRODUCTS_DETAILED = PRODUCTS.map((product, idx) => ({
-    ...product,
-    price: ['Rp 85.000', 'Rp 45.000', 'Rp 35.000', 'Rp 55.000'][idx] || 'Rp 50.000',
-    category: ['Wadah', 'Kemasan', 'Aksesoris', 'Peralatan'][idx] || 'Lainnya',
-    material: '100% Bambu Pilihan',
-    craftTime: ['3-5 hari', '2-3 hari', '1-2 hari', '2-4 hari'][idx] || '2-3 hari',
-    size: ['30 x 25 x 15 cm', '20 x 15 x 10 cm', 'Diameter 45 cm', 'Diameter 40 cm'][idx] || '25 x 20 cm',
-    weight: ['500g', '200g', '800g', '600g'][idx] || '400g',
-    features: [
-        'Dibuat handmade oleh pengrajin lokal',
-        'Material bambu berkualitas tinggi',
-        'Ramah lingkungan & biodegradable',
-        'Desain tradisional autentik'
-    ],
-    stock: ['Tersedia', 'Tersedia', 'Pre-order', 'Tersedia'][idx] || 'Tersedia',
-}));
+import { useLanguage } from '../context/LanguageContext';
+import { translations } from '../data/translations';
 
 export default function Products() {
+    const { language } = useLanguage();
+    const t = translations[language];
+
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [activeFilter, setActiveFilter] = useState('Semua');
 
-    const categories = ['Semua', 'Wadah', 'Kemasan', 'Aksesoris', 'Peralatan'];
+    const PRODUCTS_DETAILED = PRODUCTS.map((product, idx) => ({
+        ...product,
+        price: ['Rp 85.000', 'Rp 45.000', 'Rp 35.000', 'Rp 55.000'][idx] || 'Rp 50.000',
+        category: [
+            language === 'ID' ? 'Wadah' : 'Container',
+            language === 'ID' ? 'Kemasan' : 'Packaging',
+            language === 'ID' ? 'Aksesoris' : 'Accessories',
+            language === 'ID' ? 'Peralatan' : 'Tools'
+        ][idx] || (language === 'ID' ? 'Lainnya' : 'Other'),
+        material: language === 'ID' ? '100% Bambu Pilihan' : '100% Premium Bamboo',
+        craftTime: [
+            language === 'ID' ? '3-5 hari' : '3-5 days',
+            language === 'ID' ? '2-3 hari' : '2-3 days',
+            language === 'ID' ? '1-2 hari' : '1-2 days',
+            language === 'ID' ? '2-4 hari' : '2-4 days'
+        ][idx] || (language === 'ID' ? '2-3 hari' : '2-3 days'),
+        size: ['30 x 25 x 15 cm', '20 x 15 x 10 cm', 'Diameter 45 cm', 'Diameter 40 cm'][idx] || '25 x 20 cm',
+        weight: ['500g', '200g', '800g', '600g'][idx] || '400g',
+        features: language === 'ID'
+            ? ['Dibuat handmade oleh pengrajin lokal', 'Material bambu berkualitas tinggi', 'Ramah lingkungan & biodegradable', 'Desain tradisional autentik']
+            : ['Handmade by local artisans', 'High-quality bamboo material', 'Eco-friendly & biodegradable', 'Authentic traditional design'],
+        stock: [
+            language === 'ID' ? 'Tersedia' : 'Available',
+            language === 'ID' ? 'Tersedia' : 'Available',
+            language === 'ID' ? 'Pre-order' : 'Pre-order',
+            language === 'ID' ? 'Tersedia' : 'Available'
+        ][idx] || (language === 'ID' ? 'Tersedia' : 'Available'),
+    }));
 
-    const filteredProducts = activeFilter === 'Semua'
+    const categories = language === 'ID'
+        ? ['Semua', 'Wadah', 'Kemasan', 'Aksesoris', 'Peralatan']
+        : ['All', 'Container', 'Packaging', 'Accessories', 'Tools'];
+
+    const filteredProducts = (activeFilter === 'Semua' || activeFilter === 'All')
         ? PRODUCTS_DETAILED
         : PRODUCTS_DETAILED.filter(p => p.category === activeFilter);
 
     const stats = [
-        { value: '100+', label: 'Produk', icon: Package },
-        { value: '50+', label: 'Pengrajin', icon: Award },
-        { value: '100%', label: 'Organik', icon: Leaf },
+        { value: '100+', label: language === 'ID' ? 'Produk' : 'Products', icon: Package },
+        { value: '50+', label: language === 'ID' ? 'Pengrajin' : 'Artisans', icon: Award },
+        { value: '100%', label: language === 'ID' ? 'Organik' : 'Organic', icon: Leaf },
     ];
 
     return (
@@ -56,13 +74,13 @@ export default function Products() {
                     >
                         <div className="flex items-center gap-3 mb-4">
                             <div className="h-px w-8 bg-neutral-900" />
-                            <span className="text-xs font-semibold text-primary uppercase tracking-widest">Katalog</span>
+                            <span className="text-xs font-semibold text-primary uppercase tracking-widest">{language === 'ID' ? 'Katalog' : 'Catalogue'}</span>
                         </div>
                         <h1 className="text-4xl lg:text-5xl font-bold text-neutral-900 font-display tracking-tight mb-4">
-                            Produk Kami
+                            {t.nav.products}
                         </h1>
                         <p className="text-neutral-600">
-                            Kerajinan bambu berkualitas dari pengrajin lokal.
+                            {language === 'ID' ? 'Kerajinan bambu berkualitas dari pengrajin lokal.' : 'High-quality bamboo crafts from local artisans.'}
                         </p>
                     </motion.div>
 
@@ -149,7 +167,7 @@ export default function Products() {
                                 >
                                     <span className="flex items-center gap-2 bg-white text-neutral-900 px-4 py-2 rounded-full text-sm font-semibold">
                                         <Eye className="w-4 h-4" />
-                                        Lihat Detail
+                                        {language === 'ID' ? 'Lihat Detail' : 'View Details'}
                                     </span>
                                 </div>
                             </div>
@@ -157,27 +175,27 @@ export default function Products() {
                             {/* Content */}
                             <div className="p-5">
                                 <h3 className="font-bold text-neutral-900 mb-1 ">
-                                    {product.title}
+                                    {language === 'ID' ? product.title : product.titleEN || product.title}
                                 </h3>
                                 <p className="text-sm text-neutral-500 line-clamp-2 mb-3">
-                                    {product.desc}
+                                    {language === 'ID' ? product.desc : product.descEN || product.desc}
                                 </p>
 
                                 {/* Price & Size */}
                                 <div className="flex items-center justify-between mb-4">
                                     <span className="text-lg font-bold text-neutral-900 ">{product.price}</span>
-                                    <span className="text-xs text-neutral-400">{product.size}</span>
+                                    <span className="text-xs text-neutral-400">{language === 'ID' ? 'Ukuran' : 'Size'} {product.size}</span>
                                 </div>
 
                                 {/* CTA */}
                                 <a
-                                    href={`https://wa.me/6281234567890?text=Halo, saya tertarik dengan produk ${product.title}`}
+                                    href={`https://wa.me/05113256089?text=Halo, saya tertarik dengan produk ${product.title}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="w-full flex items-center justify-center gap-2 bg-neutral-900 text-white py-2.5 rounded-lg text-sm font-semibold hover:bg-neutral-800 transition-colors"
                                 >
                                     <ShoppingBag className="w-4 h-4" />
-                                    <span>Pesan</span>
+                                    <span>{language === 'ID' ? 'Pesan' : 'Order'}</span>
                                 </a>
                             </div>
                         </motion.div>
@@ -190,10 +208,10 @@ export default function Products() {
                 <div className="bg-primary rounded-2xl p-8 lg:p-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                     <div>
                         <h2 className="text-2xl font-bold text-white font-display mb-2">
-                            Butuh Pesanan Custom?
+                            {language === 'ID' ? 'Butuh Pesanan Custom?' : 'Need Custom Order?'}
                         </h2>
                         <p className="text-white/70">
-                            Kami melayani pesanan khusus untuk bisnis dan acara.
+                            {language === 'ID' ? 'Kami melayani pesanan khusus untuk bisnis dan acara.' : 'We serve special orders for businesses and events.'}
                         </p>
                     </div>
                     <Link
@@ -201,7 +219,7 @@ export default function Products() {
                         className="inline-flex items-center gap-2 bg-white text-primary px-6 py-3 rounded-full font-semibold hover:bg-neutral-100 transition-colors whitespace-nowrap"
                     >
                         <MessageCircle className="w-4 h-4" />
-                        <span>Hubungi Kami</span>
+                        <span>{t.nav.contactUs || t.nav.contact}</span>
                         <ArrowRight className="w-4 h-4" />
                     </Link>
                 </div>
@@ -270,26 +288,26 @@ export default function Products() {
                                     {/* Specs */}
                                     <div className="grid grid-cols-2 gap-3 mb-6 p-4 bg-neutral-50 rounded-xl text-sm">
                                         <div>
-                                            <p className="text-xs text-neutral-500 mb-0.5">Material</p>
+                                            <p className="text-xs text-neutral-500 mb-0.5">{language === 'ID' ? 'Material' : 'Material'}</p>
                                             <p className="font-semibold">{selectedProduct.material}</p>
                                         </div>
                                         <div>
-                                            <p className="text-xs text-neutral-500 mb-0.5">Ukuran</p>
+                                            <p className="text-xs text-neutral-500 mb-0.5">{language === 'ID' ? 'Ukuran' : 'Size'}</p>
                                             <p className="font-semibold">{selectedProduct.size}</p>
                                         </div>
                                         <div>
-                                            <p className="text-xs text-neutral-500 mb-0.5">Berat</p>
+                                            <p className="text-xs text-neutral-500 mb-0.5">{language === 'ID' ? 'Berat' : 'Weight'}</p>
                                             <p className="font-semibold">{selectedProduct.weight}</p>
                                         </div>
                                         <div>
-                                            <p className="text-xs text-neutral-500 mb-0.5">Pengerjaan</p>
+                                            <p className="text-xs text-neutral-500 mb-0.5">{language === 'ID' ? 'Pengerjaan' : 'Crafting Time'}</p>
                                             <p className="font-semibold">{selectedProduct.craftTime}</p>
                                         </div>
                                     </div>
 
                                     {/* Features */}
                                     <div className="mb-6">
-                                        <h4 className="font-semibold text-sm mb-2">Keunggulan:</h4>
+                                        <h4 className="font-semibold text-sm mb-2">{language === 'ID' ? 'Keunggulan:' : 'Advantages:'}</h4>
                                         <ul className="space-y-1.5">
                                             {selectedProduct.features.map((f, i) => (
                                                 <li key={i} className="flex items-center gap-2 text-sm text-neutral-600">
@@ -302,13 +320,13 @@ export default function Products() {
 
                                     {/* CTA */}
                                     <a
-                                        href={`https://wa.me/6281234567890?text=Halo, saya tertarik dengan ${selectedProduct.title}`}
+                                        href={`https://wa.me/05113256089?text=Halo, saya tertarik dengan ${selectedProduct.title}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="w-full flex items-center justify-center gap-2 bg-neutral-900 text-white py-3 rounded-xl font-semibold hover:bg-primary-dark transition-colors"
                                     >
                                         <ShoppingBag className="w-4 h-4" />
-                                        <span>Pesan via WhatsApp</span>
+                                        <span>{language === 'ID' ? 'Pesan via WhatsApp' : 'Order via WhatsApp'}</span>
                                     </a>
                                 </div>
                             </div>

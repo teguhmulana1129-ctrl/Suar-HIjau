@@ -1,47 +1,52 @@
 import { motion } from 'framer-motion';
 import { Leaf, Users, ShoppingBag, TreeDeciduous, Target, Heart, Sparkles, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
+import { translations } from '../data/translations';
 
 export default function About() {
+    const { language } = useLanguage();
+    const t = translations[language];
+
     const stats = [
-        { value: '10,000+', label: 'Pohon Ditanam', icon: TreeDeciduous },
-        { value: '50+', label: 'UMKM Partner', icon: ShoppingBag },
-        { value: '500+', label: 'Relawan Aktif', icon: Users },
-        { value: '25', label: 'Hektar Restorasi', icon: Leaf },
+        { value: '10,000+', label: language === 'ID' ? 'Pohon Ditanam' : 'Trees Planted', icon: TreeDeciduous },
+        { value: '50+', label: language === 'ID' ? 'UMKM Partner' : 'MSME Partners', icon: ShoppingBag },
+        { value: '500+', label: language === 'ID' ? 'Relawan Aktif' : 'Active Volunteers', icon: Users },
+        { value: '25', label: language === 'ID' ? 'Hektar Restorasi' : 'Restoration Hectares', icon: Leaf },
     ];
 
     const pillars = [
         {
             icon: TreeDeciduous,
-            title: 'Konservasi Bambu',
-            desc: 'Pelacakan & reporting program konservasi bambu dengan real-time progress visualization dan impact metrics.',
+            title: language === 'ID' ? 'Konservasi Bambu' : 'Bamboo Conservation',
+            desc: language === 'ID' ? 'Pelacakan & reporting program konservasi bambu dengan real-time progress visualization dan impact metrics.' : 'Tracking & reporting bamboo conservation programs with real-time progress visualization and impact metrics.',
             color: 'bg-primary/10 text-primary'
         },
         {
             icon: ShoppingBag,
-            title: 'Marketplace UMKM',
-            desc: 'Platform digital untuk produk ramah lingkungan dari pengrajin lokal dengan akses pasar yang lebih luas.',
+            title: language === 'ID' ? 'Marketplace UMKM' : 'MSME Marketplace',
+            desc: language === 'ID' ? 'Platform digital untuk produk ramah lingkungan dari pengrajin lokal dengan akses pasar yang lebih luas.' : 'Digital platform for eco-friendly products from local artisans with broader market access.',
             color: 'bg-secondary/10 text-secondary'
         },
         {
             icon: Users,
-            title: 'Komunitas Volunteer',
-            desc: 'Jaringan relawan dan partnership untuk mendukung program konservasi dan pemberdayaan masyarakat.',
+            title: language === 'ID' ? 'Komunitas Volunteer' : 'Volunteer Community',
+            desc: language === 'ID' ? 'Jaringan relawan dan partnership untuk mendukung program konservasi dan pemberdayaan masyarakat.' : 'Relay network and partnerships to support conservation programs and community empowerment.',
             color: 'bg-blue-500/10 text-blue-500'
         },
         {
             icon: Target,
-            title: 'Impact Tracking',
-            desc: 'Analytics dan pelaporan dampak yang transparan untuk setiap program konservasi dan produk UMKM.',
+            title: language === 'ID' ? 'Impact Tracking' : 'Impact Tracking',
+            desc: language === 'ID' ? 'Analytics dan pelaporan dampak yang transparan untuk setiap program konservasi dan produk UMKM.' : 'Transparent impact analytics and reporting for every conservation program and MSME product.',
             color: 'bg-purple-500/10 text-purple-500'
         },
     ];
 
     const values = [
-        { title: 'Sustainability', desc: 'Setiap keputusan berorientasi pada keberlanjutan lingkungan.' },
-        { title: 'Transparency', desc: 'Pelaporan dampak yang jujur dan terbuka untuk semua stakeholder.' },
-        { title: 'Empowerment', desc: 'Memberdayakan komunitas lokal melalui akses pasar dan teknologi.' },
-        { title: 'Innovation', desc: 'Solusi digital inovatif untuk konservasi dan ekonomi hijau.' },
+        { title: 'Sustainability', desc: language === 'ID' ? 'Setiap keputusan berorientasi pada keberlanjutan lingkungan.' : 'Every decision is oriented towards environmental sustainability.' },
+        { title: 'Transparency', desc: language === 'ID' ? 'Pelaporan dampak yang jujur dan terbuka untuk semua stakeholder.' : 'Honest and open impact reporting for all stakeholders.' },
+        { title: 'Empowerment', desc: language === 'ID' ? 'Memberdayakan komunitas lokal melalui akses pasar dan teknologi.' : 'Empowering local communities through market access and technology.' },
+        { title: 'Innovation', desc: language === 'ID' ? 'Solusi digital inovatif untuk konservasi dan ekonomi hijau.' : 'Innovative digital solutions for conservation and the green economy.' },
     ];
 
     return (
@@ -61,28 +66,28 @@ export default function About() {
                     >
                         <div className="flex items-center gap-3 mb-6">
                             <div className="h-px w-12 bg-primary" />
-                            <span className="text-sm font-semibold text-primary uppercase tracking-widest">Tentang Kami</span>
+                            <span className="text-sm font-semibold text-primary uppercase tracking-widest">{t.nav.about}</span>
                         </div>
-                        <h1 className="text-4xl lg:text-5xl font-bold text-neutral-900 font-display tracking-tight leading-[1.1] mb-6">
-                            Ekosistem Digital untuk<br />
-                            <span className="text-primary">Konservasi & UMKM</span>
+                        <h1 className="text-4xl lg:text-5xl font-bold text-neutral-900 font-display tracking-tight leading-[1.1] mb-6" dangerouslySetInnerHTML={{ __html: language === 'ID' ? 'Ekosistem Digital untuk<br /><span class="text-primary">Konservasi & UMKM</span>' : 'Digital Ecosystem for<br /><span class="text-primary">Conservation & MSMEs</span>' }}>
                         </h1>
                         <p className="text-lg text-neutral-600 leading-relaxed mb-8">
-                            Suar Hijau adalah platform digital terpadu yang menggabungkan konservasi lingkungan dengan pemberdayaan ekonomi lokal. Kami menciptakan ekosistem yang sustainable, profitable, dan scalable untuk bisnis UMKM lokal sambil mendorong konservasi bambu di Indonesia.
+                            {language === 'ID'
+                                ? 'Suar Hijau adalah platform digital terpadu yang menggabungkan konservasi lingkungan dengan pemberdayaan ekonomi lokal. Kami menciptakan ekosistem yang sustainable, profitable, dan scalable untuk bisnis UMKM lokal sambil mendorong konservasi bambu di Indonesia.'
+                                : 'Suar Hijau is an integrated digital platform that combines environmental conservation with local economic empowerment. We create a sustainable, profitable, and scalable ecosystem for local MSME businesses while driving bamboo conservation in Indonesia.'}
                         </p>
                         <div className="flex flex-wrap gap-4">
                             <Link
                                 to="/programs"
                                 className="inline-flex items-center gap-2 bg-neutral-900 text-white px-6 py-3 rounded-full font-semibold hover:bg-neutral-800 transition-colors"
                             >
-                                <span>Lihat Program</span>
+                                <span>{language === 'ID' ? 'Lihat Program' : 'View Programs'}</span>
                                 <ArrowRight className="w-4 h-4" />
                             </Link>
                             <Link
                                 to="/contact"
                                 className="inline-flex items-center gap-2 bg-white text-neutral-900 px-6 py-3 rounded-full font-semibold hover:bg-neutral-100 transition-colors border border-neutral-200"
                             >
-                                <span>Hubungi Kami</span>
+                                <span>{t.nav.contactUs || t.nav.contact}</span>
                             </Link>
                         </div>
                     </motion.div>
@@ -118,10 +123,10 @@ export default function About() {
                 >
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-semibold mb-4">
                         <Sparkles className="w-4 h-4" />
-                        <span>Pilar Utama</span>
+                        <span>{language === 'ID' ? 'Pilar Utama' : 'Main Pillars'}</span>
                     </div>
                     <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 font-display">
-                        Empat Pilar Suar Hijau
+                        {language === 'ID' ? 'Empat Pilar Suar Hijau' : 'The Four Pillars of Suar Hijau'}
                     </h2>
                 </motion.div>
 
@@ -156,13 +161,15 @@ export default function About() {
                         >
                             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white text-sm font-semibold mb-6">
                                 <Heart className="w-4 h-4" />
-                                <span>Nilai Kami</span>
+                                <span>{language === 'ID' ? 'Nilai Kami' : 'Our Values'}</span>
                             </div>
                             <h2 className="text-3xl lg:text-4xl font-bold text-white font-display mb-6">
-                                Komitmen untuk Keberlanjutan
+                                {language === 'ID' ? 'Komitmen untuk Keberlanjutan' : 'Commitment to Sustainability'}
                             </h2>
                             <p className="text-white/70 text-lg leading-relaxed">
-                                Kami percaya bahwa bisnis yang sukses harus berjalan seiring dengan pelestarian lingkungan dan pemberdayaan masyarakat lokal.
+                                {language === 'ID'
+                                    ? 'Kami percaya bahwa bisnis yang sukses harus berjalan seiring dengan pelestarian lingkungan dan pemberdayaan masyarakat lokal.'
+                                    : 'We believe that a successful business must go hand in hand with environmental preservation and local community empowerment.'}
                             </p>
                         </motion.div>
 
@@ -193,32 +200,40 @@ export default function About() {
                     className="text-center mb-12"
                 >
                     <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 font-display mb-4">
-                        Siapa yang Kami Layani?
+                        {language === 'ID' ? 'Siapa yang Kami Layani?' : 'Who We Serve'}
                     </h2>
                     <p className="text-neutral-600 max-w-2xl mx-auto">
-                        Platform kami dirancang untuk berbagai stakeholder dalam ekosistem konservasi dan ekonomi hijau.
+                        {language === 'ID'
+                            ? 'Platform kami dirancang untuk berbagai stakeholder dalam ekosistem konservasi dan ekonomi hijau.'
+                            : 'Our platform is designed for various stakeholders in the conservation and green economy ecosystem.'}
                     </p>
                 </motion.div>
 
                 <div className="grid md:grid-cols-3 gap-6">
                     {[
                         {
-                            title: 'Konsumen',
+                            title: language === 'ID' ? 'Konsumen' : 'Consumers',
                             percent: '40%',
-                            desc: 'Pembeli produk UMKM yang ingin berkontribusi pada lingkungan melalui pembelian produk berkelanjutan.',
-                            features: ['Browse produk UMKM', 'Baca artikel sustainability', 'Dukung program konservasi']
+                            desc: language === 'ID' ? 'Pembeli produk UMKM yang ingin berkontribusi pada lingkungan melalui pembelian produk berkelanjutan.' : 'MSME product buyers who want to contribute to the environment through sustainable product purchases.',
+                            features: language === 'ID'
+                                ? ['Browse produk UMKM', 'Baca artikel sustainability', 'Dukung program konservasi']
+                                : ['Browse MSME products', 'Read sustainability articles', 'Support conservation programs']
                         },
                         {
-                            title: 'UMKM Penjual',
+                            title: language === 'ID' ? 'UMKM Penjual' : 'MSME Sellers',
                             percent: '30%',
-                            desc: 'Pengrajin lokal dan usaha kecil yang ingin menjangkau pasar lebih luas dengan produk ramah lingkungan.',
-                            features: ['Showcase produk', 'Akses pasar digital', 'Tracking engagement']
+                            desc: language === 'ID' ? 'Pengrajin lokal dan usaha kecil yang ingin menjangkau pasar lebih luas dengan produk ramah lingkungan.' : 'Local artisans and small businesses looking to reach a wider market with eco-friendly products.',
+                            features: language === 'ID'
+                                ? ['Showcase produk', 'Akses pasar digital', 'Tracking engagement']
+                                : ['Showcase products', 'Digital market access', 'Engagement tracking']
                         },
                         {
-                            title: 'Volunteer',
+                            title: language === 'ID' ? 'Volunteer' : 'Volunteers',
                             percent: '20%',
-                            desc: 'Environmental enthusiasts, mahasiswa, dan profesional yang ingin berkontribusi pada konservasi.',
-                            features: ['Join program konservasi', 'Track personal impact', 'Share achievements']
+                            desc: language === 'ID' ? 'Environmental enthusiasts, mahasiswa, dan profesional yang ingin berkontribusi pada konservasi.' : 'Environmental enthusiasts, students, and professionals who want to contribute to conservation.',
+                            features: language === 'ID'
+                                ? ['Join program konservasi', 'Track personal impact', 'Share achievements']
+                                : ['Join conservation programs', 'Track personal impact', 'Share achievements']
                         }
                     ].map((user, i) => (
                         <motion.div
@@ -261,17 +276,19 @@ export default function About() {
 
                     <div className="relative z-10 max-w-2xl mx-auto">
                         <h2 className="text-3xl lg:text-4xl font-bold font-display mb-4">
-                            Bergabung dengan Gerakan Hijau
+                            {language === 'ID' ? 'Bergabung dengan Gerakan Hijau' : 'Join the Green Movement'}
                         </h2>
                         <p className="text-white/80 text-lg mb-8">
-                            Jadilah bagian dari ekosistem yang menciptakan dampak positif bagi lingkungan dan ekonomi lokal Indonesia.
+                            {language === 'ID'
+                                ? 'Jadilah bagian dari ekosistem yang menciptakan dampak positif bagi lingkungan dan ekonomi lokal Indonesia.'
+                                : 'Be part of an ecosystem that creates positive impact for Indonesia\'s environment and local economy.'}
                         </p>
                         <div className="flex flex-wrap justify-center gap-4">
                             <Link
                                 to="/programs"
                                 className="inline-flex items-center gap-2 bg-white text-primary px-8 py-4 rounded-full font-semibold hover:bg-neutral-100 transition-colors"
                             >
-                                <span>Lihat Program</span>
+                                <span>{language === 'ID' ? 'Lihat Program' : 'View Programs'}</span>
                                 <ArrowRight className="w-4 h-4" />
                             </Link>
                             <Link
@@ -279,7 +296,7 @@ export default function About() {
                                 className="inline-flex items-center gap-2 bg-white/20 text-white px-8 py-4 rounded-full font-semibold hover:bg-white/30 transition-colors border border-white/30"
                             >
                                 <ShoppingBag className="w-4 h-4" />
-                                <span>Belanja Produk</span>
+                                <span>{language === 'ID' ? 'Belanja Produk' : 'Shop Products'}</span>
                             </Link>
                         </div>
                     </div>

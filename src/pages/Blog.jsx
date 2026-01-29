@@ -1,47 +1,55 @@
 
 import { motion } from 'framer-motion';
 import { Calendar, User, ArrowRight } from 'lucide-react';
-
-const BLOG_POSTS = [
-    {
-        id: 1,
-        title: "Manfaat Anyaman Bambu untuk Kehidupan Sehari-hari",
-        excerpt: "Temukan berbagai manfaat produk anyaman bambu yang ramah lingkungan dan tahan lama untuk kebutuhan rumah tangga Anda.",
-        image: "https://images.pexels.com/photos/4503273/pexels-photo-4503273.jpeg?auto=compress&cs=tinysrgb&w=800",
-        author: "Tim Suar Hijau",
-        date: "20 Jan 2026",
-        category: "Tips & Trik"
-    },
-    {
-        id: 2,
-        title: "Proses Pembuatan Anyaman Bambu Tradisional",
-        excerpt: "Mengenal lebih dekat proses pembuatan anyaman bambu dari awal hingga menjadi produk berkualitas tinggi.",
-        image: "https://images.pexels.com/photos/5638732/pexels-photo-5638732.jpeg?auto=compress&cs=tinysrgb&w=800",
-        author: "Budi Santoso",
-        date: "15 Jan 2026",
-        category: "Edukasi"
-    },
-    {
-        id: 3,
-        title: "Mendukung UMKM Lokal Melalui Produk Ramah Lingkungan",
-        excerpt: "Bagaimana memilih produk lokal dapat membantu ekonomi masyarakat dan menjaga kelestarian lingkungan.",
-        image: "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=800",
-        author: "Sarah Lim",
-        date: "10 Jan 2026",
-        category: "Komunitas"
-    },
-    {
-        id: 4,
-        title: "Tren Dekorasi Rumah dengan Material Alami",
-        excerpt: "Inspirasi dekorasi rumah menggunakan material alami seperti bambu, rotan, dan anyaman tradisional.",
-        image: "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=800",
-        author: "Tim Suar Hijau",
-        date: "5 Jan 2026",
-        category: "Inspirasi"
-    }
-];
+import { useLanguage } from '../context/LanguageContext';
+import { translations } from '../data/translations';
+import imgAnyaman from '../assets/bamboo_benefits_daily.jpg';
+import imgProses from '../assets/bamboo_weaving_traditional_process.jpg';
+import imgUMKM from '../assets/bamboo_umkm_market.jpg';
+import imgDekor from '../assets/bamboo_home_decor_modern.jpg';
 
 export default function Blog() {
+    const { language } = useLanguage();
+    const t = translations[language];
+
+    const BLOG_POSTS = [
+        {
+            id: 1,
+            title: language === 'ID' ? "Manfaat Anyaman Bambu untuk Kehidupan Sehari-hari" : "Benefits of Bamboo Weaving for Daily Life",
+            excerpt: language === 'ID' ? "Temukan berbagai manfaat produk anyaman bambu yang ramah lingkungan dan tahan lama untuk kebutuhan rumah tangga Anda." : "Discover various benefits of eco-friendly and durable bamboo weaving products for your household needs.",
+            image: imgAnyaman,
+            author: "Tim Suar Hijau",
+            date: language === 'ID' ? "20 Jan 2026" : "Jan 20, 2026",
+            category: language === 'ID' ? "Tips & Trik" : "Tips & Tricks"
+        },
+        {
+            id: 2,
+            title: language === 'ID' ? "Proses Pembuatan Anyaman Bambu Tradisional" : "Traditional Bamboo Weaving Process",
+            excerpt: language === 'ID' ? "Mengenal lebih dekat proses pembuatan anyaman bambu dari awal hingga menjadi produk berkualitas tinggi." : "Get a closer look at the bamboo weaving process from start to high-quality finished product.",
+            image: imgProses,
+            author: "Budi Santoso",
+            date: language === 'ID' ? "15 Jan 2026" : "Jan 15, 2026",
+            category: language === 'ID' ? "Edukasi" : "Education"
+        },
+        {
+            id: 3,
+            title: language === 'ID' ? "Mendukung UMKM Lokal Melalui Produk Ramah Lingkungan" : "Supporting Local MSMEs Through Eco-Friendly Products",
+            excerpt: language === 'ID' ? "Bagaimana memilih produk lokal dapat membantu ekonomi masyarakat dan menjaga kelestarian lingkungan." : "How choosing local products can help the community's economy and maintain environmental sustainability.",
+            image: imgUMKM,
+            author: "Sarah Lim",
+            date: language === 'ID' ? "10 Jan 2026" : "Jan 10, 2026",
+            category: language === 'ID' ? "Komunitas" : "Community"
+        },
+        {
+            id: 4,
+            title: language === 'ID' ? "Tren Dekorasi Rumah dengan Material Alami" : "Home Decor Trends with Natural Materials",
+            excerpt: language === 'ID' ? "Inspirasi dekorasi rumah menggunakan material alami seperti bambu, rotan, and anyaman tradisional." : "Home decoration inspiration using natural materials like bamboo, rattan, and traditional weaving.",
+            image: imgDekor,
+            author: "Tim Suar Hijau",
+            date: language === 'ID' ? "5 Jan 2026" : "Jan 5, 2026",
+            category: language === 'ID' ? "Inspirasi" : "Inspiration"
+        }
+    ];
     return (
         <div className="pt-24 min-h-screen bg-background pb-20">
             {/* Header */}
@@ -51,10 +59,12 @@ export default function Blog() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
                 >
-                    <p className="text-secondary font-semibold tracking-wider uppercase text-sm mb-4 font-sans">Artikel</p>
-                    <h1 className="text-4xl md:text-6xl font-bold text-neutral-900 font-display mb-8">Blog & Berita</h1>
+                    <p className="text-secondary font-semibold tracking-wider uppercase text-sm mb-4 font-sans">{language === 'ID' ? 'Artikel' : 'Articles'}</p>
+                    <h1 className="text-4xl md:text-6xl font-bold text-neutral-900 font-display mb-8">{t.nav.blog}</h1>
                     <p className="text-xl text-neutral-600 max-w-3xl mx-auto font-sans leading-relaxed">
-                        Informasi terbaru seputar produk, tips, dan cerita inspiratif dari komunitas Suar Hijau.
+                        {language === 'ID'
+                            ? 'Informasi terbaru seputar produk, tips, dan cerita inspiratif dari komunitas Suar Hijau.'
+                            : 'Latest information about products, tips, and inspiring stories from the Suar Hijau community.'}
                     </p>
                 </motion.div>
             </section>
@@ -94,7 +104,7 @@ export default function Blog() {
                                         {post.author}
                                     </span>
                                     <button className="flex items-center gap-1 text-primary font-semibold text-sm group-hover:gap-2 transition-all">
-                                        Baca <ArrowRight className="w-4 h-4" />
+                                        {language === 'ID' ? 'Baca' : 'Read'} <ArrowRight className="w-4 h-4" />
                                     </button>
                                 </div>
                             </div>

@@ -4,8 +4,12 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, MapPin, Target } from 'lucide-react';
 import { PROGRAMS } from '../../data/mockData';
 import { cn } from '../../lib/utils';
+import { useLanguage } from '../../context/LanguageContext';
+import { translations } from '../../data/translations';
 
 export default function FeaturedPrograms() {
+    const { language } = useLanguage();
+    const t = translations[language].featuredPrograms;
     const [currentSlide, setCurrentSlide] = useState(0);
     const slidesPerView = typeof window !== 'undefined' && window.innerWidth >= 1024 ? 3 : (window.innerWidth >= 768 ? 2 : 1);
     const maxIndex = Math.max(0, PROGRAMS.length - slidesPerView);
@@ -15,8 +19,6 @@ export default function FeaturedPrograms() {
 
     useEffect(() => {
         const handleResize = () => {
-            // In a real app we might want to debounce this or use a proper hook
-            // For now relies on component re-render on resize if we used window width in state/render
         };
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
@@ -27,8 +29,8 @@ export default function FeaturedPrograms() {
             <div className="container mx-auto px-6">
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
                     <div>
-                        <p className="text-secondary font-semibold tracking-wider uppercase text-sm mb-2">Program Konservasi</p>
-                        <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 font-display">Aksi Nyata Untuk Bumi</h2>
+                        <p className="text-secondary font-semibold tracking-wider uppercase text-sm mb-2">{t.badge}</p>
+                        <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 font-display">{t.title}</h2>
                     </div>
 
                     <div className="flex gap-2">
@@ -59,20 +61,22 @@ export default function FeaturedPrograms() {
                                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                     />
                                     <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-primary-dark">
-                                        {program.category}
+                                        {language === 'ID' ? program.category : program.categoryEN || program.category}
                                     </div>
                                 </div>
                                 <div className="p-6">
-                                    <h3 className="text-xl font-bold text-neutral-900 mb-2 group-hover:text-primary transition-colors line-clamp-1">{program.title}</h3>
+                                    <h3 className="text-xl font-bold text-neutral-900 mb-2 group-hover:text-primary transition-colors line-clamp-1">
+                                        {language === 'ID' ? program.title : program.titleEN || program.title}
+                                    </h3>
 
                                     <div className="flex items-center gap-2 text-neutral-500 text-sm mb-4">
                                         <MapPin className="w-4 h-4" />
-                                        <span>{program.location}</span>
+                                        <span>{language === 'ID' ? program.location : program.locationEN || program.location}</span>
                                     </div>
 
                                     <div className="mb-4">
                                         <div className="flex justify-between text-xs font-semibold mb-1">
-                                            <span className="text-neutral-600">Progress</span>
+                                            <span className="text-neutral-600">{t.progress}</span>
                                             <span className="text-primary">{program.progress}%</span>
                                         </div>
                                         <div className="w-full bg-neutral-100 rounded-full h-2">
@@ -86,9 +90,9 @@ export default function FeaturedPrograms() {
                                     <div className="pt-4 border-t border-neutral-100 flex items-center justify-between text-sm">
                                         <div className="flex items-center gap-2 text-neutral-600">
                                             <Target className="w-4 h-4 text-secondary" />
-                                            <span>Target: {program.target}</span>
+                                            <span>{t.target}: {program.target}</span>
                                         </div>
-                                        <button className="text-primary font-semibold hover:underline">Detail</button>
+                                        <button className="text-primary font-semibold hover:underline">{t.detail}</button>
                                     </div>
                                 </div>
                             </div>

@@ -3,7 +3,9 @@ import { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
 import { HERO_CARDS, HERO_STATS } from '../../data/mockData';
-import bambooHero from '../../assets/bamboo_herosc.webp';
+import bambooHero from '../../assets/bamboo_hero_high_res.png';
+import { useLanguage } from '../../context/LanguageContext';
+import { translations } from '../../data/translations';
 
 const Counter = ({ from, to, duration = 2 }) => {
     const ref = useRef(null);
@@ -34,6 +36,8 @@ const Counter = ({ from, to, duration = 2 }) => {
 }
 
 export default function Hero() {
+    const { language } = useLanguage();
+    const t = translations[language];
     const containerRef = useRef(null);
     const { scrollYProgress } = useScroll({
         target: containerRef,
@@ -70,7 +74,7 @@ export default function Hero() {
                         <motion.img
                             src={bambooHero}
                             alt="Hero Background"
-                            className="w-full h-full object-cover animate-breathe"
+                            className="w-full h-full object-cover"
                         />
                         <motion.div
                             style={{ opacity: overlayOpacity }}
@@ -86,9 +90,13 @@ export default function Hero() {
                             style={{ opacity: useTransform(smoothProgress, [0.3, 0.6], [0, 1]) }}
                             className="absolute bottom-6 left-6 text-white z-20"
                         >
-                            <p className="text-xs uppercase tracking-[0.2em] text-neutral-400 font-bold mb-2">Tentang Kami</p>
+                            <p className="text-xs uppercase tracking-[0.2em] text-neutral-400 font-bold mb-2">
+                                {language === 'ID' ? 'Tentang Kami' : 'About Us'}
+                            </p>
                             <p className="text-2xl lg:text-3xl font-medium tracking-tight mb-2 font-display">Suar Hijau</p>
-                            <p className="text-xs uppercase tracking-widest text-white/80">Pemeran utama dalam budidaya dan riset Amaran</p>
+                            <p className="text-xs uppercase tracking-widest text-white/80">
+                                {language === 'ID' ? 'Pemeran utama dalam budidaya dan riset Bambu' : 'Leading the way in Bamboo cultivation and research'}
+                            </p>
                         </motion.div>
                     </motion.div>
                 </div>
@@ -105,28 +113,23 @@ export default function Hero() {
                         const scale = useTransform(smoothProgress, [0.15, 1], [0.8, 1]);
 
                         let posClass = "";
-                        if (index === 0) posClass = "left-3 top-[13%] md:left-[8%] md:top-[8%]";
-                        if (index === 1) posClass = "right-3 top-[13%] md:left-[8%] md:top-[50%]";
-                        if (index === 2) posClass = "left-3 bottom-[13%] md:right-[8%] md:bottom-[50%]";
-                        if (index === 3) posClass = "right-3 bottom-[13%] md:right-[8%] md:bottom-[8%]";
+                        // Mengatur posisi agar teratur di 4 sudut (Top-Left, Bottom-Left, Top-Right, Bottom-Right)
+                        if (index === 0) posClass = "left-3 top-[13%] md:left-[5%] md:top-[8%]";       // Top Left
+                        if (index === 1) posClass = "left-3 bottom-[13%] md:left-[5%] md:bottom-[8%]"; // Bottom Left
+                        if (index === 2) posClass = "right-3 top-[13%] md:right-[5%] md:top-[8%]";     // Top Right (Pindah ke kanan atas yang kosong)
+                        if (index === 3) posClass = "right-3 bottom-[13%] md:right-[5%] md:bottom-[8%]"; // Bottom Right
 
                         return (
                             <motion.article
                                 key={index}
                                 style={{ x, y, opacity, scale }}
-                                className={`absolute w-[calc(50%-1rem)] h-[22%] md:w-[24%] md:h-[38%] rounded-xl overflow-hidden shadow-2xl ${posClass}`}
+                                className={`absolute w-[calc(50%-1rem)] h-[22%] md:w-[22%] md:h-[35%] rounded-xl overflow-hidden shadow-2xl z-20 ${posClass}`}
                             >
-                                {index === 1 || index === 2 ? (
-                                    <div className="w-full h-full md:h-[65%]">
-                                        <img src={card.image} alt="" className="w-full h-full object-cover" />
-                                    </div>
-                                ) : (
-                                    <img src={card.image} alt="" className="w-full h-full object-cover" />
-                                )}
+                                <img src={card.image} alt="" className="w-full h-full object-cover" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                                 <div className="absolute bottom-3 left-3 right-3 md:bottom-5 md:left-5 md:right-5">
-                                    <p className="text-[10px] md:text-xs uppercase tracking-widest text-white/80 leading-relaxed font-semibold">
-                                        {card.title}
+                                    <p className="text-[10px] md:text-sm uppercase tracking-widest text-white/80 leading-relaxed font-bold">
+                                        {language === 'ID' ? card.title : card.titleEN || card.title}
                                     </p>
                                 </div>
                             </motion.article>
@@ -153,11 +156,11 @@ export default function Hero() {
                                 Suar Hijau
                             </h1>
                             <p className="uppercase text-lg md:text-xl font-semibold text-zinc-50/90 tracking-widest mt-6 md:mt-8 mb-8 animate-fade-up opacity-0" style={{ animationDelay: '700ms', animationFillMode: 'forwards' }}>
-                                Konservasi Bambu & Pemberdayaan UMKM Lokal
+                                {language === 'ID' ? 'Konservasi Bambu & Pemberdayaan UMKM Lokal' : 'Bamboo Conservation & Local MSME Empowerment'}
                             </p>
                             <div className="animate-fade-up opacity-0 pointer-events-auto" style={{ animationDelay: '1000ms', animationFillMode: 'forwards' }}>
                                 <a href="#about" className="group inline-flex items-center gap-3 bg-neutral-900 text-white rounded-full py-4 px-8 text-sm font-semibold uppercase tracking-wide hover:bg-neutral-800 transition-colors shadow-lg hover:shadow-primary/25">
-                                    <span>Beli Produk Kami</span>
+                                    <span>{language === 'ID' ? 'Beli Produk Kami' : 'Shop Our Products'}</span>
                                     <span className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center group-hover:bg-white/30 transition-colors">
                                         <ArrowDown className="w-3 h-3" />
                                     </span>
@@ -175,7 +178,7 @@ export default function Hero() {
                                         <Counter from={0} to={stat.number} />{stat.suffix}
                                     </div>
                                     <p className="uppercase text-[10px] tracking-widest font-semibold text-white/70 group-hover:text-white transition-colors">
-                                        {stat.label}
+                                        {language === 'ID' ? stat.label : stat.labelEN || stat.label}
                                     </p>
                                 </div>
                             ))}

@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '../../lib/utils';
-import { HEADER_LINKS } from '../../data/mockData';
+import { useLanguage } from '../../context/LanguageContext';
+import { translations } from '../../data/translations';
 
 export default function Header({ onMenuClick }) {
     const [scrolled, setScrolled] = useState(false);
@@ -10,6 +11,18 @@ export default function Header({ onMenuClick }) {
 
     // On non-homepage, always show dark navbar
     const showDarkNav = scrolled || !isHomePage;
+
+    const { language, toggleLanguage } = useLanguage();
+    const t = translations[language];
+
+    const navLinks = [
+        { label: t.nav.home, href: "/" },
+        { label: t.nav.about, href: "/about" },
+        { label: t.nav.programs, href: "/programs" },
+        { label: t.nav.products, href: "/products" },
+        { label: t.nav.blog, href: "/blog" },
+        { label: t.nav.contact, href: "/contact" },
+    ];
 
     useEffect(() => {
         const handleScroll = () => {
@@ -36,20 +49,17 @@ export default function Header({ onMenuClick }) {
                     {/* Logo */}
                     <Link to="/" className="flex items-center gap-3 z-50 relative" aria-label="Home">
                         <img
-                            src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/7cd2626d-0185-4c9d-bbd5-e20389921e7e_320w.png"
-                            alt="Logo"
-                            className={cn(
-                                "h-8 w-auto object-contain transition-all duration-300",
-                                !showDarkNav && "invert brightness-0"
-                            )}
-                            width="120"
-                            height="32"
+                            src="/src/assets/logo_suarhijau.png"
+                            alt="Suar Hijau Logo"
+                            className="h-10 w-auto object-contain transition-all duration-300"
+                            width="160"
+                            height="40"
                         />
                     </Link>
 
                     {/* Desktop Nav */}
                     <nav className="hidden lg:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
-                        {HEADER_LINKS.map(link => (
+                        {navLinks.map(link => (
                             <Link
                                 key={link.label}
                                 to={link.href}
@@ -71,18 +81,18 @@ export default function Header({ onMenuClick }) {
                             "hidden sm:flex items-center gap-4 border-r pr-6 mr-2 transition-colors duration-300",
                             showDarkNav ? "border-neutral-200" : "border-white/20"
                         )}>
-                            {['ID', 'EN'].map((lang, i) => (
-                                <a
+                            {['ID', 'EN'].map((lang) => (
+                                <button
                                     key={lang}
-                                    href="#"
+                                    onClick={() => toggleLanguage(lang)}
                                     className={cn(
                                         "text-xs tracking-widest font-bold transition-opacity",
                                         showDarkNav ? "text-neutral-900" : "text-white",
-                                        i === 0 ? "opacity-100" : "opacity-60 hover:opacity-100"
+                                        language === lang ? "opacity-100" : "opacity-40 hover:opacity-100"
                                     )}
                                 >
                                     {lang}
-                                </a>
+                                </button>
                             ))}
                         </div>
 

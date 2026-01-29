@@ -4,9 +4,14 @@ import { ArrowRight, ArrowUpRight, Leaf, Award, Package, Sparkles } from 'lucide
 import { PRODUCTS } from '../../data/mockData';
 import { cn } from '../../lib/utils';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../../context/LanguageContext';
+import { translations } from '../../data/translations';
 import bambooBottom from '../../assets/bamboo_bottom.webp';
 
 export default function HealthPuzzle() {
+    const { language } = useLanguage();
+    const t = translations[language];
+
     const [activeIndex, setActiveIndex] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
 
@@ -19,9 +24,9 @@ export default function HealthPuzzle() {
     }, [isHovered]);
 
     const stats = [
-        { value: '100+', label: 'Produk', icon: Package },
-        { value: '50+', label: 'Pengrajin', icon: Award },
-        { value: '100%', label: 'Organik', icon: Leaf },
+        { value: '100+', label: language === 'ID' ? 'Produk' : 'Products', icon: Package },
+        { value: '50+', label: language === 'ID' ? 'Pengrajin' : 'Artisans', icon: Award },
+        { value: '100%', label: language === 'ID' ? 'Organik' : 'Organic', icon: Leaf },
     ];
 
     return (
@@ -43,14 +48,16 @@ export default function HealthPuzzle() {
                     >
                         <div className="flex items-center gap-3 mb-6">
                             <div className="h-px w-12 bg-primary" />
-                            <span className="text-sm font-semibold text-primary uppercase tracking-widest">Katalog Produk</span>
+                            <span className="text-sm font-semibold text-primary uppercase tracking-widest">{language === 'ID' ? 'Katalog Produk' : 'Product Catalogue'}</span>
                         </div>
                         <h2 className="text-5xl lg:text-6xl font-bold text-neutral-900 font-display tracking-tight leading-[1.1] mb-6">
-                            Karya Tangan<br />
-                            <span className="text-primary">Pengrajin Lokal</span>
+                            {language === 'ID' ? 'Karya Tangan' : 'Handcrafted'} <br />
+                            <span className="text-primary">{language === 'ID' ? 'Pengrajin Lokal' : 'By Local Artisans'}</span>
                         </h2>
                         <p className="text-lg text-neutral-600 leading-relaxed">
-                            Setiap anyaman menceritakan kisah tradisi yang dijaga turun-temurun, dipadukan dengan desain kontemporer.
+                            {language === 'ID'
+                                ? 'Setiap anyaman menceritakan kisah tradisi yang dijaga turun-temurun, dipadukan dengan desain kontemporer.'
+                                : 'Each weave tells a story of tradition preserved across generations, blended with contemporary design.'}
                         </p>
                     </motion.div>
 
@@ -140,10 +147,10 @@ export default function HealthPuzzle() {
                                             ))}
                                         </div>
                                         <h3 className="text-3xl lg:text-4xl font-bold text-white font-display mb-3">
-                                            {PRODUCTS[activeIndex].title}
+                                            {language === 'ID' ? PRODUCTS[activeIndex].title : PRODUCTS[activeIndex].titleEN || PRODUCTS[activeIndex].title}
                                         </h3>
                                         <p className="text-white/70 text-lg max-w-md">
-                                            {PRODUCTS[activeIndex].desc}
+                                            {language === 'ID' ? PRODUCTS[activeIndex].desc : PRODUCTS[activeIndex].descEN || PRODUCTS[activeIndex].desc}
                                         </p>
                                     </motion.div>
                                 </AnimatePresence>
@@ -173,8 +180,8 @@ export default function HealthPuzzle() {
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/80 to-transparent" />
                                 <div className="absolute bottom-0 left-0 right-0 p-5">
-                                    <h4 className="text-lg font-semibold text-white mb-1">{product.title}</h4>
-                                    <p className="text-white/60 text-sm line-clamp-1">{product.desc}</p>
+                                    <h4 className="text-lg font-semibold text-white mb-1">{language === 'ID' ? product.title : product.titleEN || product.title}</h4>
+                                    <p className="text-white/60 text-sm line-clamp-1">{language === 'ID' ? product.desc : product.descEN || product.desc}</p>
                                 </div>
                                 <div className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-white/10 backdrop-blur-sm rounded-full opacity-0 group-hover:opacity-100 transition-all border border-white/20">
                                     <ArrowUpRight className="w-4 h-4 text-white" />
@@ -205,8 +212,8 @@ export default function HealthPuzzle() {
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/80 to-transparent" />
                                 <div className="absolute bottom-0 left-0 right-0 p-5">
-                                    <h4 className="text-lg font-semibold text-white mb-1">{product.title}</h4>
-                                    <p className="text-white/60 text-sm line-clamp-1">{product.desc}</p>
+                                    <h4 className="text-lg font-semibold text-white mb-1">{language === 'ID' ? product.title : product.titleEN || product.title}</h4>
+                                    <p className="text-white/60 text-sm line-clamp-1">{language === 'ID' ? product.desc : product.descEN || product.desc}</p>
                                 </div>
                                 <div className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-white/10 backdrop-blur-sm rounded-full opacity-0 group-hover:opacity-100 transition-all border border-white/20">
                                     <ArrowUpRight className="w-4 h-4 text-white" />
@@ -230,8 +237,8 @@ export default function HealthPuzzle() {
                             <div className="w-16 h-16 flex items-center justify-center border-2 border-white/20 rounded-full mb-4 group-hover:border-primary group-hover:bg-primary/10 transition-colors">
                                 <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
                             </div>
-                            <span className="text-xl font-semibold mb-2">Lihat Semua</span>
-                            <span className="text-neutral-400 text-sm">Jelajahi koleksi lengkap</span>
+                            <span className="text-xl font-semibold mb-2">{language === 'ID' ? 'Lihat Semua' : 'View All'}</span>
+                            <span className="text-neutral-400 text-sm">{language === 'ID' ? 'Jelajahi koleksi lengkap' : 'Explore full collection'}</span>
                         </Link>
                     </motion.div>
                 </div>

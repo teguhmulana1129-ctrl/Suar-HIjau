@@ -10,31 +10,34 @@ import Products from './pages/Products';
 import Blog from './pages/Blog';
 import Contact from './pages/Contact';
 import Programs from './pages/Programs';
+import { LanguageProvider } from './context/LanguageContext';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <Router>
-      <div className="antialiased text-neutral-900 bg-white font-sans">
-        <Header onMenuClick={() => setIsMenuOpen(true)} />
-        <MenuOverlay isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+    <LanguageProvider>
+      <Router>
+        <div className="antialiased text-neutral-900 bg-white font-sans">
+          <Header onMenuClick={() => setIsMenuOpen(true)} />
+          <MenuOverlay isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
 
-        <main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/team" element={<Team />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/programs" element={<Programs />} />
-          </Routes>
-        </main>
+          <main>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/team" element={<Team />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/programs" element={<Programs />} />
+            </Routes>
+          </main>
 
-        <Footer />
-      </div>
-    </Router>
+          <Footer />
+        </div>
+      </Router>
+    </LanguageProvider>
   );
 }
 
