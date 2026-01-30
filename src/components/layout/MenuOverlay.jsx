@@ -15,7 +15,8 @@ export default function MenuOverlay({ isOpen, onClose }) {
         { label: t.nav.about, href: "/about", image: MENU_ITEMS[1].image },
         { label: t.nav.programs, href: "/programs", image: MENU_ITEMS[2].image },
         { label: t.nav.products, href: "/products", image: MENU_ITEMS[3].image },
-        { label: t.nav.blog, href: "/blog", image: MENU_ITEMS[4].image },
+        { label: t.nav.blog, href: "/news", image: MENU_ITEMS[4].image },
+        { label: t.nav.team, href: "/team", image: MENU_ITEMS[1].image },
         { label: t.nav.contact, href: "/contact", image: MENU_ITEMS[5].image },
     ];
 
@@ -80,7 +81,10 @@ export default function MenuOverlay({ isOpen, onClose }) {
                                             to={item.href}
                                             className="group flex items-center justify-between py-4"
                                             onMouseEnter={() => setActiveImage(item.image)}
-                                            onClick={onClose}
+                                            onClick={() => {
+                                                onClose();
+                                                if (item.href === "/") window.scrollTo(0, 0);
+                                            }}
                                         >
                                             <span className="text-2xl lg:text-3xl font-medium text-neutral-800 group-hover:text-black transition-colors tracking-tight">
                                                 {item.label}
@@ -96,7 +100,7 @@ export default function MenuOverlay({ isOpen, onClose }) {
                                     {language === 'ID' ? 'Hubungi Kami' : 'Contact Us'}
                                 </p>
                                 <div className="space-y-2">
-                                    <a href="tel:05113256089" className="block text-sm font-medium text-neutral-800 hover:text-neutral-500 transition-colors">(0511) 3256089</a>
+                                    <a href="tel:081314838361" className="block text-sm font-medium text-neutral-800 hover:text-neutral-500 transition-colors">+62 813-1483-8361</a>
                                     <a href="mailto:mail@molvest.ru" className="block text-sm font-medium text-neutral-800 hover:text-neutral-500 transition-colors">Info@suarhijau.com</a>
                                 </div>
                             </div>

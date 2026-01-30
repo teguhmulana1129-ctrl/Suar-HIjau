@@ -3,7 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, ArrowRight, Leaf, Package, Award, CheckCircle2, X, MessageCircle, Eye } from 'lucide-react';
 import { PRODUCTS } from '../data/mockData';
 import { cn } from '../lib/utils';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { translations } from '../data/translations';
 
@@ -13,9 +14,30 @@ export default function Products() {
 
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [activeFilter, setActiveFilter] = useState('Semua');
+    const location = useLocation();
+
+    // Parse URL search params for 'open'
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const openProduct = params.get('open');
+        if (openProduct) {
+            const found = PRODUCTS_DETAILED.find(p => p.title === openProduct || p.titleEN === openProduct);
+            if (found) {
+                setSelectedProduct(found);
+                // Scroll to the product element
+                setTimeout(() => {
+                    const element = document.getElementById(`product-${found.id}`);
+                    if (element) {
+                        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }, 100);
+            }
+        }
+    }, [location.search]);
 
     const PRODUCTS_DETAILED = PRODUCTS.map((product, idx) => ({
         ...product,
+        id: idx,
         price: ['Rp 85.000', 'Rp 45.000', 'Rp 35.000', 'Rp 55.000'][idx] || 'Rp 50.000',
         category: [
             language === 'ID' ? 'Wadah' : 'Container',
@@ -130,6 +152,7 @@ export default function Products() {
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
                     {filteredProducts.map((product, index) => (
                         <motion.div
+                            id={`product-${product.id}`}
                             key={index}
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -189,7 +212,7 @@ export default function Products() {
 
                                 {/* CTA */}
                                 <a
-                                    href={`https://wa.me/05113256089?text=Halo, saya tertarik dengan produk ${product.title}`}
+                                    href={`https://wa.me/081314838361?text=Halo, saya tertarik dengan produk ${product.title}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="w-full flex items-center justify-center gap-2 bg-neutral-900 text-white py-2.5 rounded-lg text-sm font-semibold hover:bg-neutral-800 transition-colors"
@@ -320,10 +343,10 @@ export default function Products() {
 
                                     {/* CTA */}
                                     <a
-                                        href={`https://wa.me/05113256089?text=Halo, saya tertarik dengan ${selectedProduct.title}`}
+                                        href={`https://wa.me/081314388361?text=Halo, saya tertarik dengan ${selectedProduct.title}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="w-full flex items-center justify-center gap-2 bg-neutral-900 text-white py-3 rounded-xl font-semibold hover:bg-primary-dark transition-colors"
+                                        className="w-full flex items-center justify-center gap-2 bg-neutral-900 text-white py-3 rounded-xl font-semibold hover:bg-neutral-800 transition-colors"
                                     >
                                         <ShoppingBag className="w-4 h-4" />
                                         <span>{language === 'ID' ? 'Pesan via WhatsApp' : 'Order via WhatsApp'}</span>

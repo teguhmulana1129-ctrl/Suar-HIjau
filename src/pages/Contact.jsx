@@ -98,7 +98,7 @@ export default function Contact() {
                                     </div>
                                     <div>
                                         <h3 className="font-semibold text-neutral-900 mb-1">{language === 'ID' ? 'Alamat' : 'Address'}</h3>
-                                        <p className="text-neutral-600">{language === 'ID' ? 'Gedung Hj. Enong Jl. Pangeran Hidayatullah (Lingkar Dalam Utara) Kelurahan Banua Anyar, Kecamatan Banjarmasin Timur Kota Banjarmasin, Kalimantan Selatan.' : 'Hj. Enong Building, Jl. Pangeran Hidayatullah (North Inner Ring Road), Banua Anyar, East Banjarmasin, Banjarmasin City, South Kalimantan.'}</p>
+                                        <p className="text-neutral-600">{language === 'ID' ? 'Perum Pondok Doko Indah No.A1, Sumber, Doko, Kec. Ngasem, Kabupaten Kediri, Jawa Timur 64182' : 'A1, Pondok Doko Indah Housing Complex, Sumber, Doko, Ngasem District, Kediri Regency, East Java 64182, Indonesia.'}</p>
                                     </div>
                                 </div>
                                 <div className="flex items-start gap-4">
@@ -107,7 +107,7 @@ export default function Contact() {
                                     </div>
                                     <div>
                                         <h3 className="font-semibold text-neutral-900 mb-1">{language === 'ID' ? 'Telepon' : 'Phone'}</h3>
-                                        <p className="text-neutral-600">(0511) 3256089</p>
+                                        <p className="text-neutral-600">0813-1438-8361</p>
                                     </div>
                                 </div>
                                 <div className="flex items-start gap-4">
@@ -138,7 +138,7 @@ export default function Contact() {
                             </div>
                             <p className="text-white/80 mb-6">{language === 'ID' ? 'Respon cepat untuk pertanyaan Anda. Tim kami siap membantu.' : 'Fast response for your questions. Our team is ready to help.'}</p>
                             <a
-                                href="https://wa.me/05113256089"
+                                href="https://wa.me/081314388361"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center gap-2 bg-white text-primary px-6 py-3 rounded-full font-semibold hover:bg-neutral-100 transition-colors"

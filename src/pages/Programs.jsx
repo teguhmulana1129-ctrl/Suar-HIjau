@@ -11,10 +11,24 @@ import imgCrafts from '../assets/produk/produk_bakul.webp';
 import imgNursery from '../assets/bamboo_nursery.png';
 import imgSeeds from '../assets/bamboo_seeds.png';
 import imgEducation from '../assets/bamboo_education_session.jpg';
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 export default function Programs() {
     const { language } = useLanguage();
     const t = translations[language];
+    const { hash } = useLocation();
+
+    useEffect(() => {
+        if (hash) {
+            const element = document.getElementById(hash.replace('#', ''));
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        } else {
+            window.scrollTo(0, 0);
+        }
+    }, [hash]);
 
     const PROGRAMS_DETAILED = [
         {
@@ -82,7 +96,7 @@ export default function Programs() {
             target: language === 'ID' ? "20 Hektar" : "20 Hectares",
             current: 18,
             volunteers: 200,
-            startDate: "September 2024",
+            startDate: "September 2025",
             image: imgErosion,
             icon: Waves,
             description: language === 'ID'
@@ -160,6 +174,7 @@ export default function Programs() {
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.1, duration: 0.5 }}
                             viewport={{ once: true }}
+                            id={`program-${program.id}`}
                             className="bg-white rounded-2xl overflow-hidden shadow-sm border border-neutral-100"
                         >
                             <div className="grid lg:grid-cols-2">
@@ -243,16 +258,16 @@ export default function Programs() {
 
                                     {/* CTA */}
                                     <div className="flex items-center gap-4 pt-4 border-t border-neutral-100">
-                                        <span className="flex items-center gap-2 text-sm text-neutral-600">
+                                        <span className="flex items-center gap-2 text-xs text-neutral-600">
                                             <Users className="w-4 h-4" />
                                             {program.volunteers} Volunteers
                                         </span>
                                         <Link
                                             to="/contact"
-                                            className="ml-auto flex items-center gap-2 bg-neutral-900 text-white px-6 py-3 rounded-full font-semibold hover:bg-neutral-800 transition-colors"
+                                            className="ml-auto flex items-center gap-1 bg-neutral-900 text-white px-4 py-2 text-[8px] rounded-full font-semibold hover:bg-neutral-800 transition-colors"
                                         >
                                             {language === 'ID' ? 'Gabung Sekarang' : 'Join Now'}
-                                            <ArrowRight className="w-4 h-4" />
+                                            <ArrowRight className="w-3.5 h-3.5" />
                                         </Link>
                                     </div>
                                 </div>

@@ -1,5 +1,6 @@
 
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, MapPin, Target } from 'lucide-react';
 import { PROGRAMS } from '../../data/mockData';
@@ -92,7 +93,7 @@ export default function FeaturedPrograms() {
                                             <Target className="w-4 h-4 text-secondary" />
                                             <span>{t.target}: {program.target}</span>
                                         </div>
-                                        <button className="text-primary font-semibold hover:underline">{t.detail}</button>
+                                        <Link to={`/programs#program-${program.id}`} className="text-primary font-semibold hover:underline">{t.detail}</Link>
                                     </div>
                                 </div>
                             </div>

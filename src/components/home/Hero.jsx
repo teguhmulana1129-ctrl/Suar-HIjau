@@ -3,7 +3,7 @@ import { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring, useInView } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
 import { HERO_CARDS, HERO_STATS } from '../../data/mockData';
-import bambooHero from '../../assets/bamboo_hero_high_res.png';
+import bambooHero from '../../assets/bamboo_herosc.webp';
 import { useLanguage } from '../../context/LanguageContext';
 import { translations } from '../../data/translations';
 
@@ -46,12 +46,12 @@ export default function Hero() {
 
     const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 20 });
 
-    // Transforms
-    const imageWidth = useTransform(smoothProgress, [0, 1], ["100%", "30%"]);
-    const imageHeight = useTransform(smoothProgress, [0, 1], ["100%", "70%"]);
-    const imageTop = useTransform(smoothProgress, [0, 1], ["0%", "15%"]);
-    const imageLeft = useTransform(smoothProgress, [0, 1], ["0%", "35%"]);
-    const imageRadius = useTransform(smoothProgress, [0, 1], ["0px", "16px"]);
+    // Transforms - shrink to a larger square card like the others
+    const imageWidth = useTransform(smoothProgress, [0, 1], ["100%", "50%"]);
+    const imageHeight = useTransform(smoothProgress, [0, 1], ["100%", "55%"]);
+    const imageTop = useTransform(smoothProgress, [0, 1], ["0%", "22.5%"]);
+    const imageLeft = useTransform(smoothProgress, [0, 1], ["0%", "25%"]);
+    const imageRadius = useTransform(smoothProgress, [0, 1], ["0px", "24px"]);
     const overlayOpacity = useTransform(smoothProgress, [0, 0.5], [0.4, 0]);
     const contentOpacity = useTransform(smoothProgress, [0, 0.3], [1, 0]);
 
@@ -160,7 +160,7 @@ export default function Hero() {
                             </p>
                             <div className="animate-fade-up opacity-0 pointer-events-auto" style={{ animationDelay: '1000ms', animationFillMode: 'forwards' }}>
                                 <a href="#about" className="group inline-flex items-center gap-3 bg-neutral-900 text-white rounded-full py-4 px-8 text-sm font-semibold uppercase tracking-wide hover:bg-neutral-800 transition-colors shadow-lg hover:shadow-primary/25">
-                                    <span>{language === 'ID' ? 'Beli Produk Kami' : 'Shop Our Products'}</span>
+                                    <span>{language === 'ID' ? 'Jelajahi Tentang Suar Hijau' : 'Explore About Suar Hijau'}</span>
                                     <span className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center group-hover:bg-white/30 transition-colors">
                                         <ArrowDown className="w-3 h-3" />
                                     </span>

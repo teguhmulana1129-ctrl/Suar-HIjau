@@ -6,7 +6,7 @@ import { cn } from '../../lib/utils';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
 import { translations } from '../../data/translations';
-import bambooBottom from '../../assets/bamboo_bottom.webp';
+
 
 export default function HealthPuzzle() {
     const { language } = useLanguage();
@@ -50,7 +50,7 @@ export default function HealthPuzzle() {
                             <div className="h-px w-12 bg-primary" />
                             <span className="text-sm font-semibold text-primary uppercase tracking-widest">{language === 'ID' ? 'Katalog Produk' : 'Product Catalogue'}</span>
                         </div>
-                        <h2 className="text-5xl lg:text-6xl font-bold text-neutral-900 font-display tracking-tight leading-[1.1] mb-6">
+                        <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-neutral-900 font-display tracking-tight leading-[1.1] mb-6">
                             {language === 'ID' ? 'Karya Tangan' : 'Handcrafted'} <br />
                             <span className="text-primary">{language === 'ID' ? 'Pengrajin Lokal' : 'By Local Artisans'}</span>
                         </h2>
@@ -118,8 +118,8 @@ export default function HealthPuzzle() {
                                         Featured
                                     </span>
                                     <Link
-                                        to="/products"
-                                        className="w-12 h-12 flex items-center justify-center bg-white text-neutral-900 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110"
+                                        to={`/products?open=${encodeURIComponent(PRODUCTS[activeIndex].title)}`}
+                                        className="w-12 h-12 flex items-center justify-center bg-white/10 backdrop-blur-md text-white border border-white/20 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 hover:bg-white/20"
                                     >
                                         <ArrowUpRight className="w-5 h-5" />
                                     </Link>
@@ -146,10 +146,10 @@ export default function HealthPuzzle() {
                                                 />
                                             ))}
                                         </div>
-                                        <h3 className="text-3xl lg:text-4xl font-bold text-white font-display mb-3">
+                                        <h3 className="text-2xl lg:text-4xl font-bold text-white font-display mb-3">
                                             {language === 'ID' ? PRODUCTS[activeIndex].title : PRODUCTS[activeIndex].titleEN || PRODUCTS[activeIndex].title}
                                         </h3>
-                                        <p className="text-white/70 text-lg max-w-md">
+                                        <p className="text-white/70 text-sm lg:text-lg max-w-md">
                                             {language === 'ID' ? PRODUCTS[activeIndex].desc : PRODUCTS[activeIndex].descEN || PRODUCTS[activeIndex].desc}
                                         </p>
                                     </motion.div>
@@ -166,27 +166,29 @@ export default function HealthPuzzle() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: 0.1 * (idx + 1) }}
-                            onClick={() => setActiveIndex(idx)}
                             className="col-span-6 lg:col-span-5"
                         >
-                            <div className={cn(
-                                "relative h-[240px] lg:h-[288px] rounded-2xl overflow-hidden cursor-pointer group transition-all duration-500",
-                                activeIndex === idx ? "ring-2 ring-primary ring-offset-4 ring-offset-[#fafafa]" : ""
-                            )}>
+                            <Link
+                                to={`/products?open=${encodeURIComponent(product.title)}`}
+                                className={cn(
+                                    "block relative h-[240px] lg:h-[288px] rounded-2xl overflow-hidden cursor-pointer group transition-all duration-500",
+                                    activeIndex === idx ? "ring-2 ring-primary ring-offset-4 ring-offset-[#fafafa]" : ""
+                                )}
+                            >
                                 <img
                                     src={product.image}
                                     alt={product.title}
                                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/80 to-transparent" />
-                                <div className="absolute bottom-0 left-0 right-0 p-5">
-                                    <h4 className="text-lg font-semibold text-white mb-1">{language === 'ID' ? product.title : product.titleEN || product.title}</h4>
-                                    <p className="text-white/60 text-sm line-clamp-1">{language === 'ID' ? product.desc : product.descEN || product.desc}</p>
+                                <div className="absolute bottom-0 left-0 right-0 p-3 lg:p-5">
+                                    <h4 className="text-sm lg:text-lg font-semibold text-white mb-1 leading-tight">{language === 'ID' ? product.title : product.titleEN || product.title}</h4>
+                                    <p className="text-white/60 text-xs md:text-sm line-clamp-1 opacity-90">{language === 'ID' ? product.desc : product.descEN || product.desc}</p>
                                 </div>
-                                <div className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-white/10 backdrop-blur-sm rounded-full opacity-0 group-hover:opacity-100 transition-all border border-white/20">
-                                    <ArrowUpRight className="w-4 h-4 text-white" />
+                                <div className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-white/10 backdrop-blur-md text-white border border-white/20 rounded-full opacity-0 group-hover:opacity-100 transition-all hover:bg-white/20 z-20">
+                                    <ArrowUpRight className="w-4 h-4" />
                                 </div>
-                            </div>
+                            </Link>
                         </motion.div>
                     ))}
 
@@ -198,27 +200,29 @@ export default function HealthPuzzle() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: 0.1 * (idx + 3) }}
-                            onClick={() => setActiveIndex(idx + 2)}
                             className="col-span-6 lg:col-span-4"
                         >
-                            <div className={cn(
-                                "relative h-[200px] lg:h-[240px] rounded-2xl overflow-hidden cursor-pointer group transition-all duration-500",
-                                activeIndex === idx + 2 ? "ring-2 ring-primary ring-offset-4 ring-offset-[#fafafa]" : ""
-                            )}>
+                            <Link
+                                to={`/products?open=${encodeURIComponent(product.title)}`}
+                                className={cn(
+                                    "block relative h-[200px] lg:h-[240px] rounded-2xl overflow-hidden cursor-pointer group transition-all duration-500",
+                                    activeIndex === idx + 2 ? "ring-2 ring-primary ring-offset-4 ring-offset-[#fafafa]" : ""
+                                )}
+                            >
                                 <img
                                     src={product.image}
                                     alt={product.title}
                                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/80 to-transparent" />
-                                <div className="absolute bottom-0 left-0 right-0 p-5">
-                                    <h4 className="text-lg font-semibold text-white mb-1">{language === 'ID' ? product.title : product.titleEN || product.title}</h4>
-                                    <p className="text-white/60 text-sm line-clamp-1">{language === 'ID' ? product.desc : product.descEN || product.desc}</p>
+                                <div className="absolute bottom-0 left-0 right-0 p-3 lg:p-5">
+                                    <h4 className="text-sm lg:text-lg font-semibold text-white mb-1 leading-tight">{language === 'ID' ? product.title : product.titleEN || product.title}</h4>
+                                    <p className="text-white/60 text-xs md:text-sm line-clamp-1 opacity-90">{language === 'ID' ? product.desc : product.descEN || product.desc}</p>
                                 </div>
-                                <div className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-white/10 backdrop-blur-sm rounded-full opacity-0 group-hover:opacity-100 transition-all border border-white/20">
-                                    <ArrowUpRight className="w-4 h-4 text-white" />
+                                <div className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-white/10 backdrop-blur-md text-white border border-white/20 rounded-full opacity-0 group-hover:opacity-100 transition-all hover:bg-white/20 z-20">
+                                    <ArrowUpRight className="w-4 h-4" />
                                 </div>
-                            </div>
+                            </Link>
                         </motion.div>
                     ))}
 

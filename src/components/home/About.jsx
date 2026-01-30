@@ -22,7 +22,7 @@ export default function About() {
     const t = translations[language].about;
 
     return (
-        <section id="about" className="relative bg-white py-20 lg:py-32 z-10 overflow-hidden">
+        <section id="about" className="relative bg-white py-20 lg:py-32 z-10 overflow-hidden scroll-mt-32">
             {/* Background Pattern */}
             <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
 
@@ -82,9 +82,9 @@ export default function About() {
                                     <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-primary flex-shrink-0 mt-1">
                                         <div className="w-2 h-2 bg-primary rounded-full" />
                                     </div>
-                                    <div>
+                                    <div className="min-w-0">
                                         <h4 className="font-bold text-neutral-900 text-lg">{item.title}</h4>
-                                        <p className="text-neutral-500">{item.desc}</p>
+                                        <p className="text-neutral-500 break-words">{item.desc}</p>
                                     </div>
                                 </div>
                             ))}

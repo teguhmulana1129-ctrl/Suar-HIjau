@@ -152,7 +152,7 @@ export default function About() {
 
             {/* Values Section */}
             <section className="relative z-10 max-w-screen-xl mx-auto px-6 mb-20">
-                <div className="bg-neutral-900 rounded-3xl overflow-hidden p-10 lg:p-16">
+                <div className="bg-neutral-900 rounded-3xl overflow-hidden p-6 lg:p-16">
                     <div className="grid lg:grid-cols-2 gap-12 items-center">
                         <motion.div
                             initial={{ opacity: 0, x: -20 }}
@@ -177,12 +177,12 @@ export default function About() {
                             initial={{ opacity: 0, x: 20 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
-                            className="grid grid-cols-2 gap-4"
+                            className="grid grid-cols-1 sm:grid-cols-2 gap-4"
                         >
                             {values.map((value, i) => (
-                                <div key={i} className="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/10">
+                                <div key={i} className="bg-white/5 backdrop-blur-sm rounded-xl p-4 sm:p-5 border border-white/10">
                                     <CheckCircle2 className="w-5 h-5 text-primary mb-2" />
-                                    <h4 className="font-semibold text-white mb-1">{value.title}</h4>
+                                    <h4 className="font-semibold text-white mb-1 break-words">{value.title}</h4>
                                     <p className="text-white/60 text-sm">{value.desc}</p>
                                 </div>
                             ))}

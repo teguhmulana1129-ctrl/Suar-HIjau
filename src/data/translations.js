@@ -6,6 +6,7 @@ export const translations = {
             programs: "Program",
             products: "Produk",
             blog: "Berita",
+            team: "Tim Suar",
             contact: "Alamat Suar",
             navigation: "Navigasi",
             contactUs: "Hubungi Kami"
@@ -31,7 +32,7 @@ export const translations = {
             impactTitle: "Terverifikasi & Transparan",
             impactTarget: "Target Tahunan",
             impactAchieved: "Tercapai",
-            button: "Pelajari Visi Kami",
+            button: "Pelajari Tentang Kami",
             features: [
                 { title: 'Konservasi Terukur', desc: 'Sistem tracking real-time untuk setiap rumpun bambu yang ditanam.' },
                 { title: 'Pemberdayaan UMKM', desc: 'Akses pasar digital yang adil bagi pengrajin bambu lokal.' },
@@ -76,6 +77,7 @@ export const translations = {
             programs: "Programs",
             products: "Products",
             blog: "News",
+            team: "Team",
             contact: "Address",
             navigation: "Navigation",
             contactUs: "Contact Us"
@@ -101,7 +103,7 @@ export const translations = {
             impactTitle: "Verified & Transparent",
             impactTarget: "Annual Target",
             impactAchieved: "Achieved",
-            button: "Learn Our Vision",
+            button: "Learn About Us",
             features: [
                 { title: 'Measurable Conservation', desc: 'Real-time tracking system for every bamboo cluster planted.' },
                 { title: 'MSME Empowerment', desc: 'Fair digital market access for local bamboo artisans.' },

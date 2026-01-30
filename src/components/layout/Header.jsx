@@ -3,6 +3,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { cn } from '../../lib/utils';
 import { useLanguage } from '../../context/LanguageContext';
 import { translations } from '../../data/translations';
+import logoWhite from '../../assets/suar_full_white.png';
+import logoDefault from '../../assets/logo_suarhijau.png';
 
 export default function Header({ onMenuClick }) {
     const [scrolled, setScrolled] = useState(false);
@@ -20,7 +22,8 @@ export default function Header({ onMenuClick }) {
         { label: t.nav.about, href: "/about" },
         { label: t.nav.programs, href: "/programs" },
         { label: t.nav.products, href: "/products" },
-        { label: t.nav.blog, href: "/blog" },
+        { label: t.nav.blog, href: "/news" },
+        { label: t.nav.team, href: "/team" },
         { label: t.nav.contact, href: "/contact" },
     ];
 
@@ -47,11 +50,11 @@ export default function Header({ onMenuClick }) {
                 <div className="flex items-center justify-between">
 
                     {/* Logo */}
-                    <Link to="/" className="flex items-center gap-3 z-50 relative" aria-label="Home">
+                    <Link to="/" className="flex items-center gap-3 z-50 relative" aria-label="Home" onClick={() => window.scrollTo(0, 0)}>
                         <img
-                            src="/src/assets/logo_suarhijau.png"
+                            src={showDarkNav ? logoDefault : logoWhite}
                             alt="Suar Hijau Logo"
-                            className="h-10 w-auto object-contain transition-all duration-300"
+                            className="h-10 sm:h-12 lg:h-14 w-auto object-contain transition-all duration-300"
                             width="160"
                             height="40"
                         />
@@ -63,6 +66,7 @@ export default function Header({ onMenuClick }) {
                             <Link
                                 key={link.label}
                                 to={link.href}
+                                onClick={() => link.href === "/" && window.scrollTo(0, 0)}
                                 className={cn(
                                     "relative text-xs uppercase tracking-widest font-medium py-2 transition-colors duration-300 hover:text-neutral-500",
                                     showDarkNav ? "text-neutral-900" : "text-white"
@@ -78,7 +82,7 @@ export default function Header({ onMenuClick }) {
                     <div className="flex items-center gap-6 z-50 relative">
                         {/* Language Switcher */}
                         <div className={cn(
-                            "hidden sm:flex items-center gap-4 border-r pr-6 mr-2 transition-colors duration-300",
+                            "flex items-center gap-2 sm:gap-4 border-r pr-3 sm:pr-6 mr-2 transition-colors duration-300",
                             showDarkNav ? "border-neutral-200" : "border-white/20"
                         )}>
                             {['ID', 'EN'].map((lang) => (
