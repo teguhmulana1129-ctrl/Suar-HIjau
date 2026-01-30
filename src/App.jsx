@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/layout/Header';
 import MenuOverlay from './components/layout/MenuOverlay';
 import Footer from './components/layout/Footer';
@@ -18,7 +18,9 @@ import { LanguageProvider } from './context/LanguageContext';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
+  // Only show preloader on home page (hash is empty, "#", or "#/")
+  const isHomePage = !window.location.hash || window.location.hash === '#' || window.location.hash === '#/';
+  const [loading, setLoading] = useState(isHomePage);
 
   return (
     <LanguageProvider>

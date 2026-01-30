@@ -257,17 +257,17 @@ export default function Programs() {
                                     </div>
 
                                     {/* CTA */}
-                                    <div className="flex items-center gap-4 pt-4 border-t border-neutral-100">
+                                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 pt-4 border-t border-neutral-100">
                                         <span className="flex items-center gap-2 text-xs text-neutral-600">
                                             <Users className="w-4 h-4" />
                                             {program.volunteers} Volunteers
                                         </span>
                                         <Link
                                             to="/contact"
-                                            className="ml-auto flex items-center gap-2 bg-neutral-900 text-white px-6 py-2.5 rounded-full text-sm font-bold hover:bg-primary hover:scale-105 transition-all duration-300 shadow-sm whitespace-nowrap shrink-0"
+                                            className="sm:ml-auto flex items-center gap-2 bg-neutral-900 text-white px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold hover:bg-neutral-800 hover:scale-105 transition-all duration-300 shadow-sm whitespace-nowrap"
                                         >
                                             {language === 'ID' ? 'Gabung Sekarang' : 'Join Now'}
-                                            <ArrowRight className="w-4 h-4" />
+                                            <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                                         </Link>
                                     </div>
                                 </div>
