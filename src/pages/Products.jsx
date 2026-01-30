@@ -16,6 +16,18 @@ export default function Products() {
     const [activeFilter, setActiveFilter] = useState('Semua');
     const location = useLocation();
 
+    // Prevent body scroll when modal is open
+    useEffect(() => {
+        if (selectedProduct) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [selectedProduct]);
+
     // Parse URL search params for 'open'
     useEffect(() => {
         const params = new URLSearchParams(location.search);

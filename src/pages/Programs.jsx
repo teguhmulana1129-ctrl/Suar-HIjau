@@ -264,10 +264,10 @@ export default function Programs() {
                                         </span>
                                         <Link
                                             to="/contact"
-                                            className="ml-auto flex items-center gap-1 bg-neutral-900 text-white px-4 py-2 text-[8px] rounded-full font-semibold hover:bg-neutral-800 transition-colors"
+                                            className="ml-auto flex items-center gap-2 bg-neutral-900 text-white px-6 py-2.5 rounded-full text-sm font-bold hover:bg-primary hover:scale-105 transition-all duration-300 shadow-sm whitespace-nowrap shrink-0"
                                         >
                                             {language === 'ID' ? 'Gabung Sekarang' : 'Join Now'}
-                                            <ArrowRight className="w-3.5 h-3.5" />
+                                            <ArrowRight className="w-4 h-4" />
                                         </Link>
                                     </div>
                                 </div>
