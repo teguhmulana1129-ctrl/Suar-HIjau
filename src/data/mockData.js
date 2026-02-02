@@ -1,18 +1,34 @@
-import bambooSeeds from '../assets/bamboo_seeds_new.jpg';
-import bambooLab from '../assets/bamboo_lab_new.png';
-import bambooNursery from '../assets/bamboo_nursery.png';
-import bambooFarmer from '../assets/bamboo_farmer_correct.jpg';
+import bambooSeeds from '../assets/bamboo_seeds_new-ezgif.com-jpg-to-webp-converter.webp';
+import bambooLab from '../assets/bamboo_lab_new.webp';
+import bambooNursery from '../assets/bamboo_planting_jangkar.webp';
+import bambooFarmer from '../assets/bamboo_craftsman_empowerment.webp';
 import produkBakul from '../assets/produk/produk_bakul.webp';
 import produkBesek from '../assets/produk/produk_besek.webp';
 import produkCapil from '../assets/produk/produk_capil.webp';
 import produkTampah from '../assets/produk/produk_tampah.webp';
-import bambooProductsHero from '../assets/bamboo_products_hero.jpg';
-import bambooFarmersHero from '../assets/bamboo_farmers_hero.jpg';
-import bambooRestorationDrone from '../assets/bamboo_restoration_drone.jpg';
-import bambooArtisanEmpowerment from '../assets/bamboo_artisan_empowerment_new.jpg';
-import bambooResearchLabFinal from '../assets/bamboo_research_lab_final.png';
-import bambooEducationFinal from '../assets/bamboo_education_final.jpg';
-import bambooMenuBg from '../assets/bamboo_menu_bg.jpg';
+import bambooProductsHero from '../assets/bamboo_products_hero.webp';
+import bambooFarmersHero from '../assets/bamboo_farmers_hero.webp';
+import bambooRestorationDrone from '../assets/bamboo_restoration_drone-ezgif.com-jpg-to-webp-converter.webp';
+import bambooArtisanEmpowerment from '../assets/bamboo_artisan_empowerment_new.webp';
+import bambooResearchLabFinal from '../assets/bamboo_lab_new.webp';
+import bambooEducationFinal from '../assets/bamboo_education_final.webp';
+import bambooMenuBg from '../assets/bamboo_menu_bg.webp';
+
+// Staff Imports
+import staffAlfin from '../assets/Staff/Alfin.webp';
+import staffAndris from '../assets/Staff/Andris Nirwana.webp';
+import staffBayu from '../assets/Staff/Bayu.webp';
+import staffBeiby from '../assets/Staff/Beiby Citra.webp';
+import staffBudiman from '../assets/Staff/Budiman.webp';
+import staffJiwo from '../assets/Staff/Jiwo Ageng.webp';
+import staffNovi from '../assets/Staff/Novi Lestari.webp';
+import staffReni from '../assets/Staff/Reni.webp';
+import staffRomlatul from '../assets/Staff/Romlatul Hasanah.webp';
+import staffSanusi from '../assets/Staff/Sanusi, S.Pd.webp';
+import staffVia from '../assets/Staff/Via Andrisia.webp';
+import staffWiwit from '../assets/Staff/Wiwit.webp';
+import staffIjun from '../assets/Staff/ijun.webp';
+import staffIta from '../assets/Staff/ita.webp';
 
 export const HEADER_LINKS = [
     { label: "Beranda", href: "/" },
@@ -184,36 +200,18 @@ export const IMPACT_STATS = [
 ];
 
 export const TEAM_MEMBERS = [
-    {
-        name: "Dr. Amanda Wijaya",
-        role: "Lead Researcher",
-        roleEN: "Lead Researcher",
-        image: "https://images.pexels.com/photos/3796217/pexels-photo-3796217.jpeg?auto=compress&cs=tinysrgb&w=800",
-        bio: "Spesialis genetika tanaman dengan fokus pada pengembangan varietas bambu tahan iklim.",
-        bioEN: "Plant genetics specialist focusing on developing climate-resilient bamboo varieties."
-    },
-    {
-        name: "Budi Santoso",
-        role: "Head of Cultivation",
-        roleEN: "Head of Cultivation",
-        image: "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=800",
-        bio: "Praktisi pertanian organik dengan pengalaman lebih dari 15 tahun dalam manajemen lahan berkelanjutan.",
-        bioEN: "Organic farming practitioner with over 15 years of experience in sustainable land management."
-    },
-    {
-        name: "Sarah Lim",
-        role: "Community Manager",
-        roleEN: "Community Manager",
-        image: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=800",
-        bio: "Penghubung antara Suar Hijau dan komunitas petani lokal, fokus pada pemberdayaan sosial.",
-        bioEN: "Connector between Suar Hijau and local farming communities, focused on social empowerment."
-    },
-    {
-        name: "David Tan",
-        role: "Sustainability Director",
-        roleEN: "Sustainability Director",
-        image: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=800",
-        bio: "Ahli strategi keberlanjutan yang memastikan seluruh rantai pasok kami ramah lingkungan.",
-        bioEN: "Sustainability strategist ensuring our entire supply chain is environmentally friendly."
-    }
+    { name: "Ijun", role: "Tim Suar Hijau", image: staffIjun, bio: "" },
+    { name: "Sanusi, S.Pd", role: "Tim Suar Hijau", image: staffSanusi, bio: "" },
+    { name: "Wiwit", role: "Tim Suar Hijau", image: staffWiwit, bio: "" },
+    { name: "Budiman", role: "Tim Suar Hijau", image: staffBudiman, bio: "" },
+    { name: "Novi Lestari", role: "Tim Suar Hijau", image: staffNovi, bio: "" },
+    { name: "Via Andrisia", role: "Tim Suar Hijau", image: staffVia, bio: "" },
+    { name: "Bayu", role: "Tim Suar Hijau", image: staffBayu, bio: "" },
+    { name: "Ita", role: "Tim Suar Hijau", image: staffIta, bio: "" },
+    { name: "Beiby Citra", role: "Tim Suar Hijau", image: staffBeiby, bio: "" },
+    { name: "Alfin", role: "Tim Suar Hijau", image: staffAlfin, bio: "" },
+    { name: "Andris Nirwana", role: "Tim Suar Hijau", image: staffAndris, bio: "" },
+    { name: "Jiwo Ageng", role: "Tim Suar Hijau", image: staffJiwo, bio: "" },
+    { name: "Reni", role: "Tim Suar Hijau", image: staffReni, bio: "" },
+    { name: "Romlatul Hasanah", role: "Tim Suar Hijau", image: staffRomlatul, bio: "" }
 ];

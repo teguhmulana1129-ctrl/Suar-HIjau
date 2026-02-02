@@ -46,7 +46,7 @@ export default function MenuOverlay({ isOpen, onClose }) {
                         />
                         <div className="absolute top-10 left-10 z-20">
                             <img
-                                src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/e0a0da05-4bb0-4d86-97c4-6e366c61f580_320w.png"
+                                src="/logo_suarhijau.png"
                                 alt="Logo"
                                 className="h-6 w-auto opacity-90 object-cover"
                             />

@@ -18,7 +18,7 @@ export default function Contact() {
                     transition={{ duration: 0.6 }}
                 >
                     <p className="text-secondary font-semibold tracking-wider uppercase text-sm mb-4 font-sans">{language === 'ID' ? 'Hubungi Kami' : 'Contact Us'}</p>
-                    <h1 className="text-4xl md:text-6xl font-bold text-neutral-900 font-display mb-8">{language === 'ID' ? 'Alamat Suar' : 'Suar Address'}</h1>
+                    <h1 className="text-4xl md:text-6xl font-bold text-neutral-900 font-display mb-8">{language === 'ID' ? 'Kontak Kami' : 'Contact Us'}</h1>
                     <p className="text-xl text-neutral-600 max-w-3xl mx-auto font-sans leading-relaxed">
                         {language === 'ID'
                             ? 'Ada pertanyaan atau ingin bermitra? Jangan ragu untuk menghubungi kami.'
@@ -28,17 +28,17 @@ export default function Contact() {
             </section>
 
             <section className="container mx-auto px-6">
-                <div className="grid lg:grid-cols-2 gap-12">
+                <div className="max-w-3xl mx-auto">
                     {/* Contact Form */}
                     <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="bg-white p-8 rounded-2xl shadow-sm border border-neutral-100"
+                        className="bg-white p-8 lg:p-12 rounded-2xl shadow-sm border border-neutral-100"
                     >
-                        <h2 className="text-2xl font-bold text-neutral-900 font-display mb-6">{language === 'ID' ? 'Kirim Pesan' : 'Send Message'}</h2>
+                        <h2 className="text-2xl font-bold text-neutral-900 font-display mb-8 text-center">{language === 'ID' ? 'Kirim Pesan' : 'Send Message'}</h2>
                         <form className="space-y-6">
-                            <div className="grid md:grid-cols-2 gap-4">
+                            <div className="grid md:grid-cols-2 gap-6">
                                 <div>
                                     <label className="block text-sm font-semibold text-neutral-700 mb-2">{language === 'ID' ? 'Nama Lengkap' : 'Full Name'}</label>
                                     <input
@@ -67,7 +67,7 @@ export default function Contact() {
                             <div>
                                 <label className="block text-sm font-semibold text-neutral-700 mb-2">{language === 'ID' ? 'Pesan' : 'Message'}</label>
                                 <textarea
-                                    rows={5}
+                                    rows={6}
                                     placeholder={language === 'ID' ? 'Tulis pesan Anda di sini...' : 'Write your message here...'}
                                     className="w-full px-4 py-3 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"
                                 />
@@ -80,72 +80,6 @@ export default function Contact() {
                                 <span>{language === 'ID' ? 'Kirim Pesan' : 'Send Message'}</span>
                             </button>
                         </form>
-                    </motion.div>
-
-                    {/* Contact Info */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        className="space-y-8"
-                    >
-                        <div className="bg-white p-8 rounded-2xl shadow-sm border border-neutral-100">
-                            <h2 className="text-2xl font-bold text-neutral-900 font-display mb-6">{language === 'ID' ? 'Informasi Alamat Suar' : 'Suar Address Info'}</h2>
-                            <div className="space-y-6">
-                                <div className="flex items-start gap-4">
-                                    <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                                        <MapPin className="w-5 h-5 text-primary" />
-                                    </div>
-                                    <div>
-                                        <h3 className="font-semibold text-neutral-900 mb-1">{language === 'ID' ? 'Alamat' : 'Address'}</h3>
-                                        <p className="text-neutral-600">{language === 'ID' ? 'Perum Pondok Doko Indah No.A1, Sumber, Doko, Kec. Ngasem, Kabupaten Kediri, Jawa Timur 64182' : 'A1, Pondok Doko Indah Housing Complex, Sumber, Doko, Ngasem District, Kediri Regency, East Java 64182, Indonesia.'}</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-start gap-4">
-                                    <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                                        <Phone className="w-5 h-5 text-primary" />
-                                    </div>
-                                    <div>
-                                        <h3 className="font-semibold text-neutral-900 mb-1">{language === 'ID' ? 'Telepon' : 'Phone'}</h3>
-                                        <p className="text-neutral-600">0813-1438-8361</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-start gap-4">
-                                    <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                                        <Mail className="w-5 h-5 text-primary" />
-                                    </div>
-                                    <div>
-                                        <h3 className="font-semibold text-neutral-900 mb-1">Email</h3>
-                                        <p className="text-neutral-600">info@suarhijau.com</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-start gap-4">
-                                    <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
-                                        <Instagram className="w-5 h-5 text-primary" />
-                                    </div>
-                                    <div>
-                                        <h3 className="font-semibold text-neutral-900 mb-1">Instagram</h3>
-                                        <a href="https://instagram.com/suarindonesia.official" target="_blank" rel="noopener noreferrer" className="text-neutral-600 hover:text-primary transition-colors">@suarindonesia.official</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="bg-primary p-8 rounded-2xl text-white">
-                            <div className="flex items-center gap-3 mb-4">
-                                <MessageCircle className="w-6 h-6" />
-                                <h3 className="text-xl font-bold">{language === 'ID' ? 'Chat via WhatsApp' : 'Chat via WhatsApp'}</h3>
-                            </div>
-                            <p className="text-white/80 mb-6">{language === 'ID' ? 'Respon cepat untuk pertanyaan Anda. Tim kami siap membantu.' : 'Fast response for your questions. Our team is ready to help.'}</p>
-                            <a
-                                href="https://wa.me/081314388361"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-2 bg-white text-primary px-6 py-3 rounded-full font-semibold hover:bg-neutral-100 transition-colors"
-                            >
-                                {language === 'ID' ? 'Mulai Chat' : 'Start Chat'}
-                            </a>
-                        </div>
                     </motion.div>
                 </div>
             </section>

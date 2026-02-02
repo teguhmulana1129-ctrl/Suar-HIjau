@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import bambooAbout from '../../assets/bamboo_hero_high_res.png';
+import bambooAbout from '../../assets/bamboo_hero_high_res.webp';
 import { useLanguage } from '../../context/LanguageContext';
 import { translations } from '../../data/translations';
 

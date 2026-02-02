@@ -7,7 +7,7 @@ export const translations = {
             products: "Produk",
             blog: "Berita",
             team: "Tim Suar",
-            contact: "Alamat Suar",
+            contact: "Kontak Kami",
             navigation: "Navigasi",
             contactUs: "Hubungi Kami"
         },
@@ -67,7 +67,12 @@ export const translations = {
         },
         footer: {
             privacy: "Kebijakan Privasi",
-            rights: "Semua hak dilindungi."
+            rights: "Semua hak dilindungi.",
+            addressTitle: "ALAMAT",
+            kediriLabel: "KEDIRI :",
+            contactTitle: "KONTAK KAMI",
+            phoneLabel: "PHONE :",
+            emailLabel: "MAIL :"
         }
     },
     EN: {
@@ -78,7 +83,7 @@ export const translations = {
             products: "Products",
             blog: "News",
             team: "Team",
-            contact: "Address",
+            contact: "Contact Us",
             navigation: "Navigation",
             contactUs: "Contact Us"
         },
@@ -138,7 +143,12 @@ export const translations = {
         },
         footer: {
             privacy: "Privacy Policy",
-            rights: "All rights reserved."
+            rights: "All rights reserved.",
+            addressTitle: "ADDRESS",
+            kediriLabel: "KEDIRI :",
+            contactTitle: "CONTACT US",
+            phoneLabel: "PHONE :",
+            emailLabel: "MAIL :"
         }
     }
 };

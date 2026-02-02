@@ -4,7 +4,7 @@ import { cn } from '../../lib/utils';
 import { useLanguage } from '../../context/LanguageContext';
 import { translations } from '../../data/translations';
 import logoWhite from '../../assets/suar_full_white.png';
-import logoDefault from '../../assets/logo_suarhijau.png';
+const logoDefault = "/logo_suarhijau.png";
 
 export default function Header({ onMenuClick }) {
     const [scrolled, setScrolled] = useState(false);
@@ -61,19 +61,19 @@ export default function Header({ onMenuClick }) {
                     </Link>
 
                     {/* Desktop Nav */}
-                    <nav className="hidden lg:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
+                    <nav className="hidden lg:flex items-baseline lg:gap-4 xl:gap-8 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-max justify-center whitespace-nowrap">
                         {navLinks.map(link => (
                             <Link
                                 key={link.label}
                                 to={link.href}
                                 onClick={() => link.href === "/" && window.scrollTo(0, 0)}
                                 className={cn(
-                                    "relative text-xs uppercase tracking-widest font-medium py-2 transition-colors duration-300 hover:text-neutral-500",
+                                    "group relative text-xs uppercase tracking-wider font-medium py-2 transition-colors duration-300 hover:text-primary whitespace-nowrap",
                                     showDarkNav ? "text-neutral-900" : "text-white"
                                 )}
                             >
                                 {link.label}
-                                <span className="absolute bottom-0 left-0 w-0 h-px bg-current transition-all duration-300 hover:w-full" />
+                                <span className="absolute bottom-0 left-0 w-0 h-px bg-current transition-all duration-300 group-hover:w-full" />
                             </Link>
                         ))}
                     </nav>

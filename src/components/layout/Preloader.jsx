@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Leaf } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import logoFull from '../../assets/logo_suarhijau.png';
+const logoFull = "/logo_suarhijau.png";
 
 export default function Preloader({ onComplete }) {
     const [progress, setProgress] = useState(0);

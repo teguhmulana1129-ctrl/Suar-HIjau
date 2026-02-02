@@ -1,7 +1,7 @@
-import imgAnyaman from '../assets/bamboo_benefits_daily.jpg';
-import imgProses from '../assets/bamboo_weaving_traditional_process.jpg';
-import imgUMKM from '../assets/bamboo_umkm_market.jpg';
-import imgDekor from '../assets/bamboo_home_decor_modern.jpg';
+import imgAnyaman from '../assets/bamboo_benefits_daily.webp';
+import imgProses from '../assets/bamboo_weaving_traditional_process-ezgif.com-jpg-to-webp-converter.webp';
+import imgUMKM from '../assets/bamboo_umkm_market-ezgif.com-jpg-to-webp-converter.webp';
+import imgDekor from '../assets/bamboo_home_decor_modern.webp';
 
 export const newsData = [
     {

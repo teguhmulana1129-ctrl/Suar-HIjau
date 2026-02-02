@@ -4,13 +4,11 @@ import { MapPin, Target, Users, Calendar, ArrowRight, Leaf, TreeDeciduous, Waves
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { translations } from '../data/translations';
-import imgPlanting from '../assets/bamboo_planting_jangkar.jpg';
-import imgEmpowerment from '../assets/bamboo_craftsman_empowerment.jpg';
-import imgErosion from '../assets/bamboo_river_erosion_mitigation.jpg';
+import imgPlanting from '../assets/bamboo_planting_jangkar.webp';
+import imgEmpowerment from '../assets/bamboo_craftsman_empowerment.webp';
+import imgErosion from '../assets/bamboo_river_erosion_mitigation.webp';
 import imgCrafts from '../assets/produk/produk_bakul.webp';
-import imgNursery from '../assets/bamboo_nursery.png';
-import imgSeeds from '../assets/bamboo_seeds.png';
-import imgEducation from '../assets/bamboo_education_session.jpg';
+import imgEducation from '../assets/bamboo_education_session.webp';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
