@@ -75,7 +75,7 @@ export default function Footer() {
             </div>
 
             <div className="max-w-screen-2xl mx-auto border-t border-white/10 pt-8 text-center text-xs text-white/40">
-                <p>2026 Suar Hijau. {t.footer.rights}</p>
+                <p>2026 SuaR Hijau. {t.footer.rights}</p>
             </div>
         </footer>
     )

@@ -9,6 +9,8 @@ import imgEmpowerment from '../assets/bamboo_craftsman_empowerment.webp';
 import imgErosion from '../assets/bamboo_river_erosion_mitigation.webp';
 import imgCrafts from '../assets/produk/produk_bakul.webp';
 import imgEducation from '../assets/bamboo_education_session.webp';
+import imgMitigation from '../assets/bamboo_mitigation_in_mount.webp';
+import imgEcowisata from '../assets/bamboo_ecowisata.webp';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
@@ -73,8 +75,8 @@ export default function Programs() {
                 ? "Pelatihan dan pendampingan pengrajin lokal untuk meningkatkan keterampilan dan akses pasar produk anyaman bambu berkualitas tinggi."
                 : "Training and mentoring of local artisans to improve skills and market access for high-quality woven bamboo products.",
             fullDescription: language === 'ID'
-                ? "Program Pemberdayaan Pengrajin Bambu bertujuan meningkatkan kesejahteraan ekonomi masyarakat lokal di Kediri melalui pelatihan keterampilan anyaman bambu dan akses ke pasar yang lebih luas. Program ini mencakup pelatihan teknik anyaman modern, manajemen usaha kecil, dan pemasaran digital.\n\nSetiap pengrajin yang lulus program mendapatkan sertifikasi dan kesempatan untuk memasarkan produknya melalui platform Suar Hijau, sehingga memperluas jangkauan pasar mereka secara nasional dan internasional."
-                : "The Bamboo Artisan Empowerment Program aims to improve the economic welfare of local communities in Kediri through bamboo weaving skills training and access to wider markets. This program includes training in modern weaving techniques, small business management, and digital marketing.\n\nEvery artisan who graduates from the program receives certification and the opportunity to market their products through the Suar Hijau platform, expanding their market reach nationally and internationally.",
+                ? "Program Pemberdayaan Pengrajin Bambu bertujuan meningkatkan kesejahteraan ekonomi masyarakat lokal di Kediri melalui pelatihan keterampilan anyaman bambu dan akses ke pasar yang lebih luas. Program ini mencakup pelatihan teknik anyaman modern, manajemen usaha kecil, dan pemasaran digital.\n\nSetiap pengrajin yang lulus program mendapatkan sertifikasi dan kesempatan untuk memasarkan produknya melalui platform SuaR Hijau, sehingga memperluas jangkauan pasar mereka secara nasional dan internasional."
+                : "The Bamboo Artisan Empowerment Program aims to improve the economic welfare of local communities in Kediri through bamboo weaving skills training and access to wider markets. This program includes training in modern weaving techniques, small business management, and digital marketing.\n\nEvery artisan who graduates from the program receives certification and the opportunity to market their products through the SuaR Hijau platform, expanding their market reach nationally and internationally.",
             impact: language === 'ID'
                 ? ["225 pengrajin telah dilatih", "85% peningkatan pendapatan rata-rata", "50 produk baru dikembangkan", "3 koperasi terbentuk"]
                 : ["225 artisans trained", "85% average income increase", "50 new products developed", "3 cooperatives formed"],
@@ -139,6 +141,62 @@ export default function Programs() {
                 { phase: language === 'ID' ? "Pilot Program" : "Pilot Program", status: "completed" },
                 { phase: language === 'ID' ? "Ekspansi Desa" : "Village Expansion", status: "in-progress" },
                 { phase: language === 'ID' ? "Program Kabupaten" : "Regency Program", status: "upcoming" }
+            ]
+        },
+        {
+            id: 5,
+            title: language === 'ID' ? "Mitigasi Pencegahan Longsor Lereng Gunung" : "Mountain Slope Landslide Prevention Mitigation",
+            category: language === 'ID' ? "Mitigasi Bencana" : "Disaster Mitigation",
+            location: language === 'ID' ? "Kediri, Jawa Timur" : "Kediri, East Java",
+            progress: 40,
+            target: language === 'ID' ? "50 Hektar" : "50 Hectares",
+            current: 20,
+            volunteers: 150,
+            startDate: language === 'ID' ? "April 2025" : "April 2025",
+            image: imgMitigation,
+            icon: TreeDeciduous,
+            description: language === 'ID'
+                ? "Program khusus pencegahan longsor di area lereng gunung kritis dengan menanam sabuk hijau bambu yang memiliki perakaran dalam."
+                : "A dedicated program for landslide prevention in critical mountain slope areas by planting bamboo green belts with deep root systems.",
+            fullDescription: language === 'ID'
+                ? "Program Pencegahan Longsor Lereng Gunung difokuskan pada area-area dengan kemiringan curam yang rawan longsor di wilayah pegunungan Kediri. Kami menggunakan kombinasi bambu Petung dan bambu Ampel yang memiliki daya cengkeram tanah sangat kuat.\n\nSelain penanaman, program ini juga mencakup pembuatan terasering berbasis vegetasi dan edukasi mitigasi bencana bagi warga yang tinggal di bawah lereng. Bambu yang ditanam tidak boleh ditebang habis (tebang pilih) untuk menjaga fungsi penyangga tanahnya."
+                : "The Mountain Slope Landslide Prevention Program focuses on steep, landslide-prone areas in the Kediri mountain region. We use a combination of Petung and Ampel bamboo, which have very strong soil-gripping capabilities.\n\nIn addition to planting, this program also includes vegetation-based terracing and disaster mitigation education for residents living below the slopes. The planted bamboo is strictly managed with selective logging only to maintain its soil-anchoring function.",
+            impact: language === 'ID'
+                ? ["20 hektar lereng kritis diamankan", "Risiko longsor turun 60%", "150 relawan siaga bencana", "500 warga terlindungi"]
+                : ["20 hectares of critical slopes secured", "Landslide risk reduced by 60%", "150 disaster response volunteers", "500 residents protected"],
+            timeline: [
+                { phase: language === 'ID' ? "Pemetaan Risiko" : "Risk Mapping", status: "completed" },
+                { phase: language === 'ID' ? "Sosialisasi" : "Socialization", status: "completed" },
+                { phase: language === 'ID' ? "Penanaman" : "Planting", status: "in-progress" },
+                { phase: language === 'ID' ? "Evaluasi" : "Evaluation", status: "upcoming" }
+            ]
+        },
+        {
+            id: 6,
+            title: language === 'ID' ? "Ekowisata Hutan Bambu" : "Bamboo Forest Ecotourism",
+            category: language === 'ID' ? "Pariwisata Berkelanjutan" : "Sustainable Tourism",
+            location: language === 'ID' ? "Kediri, Jawa Timur" : "Kediri, East Java",
+            progress: 65,
+            target: language === 'ID' ? "3 Desa Wisata" : "3 Tourism Villages",
+            current: 1,
+            volunteers: 80,
+            startDate: language === 'ID' ? "Juni 2025" : "June 2025",
+            image: imgEcowisata,
+            icon: MapPin,
+            description: language === 'ID'
+                ? "Pengembangan destinasi wisata berbasis alam yang menawarkan pengalaman edukasi tentang bambu sekaligus rekreasi yang menenangkan."
+                : "Development of nature-based tourism destinations offering educational experiences about bamboo as well as relaxing recreation.",
+            fullDescription: language === 'ID'
+                ? "Program Ekowisata Hutan Bambu mengubah hutan bambu menjadi destinasi wisata edukatif yang menarik. Pengunjung dapat menikmati kesejukan hutan bambu, 'mandi hutan' (forest bathing), dan belajar tentang berbagai spesies bambu di zona arboretum.\n\nSelain itu, wisatawan dapat melihat langsung proses pengolahan produk bambu oleh pengrajin lokal dan membeli oleh-oleh khas desa. Pendapatan dari tiket masuk dan penjualan produk dikelola oleh BUMDes untuk meningkatkan kesejahteraan masyarakat desa."
+                : "The Bamboo Forest Ecotourism Program transforms bamboo forests into attractive educational tourism destinations. Visitors can enjoy the coolness of the bamboo forest, experience 'forest bathing', and learn about various bamboo species in the arboretum zone.\n\nAdditionally, tourists can witness the bamboo product processing by local artisans firsthand and buy village souvenirs. Revenue from entrance tickets and product sales is managed by BUMDes (Village-Owned Enterprises) to improve the welfare of the village community.",
+            impact: language === 'ID'
+                ? ["1 desa wisata resmi dibuka", "Pendapatan desa naik 40%", "5000+ pengunjung per tahun", "30 pemandu lokal terlatih"]
+                : ["1 tourism village officially opened", "Village income increased by 40%", "5000+ visitors per year", "30 local guides trained"],
+            timeline: [
+                { phase: language === 'ID' ? "Konsep & Desain" : "Concept & Design", status: "completed" },
+                { phase: language === 'ID' ? "Infrastruktur" : "Infrastructure", status: "completed" },
+                { phase: language === 'ID' ? "Pelatihan Pemandu" : "Guide Training", status: "in-progress" },
+                { phase: language === 'ID' ? "Grand Launching" : "Grand Launching", status: "upcoming" }
             ]
         }
     ];

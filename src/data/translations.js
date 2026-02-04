@@ -8,12 +8,13 @@ export const translations = {
             blog: "Berita",
             team: "Tim Suar",
             contact: "Kontak Kami",
+            events: "Event",
             navigation: "Navigasi",
             contactUs: "Hubungi Kami"
         },
         hero: {
             title: "Bersama Menjaga Bumi Melalui Bambu",
-            subtitle: "Suar Hijau adalah inisiatif keberlanjutan yang berfokus pada konservasi bambu, pemberdayaan UMKM, dan edukasi lingkungan untuk masa depan yang lebih hijau.",
+            subtitle: "SuaR Hijau adalah inisiatif keberlanjutan yang berfokus pada konservasi bambu, pemberdayaan UMKM, dan edukasi lingkungan untuk masa depan yang lebih hijau.",
             button: "Beli Produk Kami",
             aboutLabel: "Tentang Kami",
             researchLabel: "Pemeran utama dalam budidaya dan riset Bambu",
@@ -25,9 +26,9 @@ export const translations = {
             }
         },
         about: {
-            badge: "Kenapa Suar Hijau?",
+            badge: "Kenapa SuaR Hijau?",
             title: "Harmoni Alam & Ekonomi Lokal",
-            desc: "Kami percaya bahwa pelestarian lingkungan tidak harus mengorbankan pertumbuhan ekonomi. Suar Hijau hadir sebagai jembatan yang menghubungkan program konservasi bambu terukur dengan pemberdayaan UMKM pengrajin lokal.",
+            desc: "Kami percaya bahwa pelestarian lingkungan tidak harus mengorbankan pertumbuhan ekonomi. SuaR Hijau hadir sebagai jembatan yang menghubungkan program konservasi bambu terukur dengan pemberdayaan UMKM pengrajin lokal.",
             impactBadge: "Dampak Nyata",
             impactTitle: "Terverifikasi & Transparan",
             impactTarget: "Target Tahunan",
@@ -84,12 +85,13 @@ export const translations = {
             blog: "News",
             team: "Team",
             contact: "Contact Us",
+            events: "Events",
             navigation: "Navigation",
             contactUs: "Contact Us"
         },
         hero: {
             title: "Preserving the Earth Together Through Bamboo",
-            subtitle: "Suar Hijau is a sustainability initiative focusing on bamboo conservation, MSME empowerment, and environmental education for a greener future.",
+            subtitle: "SuaR Hijau is a sustainability initiative focusing on bamboo conservation, MSME empowerment, and environmental education for a greener future.",
             button: "Shop Our Products",
             aboutLabel: "About Us",
             researchLabel: "Leading the way in Bamboo cultivation and research",
@@ -101,9 +103,9 @@ export const translations = {
             }
         },
         about: {
-            badge: "Why Suar Hijau?",
+            badge: "Why SuaR Hijau?",
             title: "Harmony of Nature & Local Economy",
-            desc: "We believe that environment preservation shouldn't sacrifice economic growth. Suar Hijau exists as a bridge connecting measurable bamboo conservation programs with local MSME empowerment.",
+            desc: "We believe that environment preservation shouldn't sacrifice economic growth. SuaR Hijau exists as a bridge connecting measurable bamboo conservation programs with local MSME empowerment.",
             impactBadge: "Real Impact",
             impactTitle: "Verified & Transparent",
             impactTarget: "Annual Target",

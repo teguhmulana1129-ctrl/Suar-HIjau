@@ -14,6 +14,8 @@ import News from './pages/News';
 import NewsDetail from './pages/NewsDetail';
 import Contact from './pages/Contact';
 import Programs from './pages/Programs';
+import Events from './pages/Events';
+import EventDetail from './pages/EventDetail';
 import { LanguageProvider } from './context/LanguageContext';
 
 function App() {
@@ -41,6 +43,8 @@ function App() {
               <Route path="/products" element={<Products />} />
               <Route path="/news" element={<News />} />
               <Route path="/news/:id" element={<NewsDetail />} />
+              <Route path="/events" element={<Events />} />
+              <Route path="/events/:id" element={<EventDetail />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/programs" element={<Programs />} />
             </Routes>

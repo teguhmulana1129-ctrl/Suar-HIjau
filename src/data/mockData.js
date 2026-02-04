@@ -13,6 +13,10 @@ import bambooArtisanEmpowerment from '../assets/bamboo_artisan_empowerment_new.w
 import bambooResearchLabFinal from '../assets/bamboo_lab_new.webp';
 import bambooEducationFinal from '../assets/bamboo_education_final.webp';
 import bambooMenuBg from '../assets/bamboo_menu_bg.webp';
+import imgErosion from '../assets/bamboo_river_erosion_mitigation.webp';
+import imgEducation from '../assets/bamboo_education_session.webp';
+import bambooMitigation from '../assets/bamboo_mitigation_in_mount.webp';
+import imgNgadiluwih from '../assets/bamboo_planting_jangkar.webp';
 
 // Staff Imports
 import staffAlfin from '../assets/Staff/Alfin.webp';
@@ -36,6 +40,7 @@ export const HEADER_LINKS = [
     { label: "Program", href: "/programs" },
     { label: "Produk", href: "/products" },
     { label: "Berita", href: "/blog" },
+    { label: "Acara", href: "/events" },
     { label: "Alamat Suar", href: "/contact" },
 ];
 
@@ -140,55 +145,68 @@ export const PRODUCTS = [
 export const PROGRAMS = [
     {
         id: 1,
-        title: "Restorasi Hutan Bambu",
-        titleEN: "Bamboo Forest Restoration",
-        category: "Konservasi",
-        categoryEN: "Conservation",
+        title: "Penanaman Bambu Jangkar",
+        titleEN: "Jangkar Bamboo Planting",
+        category: "Konservasi Hutan",
+        categoryEN: "Forest Conservation",
         location: "Kediri, Jawa Timur",
         locationEN: "Kediri, East Java",
-        progress: 85,
-        target: "50.000 Rumpun",
-        targetEN: "50.000 Clusters",
-        image: bambooRestorationDrone
+        progress: 75,
+        target: "1000 Pohon",
+        targetEN: "1000 Trees",
+        image: bambooNursery
     },
     {
         id: 2,
         title: "Pemberdayaan Pengrajin Bambu",
-        titleEN: "Artisan Empowerment",
+        titleEN: "Bamboo Artisan Empowerment",
         category: "Sosial Ekonomi",
         categoryEN: "Social Economy",
         location: "Kediri, Jawa Timur",
         locationEN: "Kediri, East Java",
-        progress: 60,
-        target: "200 Pengrajin",
-        targetEN: "200 Artisans",
-        image: bambooArtisanEmpowerment
+        progress: 45,
+        target: "500 Pengrajin",
+        targetEN: "500 Artisans",
+        image: bambooFarmer
     },
     {
         id: 3,
-        title: "Pusat Riset Bambu",
-        titleEN: "Bamboo Research Center",
-        category: "Penelitian",
-        categoryEN: "Research",
+        title: "Mitigasi Erosi Sungai",
+        titleEN: "River Erosion Mitigation",
+        category: "Penghijauan",
+        categoryEN: "Greening",
         location: "Kediri, Jawa Timur",
         locationEN: "Kediri, East Java",
         progress: 90,
-        target: "5 Varietas Baru",
-        targetEN: "5 New Varieties",
-        image: bambooResearchLabFinal
+        target: "20 Hektar",
+        targetEN: "20 Hectares",
+        image: imgErosion
     },
     {
         id: 4,
-        title: "Edukasi Produk Lestari",
-        titleEN: "Sustainable Product Ed",
+        title: "Edukasi Pemanfaatan Bambu",
+        titleEN: "Bamboo Utilization Education",
         category: "Pendidikan",
         categoryEN: "Education",
-        location: "Nasional",
-        locationEN: "National",
+        location: "Kediri, Jawa Timur",
+        locationEN: "Kediri, East Java",
         progress: 30,
         target: "50 Komunitas",
         targetEN: "50 Communities",
-        image: bambooEducationFinal
+        image: imgEducation
+    },
+    {
+        id: 5,
+        title: "Mitigasi Pencegahan Longsor Lereng Gunung",
+        titleEN: "Mountain Slope Landslide Prevention",
+        category: "Mitigasi Bencana",
+        categoryEN: "Disaster Mitigation",
+        location: "Kediri, Jawa Timur",
+        locationEN: "Kediri, East Java",
+        progress: 40,
+        target: "50 Hektar",
+        targetEN: "50 Hectares",
+        image: bambooMitigation
     }
 ];
 
@@ -200,18 +218,92 @@ export const IMPACT_STATS = [
 ];
 
 export const TEAM_MEMBERS = [
-    { name: "Ijun", role: "Tim Suar Hijau", image: staffIjun, bio: "" },
-    { name: "Sanusi, S.Pd", role: "Tim Suar Hijau", image: staffSanusi, bio: "" },
-    { name: "Wiwit", role: "Tim Suar Hijau", image: staffWiwit, bio: "" },
-    { name: "Budiman", role: "Tim Suar Hijau", image: staffBudiman, bio: "" },
-    { name: "Novi Lestari", role: "Tim Suar Hijau", image: staffNovi, bio: "" },
-    { name: "Via Andrisia", role: "Tim Suar Hijau", image: staffVia, bio: "" },
-    { name: "Bayu", role: "Tim Suar Hijau", image: staffBayu, bio: "" },
-    { name: "Ita", role: "Tim Suar Hijau", image: staffIta, bio: "" },
-    { name: "Beiby Citra", role: "Tim Suar Hijau", image: staffBeiby, bio: "" },
-    { name: "Alfin", role: "Tim Suar Hijau", image: staffAlfin, bio: "" },
-    { name: "Andris Nirwana", role: "Tim Suar Hijau", image: staffAndris, bio: "" },
-    { name: "Jiwo Ageng", role: "Tim Suar Hijau", image: staffJiwo, bio: "" },
-    { name: "Reni", role: "Tim Suar Hijau", image: staffReni, bio: "" },
-    { name: "Romlatul Hasanah", role: "Tim Suar Hijau", image: staffRomlatul, bio: "" }
+    { name: "Sanusi", role: "Tim SuaR Hijau", image: staffSanusi, bio: "" },
+    { name: "Ijun", role: "Tim SuaR Hijau", image: staffIjun, bio: "" },
+    { name: "Wiwit", role: "Tim SuaR Hijau", image: staffWiwit, bio: "" },
+    { name: "Budiman", role: "Tim SuaR Hijau", image: staffBudiman, bio: "" },
+    { name: "Novi Lestari", role: "Tim SuaR Hijau", image: staffNovi, bio: "" },
+    { name: "Via Andrisia", role: "Tim SuaR Hijau", image: staffVia, bio: "" },
+    { name: "Bayu", role: "Tim SuaR Hijau", image: staffBayu, bio: "" },
+    { name: "Ita", role: "Tim SuaR Hijau", image: staffIta, bio: "" },
+    { name: "Beiby Citra", role: "Tim SuaR Hijau", image: staffBeiby, bio: "" },
+    { name: "Alfin", role: "Tim SuaR Hijau", image: staffAlfin, bio: "" },
+    { name: "Andris Nirwana", role: "Tim SuaR Hijau", image: staffAndris, bio: "" },
+    { name: "Jiwo Ageng", role: "Tim SuaR Hijau", image: staffJiwo, bio: "" },
+    { name: "Reni", role: "Tim SuaR Hijau", image: staffReni, bio: "" },
+    { name: "Romlatul Hasanah", role: "Tim SuaR Hijau", image: staffRomlatul, bio: "" }
+];
+
+export const EVENTS = [
+    {
+        id: 1,
+        title: "Penanaman Bambu di Ngadiluwih",
+        titleEN: "Bamboo Planting in Ngadiluwih",
+        date: "2026-01-15",
+        time: "07:00 - 11:00 WIB",
+        location: "Desa Ngadiluwih, Kediri",
+        image: imgNgadiluwih,
+        description: "Kegiatan penanaman 1000 bibit bambu bersama warga desa Ngadiluwih dan komunitas pecinta alam.",
+        descriptionEN: "Planting of 1000 bamboo seedlings with Ngadiluwih villagers and nature lover communities.",
+        fullDescription: "Bergabunglah dalam aksi nyata pelestarian lingkungan di Desa Ngadiluwih. Acara ini menargetkan penanaman 1000 bibit bambu jenis Petung dan Apus di area seluas 2 hektar yang rawan erosi. Selain menanam, peserta juga akan mendapatkan edukasi singkat tentang cara merawat bambu dan manfaatnya bagi ekosistem sungai.",
+        fullDescriptionEN: "Join real environmental conservation action in Ngadiluwih Village. This event targets planting 1000 Petung and Apus bamboo seedlings in a 2-hectare area prone to erosion. Besides planting, participants will also receive short education on how to care for bamboo and its benefits for the river ecosystem.",
+        rundown: [
+            { time: "07:00 - 07:30", activity: "Registrasi Ulang", activityEN: "Re-registration" },
+            { time: "07:30 - 08:00", activity: "Briefing & Pembagian Area", activityEN: "Briefing & Area Distribution" },
+            { time: "08:00 - 10:00", activity: "Sesi Penanaman", activityEN: "Planting Session" },
+            { time: "10:00 - 11:00", activity: "Makan Bersama & Penutupan", activityEN: "Communal Meal & Closing" }
+        ],
+        requirements: ["Membawa botol minum sendiri (tumbler)", "Memakai pakaian lapangan/olahraga", "Membawa topi"],
+        requirementsEN: ["Bring your own water bottle (tumbler)", "Wear field/sports attire", "Bring a hat"],
+        price: "Gratis",
+        priceEN: "Free",
+        status: "completed"
+    },
+    {
+        id: 2,
+        title: "Workshop Kerajinan Bambu",
+        titleEN: "Bamboo Craft Workshop",
+        date: "2026-07-20",
+        time: "09:00 - 15:00 WIB",
+        location: "Pusat Kerajinan Suar Hijau, Pare",
+        image: bambooFarmer,
+        description: "Pelatihan dasar menganyam bambu untuk pemula. Belajar membuat besek dan produk sederhana lainnya.",
+        descriptionEN: "Basic bamboo weaving training for beginners. Learn to make 'besek' and other simple products.",
+        fullDescription: "Pelajari seni anyaman bambu warisan leluhur bersama pengrajin ahli Suar Hijau. Dalam workshop sehari ini, Anda akan diajarkan teknik dasar mengirat bambu, pola anyaman dasar, hingga membuat produk jadi berupa besek serbaguna. Cocok untuk pemula yang ingin memulai hobi baru atau wirausaha.",
+        fullDescriptionEN: "Learn the ancestral art of bamboo weaving with Suar Hijau's master artisans. In this one-day workshop, you will be taught basic bamboo slicing techniques, basic weaving patterns, to making finished products in the form of versatile 'besek'. Suitable for beginners who want to start a new hobby or entrepreneurship.",
+        rundown: [
+            { time: "09:00 - 09:30", activity: "Pengenalan Alat & Bahan", activityEN: "Tools & Materials Introduction" },
+            { time: "09:30 - 12:00", activity: "Sesi Praktek 1: Teknik Dasar", activityEN: "Practice Session 1: Basic Techniques" },
+            { time: "12:00 - 13:00", activity: "Istirahat & Makan Siang", activityEN: "Break & Lunch" },
+            { time: "13:00 - 15:00", activity: "Sesi Praktek 2: Finishing Produk", activityEN: "Practice Session 2: Product Finishing" }
+        ],
+        requirements: ["Usia minimal 15 tahun", "Membayar biaya pendaftaran"],
+        requirementsEN: ["Minimum age 15 years", "Pay registration fee"],
+        price: "Rp 150.000",
+        priceEN: "IDR 150,000",
+        status: "upcoming"
+    },
+    {
+        id: 3,
+        title: "Festival Bambu Kediri 2026",
+        titleEN: "Kediri Bamboo Festival 2026",
+        date: "2026-10-10",
+        time: "08:00 - 20:00 WIB",
+        location: "Simpang Lima Gumul, Kediri",
+        image: bambooMenuBg,
+        description: "Pameran produk bambu terbesar di Kediri, dimeriahkan dengan pentas seni dan pasar rakyat.",
+        descriptionEN: "The largest bamboo product exhibition in Kediri, featuring art performances and a folk market.",
+        fullDescription: "Festival tahunan yang merayakan keajaiban bambu! Temukan ratusan produk inovatif dari UMKM lokal, instalasi seni bambu raksasa, dan pertunjukan musik menggunakan instrumen bambu. Acara ini juga menjadi ajang networking bagi pegiat lingkungan, pengrajin, dan investor hijau.",
+        fullDescriptionEN: "Annual festival celebrating the magic of bamboo! Discover hundreds of innovative products from local MSMEs, giant bamboo art installations, and music performances using bamboo instruments. This event is also a networking venue for environmentalists, artisans, and green investors.",
+        rundown: [
+            { time: "08:00 - 10:00", activity: "Pembukaan & Parade Budaya", activityEN: "Opening & Cultural Parade" },
+            { time: "10:00 - 18:00", activity: "Pameran & Pasar Rakyat", activityEN: "Exhibition & Folk Market" },
+            { time: "18:00 - 20:00", activity: "Pentas Musik Bambu & Penutupan", activityEN: "Bamboo Music Performance & Closing" }
+        ],
+        requirements: ["Terbuka untuk umum", "Membawa uang tunai/QRIS untuk belanja"],
+        requirementsEN: ["Open to public", "Bring cash/QRIS for shopping"],
+        price: "Gratis",
+        priceEN: "Free",
+        status: "upcoming"
+    }
 ];

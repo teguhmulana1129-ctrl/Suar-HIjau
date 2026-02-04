@@ -72,8 +72,8 @@ export default function About() {
                         </h1>
                         <p className="text-lg text-neutral-600 leading-relaxed mb-8">
                             {language === 'ID'
-                                ? 'Suar Hijau adalah platform digital terpadu yang menggabungkan konservasi lingkungan dengan pemberdayaan ekonomi lokal. Kami menciptakan ekosistem yang sustainable, profitable, dan scalable untuk bisnis UMKM lokal sambil mendorong konservasi bambu di Indonesia.'
-                                : 'Suar Hijau is an integrated digital platform that combines environmental conservation with local economic empowerment. We create a sustainable, profitable, and scalable ecosystem for local MSME businesses while driving bamboo conservation in Indonesia.'}
+                                ? 'SuaR Hijau adalah platform digital terpadu yang menggabungkan konservasi lingkungan dengan pemberdayaan ekonomi lokal. Kami menciptakan ekosistem yang sustainable, profitable, dan scalable untuk bisnis UMKM lokal sambil mendorong konservasi bambu di Indonesia.'
+                                : 'SuaR Hijau is an integrated digital platform that combines environmental conservation with local economic empowerment. We create a sustainable, profitable, and scalable ecosystem for local MSME businesses while driving bamboo conservation in Indonesia.'}
                         </p>
                         <div className="flex flex-wrap gap-4">
                             <Link
@@ -126,7 +126,7 @@ export default function About() {
                         <span>{language === 'ID' ? 'Pilar Utama' : 'Main Pillars'}</span>
                     </div>
                     <h2 className="text-3xl lg:text-4xl font-bold text-neutral-900 font-display">
-                        {language === 'ID' ? 'Empat Pilar Suar Hijau' : 'The Four Pillars of Suar Hijau'}
+                        {language === 'ID' ? 'Empat Pilar SuaR Hijau' : 'The Four Pillars of SuaR Hijau'}
                     </h2>
                 </motion.div>
 

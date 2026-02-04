@@ -22,6 +22,7 @@ export default function Header({ onMenuClick }) {
         { label: t.nav.about, href: "/about" },
         { label: t.nav.programs, href: "/programs" },
         { label: t.nav.products, href: "/products" },
+        { label: t.nav.events, href: "/events" },
         { label: t.nav.blog, href: "/news" },
         { label: t.nav.team, href: "/team" },
         { label: t.nav.contact, href: "/contact" },
@@ -53,7 +54,7 @@ export default function Header({ onMenuClick }) {
                     <Link to="/" className="flex items-center gap-3 z-50 relative" aria-label="Home" onClick={() => window.scrollTo(0, 0)}>
                         <img
                             src={showDarkNav ? logoDefault : logoWhite}
-                            alt="Suar Hijau Logo"
+                            alt="SuaR Hijau Logo"
                             className="h-10 sm:h-12 lg:h-14 w-auto object-contain transition-all duration-300"
                             width="160"
                             height="40"

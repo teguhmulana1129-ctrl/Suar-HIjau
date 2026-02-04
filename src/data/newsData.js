@@ -37,7 +37,7 @@ export const newsData = [
             `
         },
         image: imgAnyaman,
-        author: "Tim Suar Hijau",
+        author: "Tim SuaR Hijau",
         date: {
             ID: "20 Jan 2026",
             EN: "Jan 20, 2026"
@@ -108,12 +108,12 @@ export const newsData = [
             ID: `
                 <p>UMKM lokal memegang peranan penting dalam perekonomian nasional. Dengan mendukung mereka, kita turut serta dalam pembangunan ekonomi yang inklusif.</p>
                 <p>Produk ramah lingkungan dari UMKM lokal tidak hanya berkualitas, tetapi juga memiliki nilai sosial yang tinggi. Setiap pembelian membantu para pengrajin untuk terus berkarya dan menghidupi keluarga mereka.</p>
-                <p>Suar Hijau berkomitmen untuk menjadi wadah bagi UMKM ini untuk menjangkau pasar yang lebih luas.</p>
+                <p>SuaR Hijau berkomitmen untuk menjadi wadah bagi UMKM ini untuk menjangkau pasar yang lebih luas.</p>
             `,
             EN: `
                 <p>Local MSMEs play a crucial role in the national economy. By supporting them, we participate in inclusive economic development.</p>
                 <p>Eco-friendly products from local MSMEs are not only high quality but also have high social value. Every purchase helps artisans to continue creating and supporting their families.</p>
-                <p>Suar Hijau is committed to being a platform for these MSMEs to reach a wider market.</p>
+                <p>SuaR Hijau is committed to being a platform for these MSMEs to reach a wider market.</p>
             `
         },
         image: imgUMKM,
@@ -150,7 +150,7 @@ export const newsData = [
             `
         },
         image: imgDekor,
-        author: "Tim Suar Hijau",
+        author: "Tim SuaR Hijau",
         date: {
             ID: "5 Jan 2026",
             EN: "Jan 5, 2026"

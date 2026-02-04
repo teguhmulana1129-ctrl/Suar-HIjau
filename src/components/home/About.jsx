@@ -34,7 +34,7 @@ export default function About() {
                         <div className="aspect-[4/5] rounded-3xl overflow-hidden bg-neutral-100 relative z-10">
                             <img
                                 src={bambooAbout}
-                                alt="Hutan Bambu Suar Hijau"
+                                alt="Hutan Bambu SuaR Hijau"
                                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                             />
                             {/* Overlay Card */}

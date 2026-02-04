@@ -46,7 +46,7 @@ export default function Preloader({ onComplete }) {
                 >
                     <img
                         src={logoFull}
-                        alt="Suar Hijau"
+                        alt="SuaR Hijau"
                         className="h-16 w-auto object-contain"
                     />
                 </motion.div>

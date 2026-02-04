@@ -93,7 +93,7 @@ export default function Hero() {
                             <p className="text-xs uppercase tracking-[0.2em] text-neutral-400 font-bold mb-2">
                                 {language === 'ID' ? 'Tentang Kami' : 'About Us'}
                             </p>
-                            <p className="text-2xl lg:text-3xl font-medium tracking-tight mb-2 font-display">Suar Hijau</p>
+                            <p className="text-2xl lg:text-3xl font-medium tracking-tight mb-2 font-display">SuaR Hijau</p>
                             <p className="text-xs uppercase tracking-widest text-white/80">
                                 {language === 'ID' ? 'Pemeran utama dalam budidaya dan riset Bambu' : 'Leading the way in Bamboo cultivation and research'}
                             </p>
@@ -153,14 +153,14 @@ export default function Hero() {
                     <div className="flex-1 flex items-center justify-center">
                         <div className="text-center translate-y-8">
                             <h1 className="text-[16vw] md:text-[12vw] lg:text-[9vw] leading-none font-medium text-white tracking-tight mix-blend-overlay animate-fade-up opacity-0 font-display" style={{ animationDelay: '500ms', animationFillMode: 'forwards' }}>
-                                Suar Hijau
+                                SuaR Hijau
                             </h1>
                             <p className="uppercase text-lg md:text-xl font-semibold text-zinc-50/90 tracking-widest mt-6 md:mt-8 mb-8 animate-fade-up opacity-0" style={{ animationDelay: '700ms', animationFillMode: 'forwards' }}>
-                                {language === 'ID' ? 'Konservasi Bambu & Pemberdayaan UMKM Lokal' : 'Bamboo Conservation & Local MSME Empowerment'}
+                                {language === 'ID' ? 'Konservasi Bambu & Pemberdayaan UMKM Kelompok Rentan' : 'Bamboo and the Empowerment of Vulnerable MSMEs'}
                             </p>
                             <div className="animate-fade-up opacity-0 pointer-events-auto" style={{ animationDelay: '1000ms', animationFillMode: 'forwards' }}>
                                 <a href="#about" className="group inline-flex items-center gap-3 bg-neutral-900 text-white rounded-full py-4 px-8 text-sm font-semibold uppercase tracking-wide hover:bg-neutral-800 transition-colors shadow-lg hover:shadow-primary/25">
-                                    <span>{language === 'ID' ? 'Jelajahi Tentang Suar Hijau' : 'Explore About Suar Hijau'}</span>
+                                    <span>{language === 'ID' ? 'Jelajahi Tentang SuaR Hijau' : 'Explore About SuaR Hijau'}</span>
                                     <span className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center group-hover:bg-white/30 transition-colors">
                                         <ArrowDown className="w-3 h-3" />
                                     </span>

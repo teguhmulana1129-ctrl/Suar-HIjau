@@ -22,8 +22,8 @@ export default function News() {
                     <h1 className="text-4xl md:text-6xl font-bold text-neutral-900 font-display mb-8">{t.nav.blog}</h1>
                     <p className="text-xl text-neutral-600 max-w-3xl mx-auto font-sans leading-relaxed">
                         {language === 'ID'
-                            ? 'Informasi terbaru seputar produk, tips, dan cerita inspiratif dari komunitas Suar Hijau.'
-                            : 'Latest information about products, tips, and inspiring stories from the Suar Hijau community.'}
+                            ? 'Informasi terbaru seputar produk, tips, dan cerita inspiratif dari komunitas SuaR Hijau.'
+                            : 'Latest information about products, tips, and inspiring stories from the SuaR Hijau community.'}
                     </p>
                 </motion.div>
             </section>

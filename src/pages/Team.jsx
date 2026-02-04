@@ -13,7 +13,7 @@ export default function Team() {
                     transition={{ duration: 0.6 }}
                 >
                     <p className="text-secondary font-semibold tracking-wider uppercase text-sm mb-4 font-sans">Kekuatan Kami</p>
-                    <h1 className="text-4xl md:text-6xl font-bold text-neutral-900 font-display mb-8">Tim Suar Hijau</h1>
+                    <h1 className="text-4xl md:text-6xl font-bold text-neutral-900 font-display mb-8">Tim SuaR Hijau</h1>
                     <p className="text-xl text-neutral-600 max-w-3xl mx-auto font-sans leading-relaxed">
                         Kami adalah gabungan ilmuwan, ahli pertanian, dan visioner yang berdedikasi membangun masa depan pangan yang lebih baik.
                     </p>
