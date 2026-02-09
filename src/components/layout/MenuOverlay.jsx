@@ -14,6 +14,7 @@ export default function MenuOverlay({ isOpen, onClose }) {
         { label: t.nav.home, href: "/", image: MENU_ITEMS[0].image },
         { label: t.nav.about, href: "/about", image: MENU_ITEMS[1].image },
         { label: t.nav.programs, href: "/programs", image: MENU_ITEMS[2].image },
+        { label: t.nav.varieties, href: "/varieties", image: MENU_ITEMS[2].image },
         { label: t.nav.products, href: "/products", image: MENU_ITEMS[3].image },
         { label: t.nav.events, href: "/events", image: MENU_ITEMS[2].image },
         { label: t.nav.blog, href: "/news", image: MENU_ITEMS[4].image },

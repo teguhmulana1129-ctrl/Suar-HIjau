@@ -17,7 +17,8 @@ import { useLocation } from 'react-router-dom';
 export default function Programs() {
     const { language } = useLanguage();
     const t = translations[language];
-    const { hash } = useLocation();
+    const { hash, pathname } = useLocation();
+    const isVarietiesPath = pathname === '/varieties';
 
     useEffect(() => {
         if (hash) {
@@ -187,8 +188,8 @@ export default function Programs() {
                 ? "Pengembangan destinasi wisata berbasis alam yang menawarkan pengalaman edukasi tentang bambu sekaligus rekreasi yang menenangkan."
                 : "Development of nature-based tourism destinations offering educational experiences about bamboo as well as relaxing recreation.",
             fullDescription: language === 'ID'
-                ? "Program Ekowisata Hutan Bambu mengubah hutan bambu menjadi destinasi wisata edukatif yang menarik. Pengunjung dapat menikmati kesejukan hutan bambu, 'mandi hutan' (forest bathing), dan belajar tentang berbagai spesies bambu di zona arboretum.\n\nSelain itu, wisatawan dapat melihat langsung proses pengolahan produk bambu oleh pengrajin lokal dan membeli oleh-oleh khas desa. Pendapatan dari tiket masuk dan penjualan produk dikelola oleh BUMDes untuk meningkatkan kesejahteraan masyarakat desa."
-                : "The Bamboo Forest Ecotourism Program transforms bamboo forests into attractive educational tourism destinations. Visitors can enjoy the coolness of the bamboo forest, experience 'forest bathing', and learn about various bamboo species in the arboretum zone.\n\nAdditionally, tourists can witness the bamboo product processing by local artisans firsthand and buy village souvenirs. Revenue from entrance tickets and product sales is managed by BUMDes (Village-Owned Enterprises) to improve the welfare of the village community.",
+                ? "Program Ekowisata Hutan Bambu mengubah hutan bambu menjadi destinasi wisata edukatif yang menarik. Pengunjung dapat menikmati kesejukan hutan bambu, 'mandi hutan' (forest bathing), dan belajar tentang berbagai varietas bambu di zona arboretum.\n\nSelain itu, wisatawan dapat melihat langsung proses pengolahan produk bambu oleh pengrajin lokal dan membeli oleh-oleh khas desa. Pendapatan dari tiket masuk dan penjualan produk dikelola oleh BUMDes untuk meningkatkan kesejahteraan masyarakat desa."
+                : "The Bamboo Forest Ecotourism Program transforms bamboo forests into attractive educational tourism destinations. Visitors can enjoy the coolness of the bamboo forest, experience 'forest bathing', and learn about various bamboo varieties in the arboretum zone.\n\nAdditionally, tourists can witness the bamboo product processing by local artisans firsthand and buy village souvenirs. Revenue from entrance tickets and product sales is managed by BUMDes (Village-Owned Enterprises) to improve the welfare of the village community.",
             impact: language === 'ID'
                 ? ["1 desa wisata resmi dibuka", "Pendapatan desa naik 40%", "5000+ pengunjung per tahun", "30 pemandu lokal terlatih"]
                 : ["1 tourism village officially opened", "Village income increased by 40%", "5000+ visitors per year", "30 local guides trained"],
@@ -210,12 +211,24 @@ export default function Programs() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
                 >
-                    <p className="text-secondary font-semibold tracking-wider uppercase text-sm mb-4 font-sans">{language === 'ID' ? 'Program Konservasi' : 'Conservation Programs'}</p>
-                    <h1 className="text-4xl md:text-6xl font-bold text-neutral-900 font-display mb-8">{language === 'ID' ? 'Aksi Nyata Untuk Bumi' : 'Real Action for the Earth'}</h1>
+                    <p className="text-secondary font-semibold tracking-wider uppercase text-sm mb-4 font-sans">
+                        {isVarietiesPath
+                            ? (language === 'ID' ? 'Varietas Bambu' : 'Bamboo Varieties')
+                            : (language === 'ID' ? 'Program Konservasi' : 'Conservation Programs')}
+                    </p>
+                    <h1 className="text-4xl md:text-6xl font-bold text-neutral-900 font-display mb-8">
+                        {isVarietiesPath
+                            ? (language === 'ID' ? 'Koleksi Varietas Bambu SuaR' : 'SuaR Bamboo Variety Collection')
+                            : (language === 'ID' ? 'Aksi Nyata Untuk Bumi' : 'Real Action for the Earth')}
+                    </h1>
                     <p className="text-xl text-neutral-600 max-w-3xl mx-auto font-sans leading-relaxed">
-                        {language === 'ID'
-                            ? 'Bergabunglah dengan program konservasi kami untuk menciptakan dampak nyata bagi lingkungan dan masyarakat.'
-                            : 'Join our conservation programs to create a real impact for the environment and the community.'}
+                        {isVarietiesPath
+                            ? (language === 'ID'
+                                ? 'Temukan berbagai jenis bambu yang kami kembangkan dan lestarikan, mulai dari Bambu Petung yang kokoh hingga Bambu Apus yang fleksibel.'
+                                : 'Discover various types of bamboo that we develop and preserve, from sturdy Petung Bamboo to flexible Apus Bamboo.')
+                            : (language === 'ID'
+                                ? 'Bergabunglah dengan program konservasi kami untuk menciptakan dampak nyata bagi lingkungan dan masyarakat.'
+                                : 'Join our conservation programs to create a real impact for the environment and the community.')}
                     </p>
                 </motion.div>
             </section>

@@ -8,6 +8,7 @@ export const translations = {
             blog: "Berita",
             team: "Tim Suar",
             contact: "Kontak Kami",
+            varieties: "Varietas Bambu",
             events: "Event",
             navigation: "Navigasi",
             contactUs: "Hubungi Kami"
@@ -20,7 +21,7 @@ export const translations = {
             researchLabel: "Pemeran utama dalam budidaya dan riset Bambu",
             stats: {
                 experience: "Tahun Pengalaman",
-                species: "Spesies Bambu",
+                species: "Varietas Bambu",
                 hectares: "Hektar Hutan Bambu",
                 products: "Produk Inovatif"
             }
@@ -41,7 +42,7 @@ export const translations = {
             ]
         },
         featuredPrograms: {
-            badge: "Program Konservasi",
+            badge: "Varietas Bambu",
             title: "Aksi Nyata Untuk Bumi",
             detail: "Detail",
             progress: "Progress",
@@ -85,6 +86,7 @@ export const translations = {
             blog: "News",
             team: "Team",
             contact: "Contact Us",
+            varieties: "Bamboo Varieties",
             events: "Events",
             navigation: "Navigation",
             contactUs: "Contact Us"
@@ -97,7 +99,7 @@ export const translations = {
             researchLabel: "Leading the way in Bamboo cultivation and research",
             stats: {
                 experience: "Years of Experience",
-                species: "Bamboo Species",
+                species: "Bamboo Varieties",
                 hectares: "Hectares of Bamboo Forest",
                 products: "Innovative Products"
             }
@@ -118,7 +120,7 @@ export const translations = {
             ]
         },
         featuredPrograms: {
-            badge: "Conservation Programs",
+            badge: "Bamboo Varieties",
             title: "Real Action for the Planet",
             detail: "Detail",
             progress: "Progress",

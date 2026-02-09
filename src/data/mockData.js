@@ -6,6 +6,7 @@ import produkBakul from '../assets/produk/produk_bakul.webp';
 import produkBesek from '../assets/produk/produk_besek.webp';
 import produkCapil from '../assets/produk/produk_capil.webp';
 import produkTampah from '../assets/produk/produk_tampah.webp';
+import produkLantai from '../assets/produk/produk_lantai.jpg';
 import bambooProductsHero from '../assets/bamboo_products_hero.webp';
 import bambooFarmersHero from '../assets/bamboo_farmers_hero.webp';
 import bambooRestorationDrone from '../assets/bamboo_restoration_drone-ezgif.com-jpg-to-webp-converter.webp';
@@ -17,6 +18,13 @@ import imgErosion from '../assets/bamboo_river_erosion_mitigation.webp';
 import imgEducation from '../assets/bamboo_education_session.webp';
 import bambooMitigation from '../assets/bamboo_mitigation_in_mount.webp';
 import imgNgadiluwih from '../assets/bamboo_planting_jangkar.webp';
+import varietyPetung from '../assets/bamboo_petung.jpg';
+import varietyApus from '../assets/bamboo_apus.jpg';
+import varietyJangkar from '../assets/bamboo_jangkar.jpg';
+import varietyHitam from '../assets/bamboo_hitam.jpg';
+import varietyTali from '../assets/bamboo_tali.webp';
+import varietyAndong from '../assets/bamboo_andong.webp';
+import varietyKuning from '../assets/bamboo_kuning.webp';
 
 // Staff Imports
 import staffAlfin from '../assets/Staff/Alfin.webp';
@@ -106,7 +114,7 @@ export const HERO_CARDS = [
 
 export const HERO_STATS = [
     { number: 20, suffix: "+", label: "Tahun Pengalaman", labelEN: "Years Experience" },
-    { number: 12, suffix: "+", label: "Spesies Bambu", labelEN: "Bamboo Species" },
+    { number: 12, suffix: "+", label: "Varietas Bambu", labelEN: "Bamboo Varieties" },
     { number: 500, suffix: "+", label: "Hektar Hutan Bambu", labelEN: "Hectares Protected" },
     { number: 85, suffix: "+", label: "Produk Inovatif", labelEN: "Innovative Products" }
 ];
@@ -139,6 +147,13 @@ export const PRODUCTS = [
         desc: "Tampah bambu untuk menjemur hasil panen atau sebagai wadah sajian makanan.",
         descEN: "Bamboo winnow for drying harvests or as a traditional food serving platter.",
         image: produkTampah
+    },
+    {
+        title: "Lanjaran",
+        titleEN: "Bamboo Stakes",
+        desc: "Bilah bambu berkualitas untuk lanjaran (penyangga) tanaman pertanian dan perkebunan.",
+        descEN: "Quality bamboo slats for plant stakes and agricultural supports.",
+        image: produkLantai
     }
 ];
 
@@ -305,5 +320,92 @@ export const EVENTS = [
         price: "Gratis",
         priceEN: "Free",
         status: "upcoming"
+    }
+];
+
+export const BAMBOO_VARIETIES = [
+    {
+        id: "petung",
+        name: "Bambu Petung",
+        latinName: "Dendrocalamus asper",
+        image: varietyPetung,
+        category: "Konstruksi",
+        height: "20-30 meter",
+        diameter: "15-20 cm",
+        usage: ["Konstruksi berat", "Furnitur", "Rebung (makanan)"],
+        description: "Bambu raksasa dengan dinding batang yang tebal. Jenis ini merupakan yang paling kuat untuk struktur bangunan permanen.",
+        descriptionEN: "Giant bamboo with thick culm walls. This type is the strongest for permanent building structures."
+    },
+    {
+        id: "apus",
+        name: "Bambu Apus",
+        latinName: "Gigantochloa apus",
+        image: varietyApus,
+        category: "Kerajinan",
+        height: "8-15 meter",
+        diameter: "4-10 cm",
+        usage: ["Anyaman", "Tali temali", "Peralatan rumah tangga"],
+        description: "Dikenal karena seratnya yang panjang dan fleksibel. Sangat ideal untuk produk anyaman halus dan kerajinan tangan.",
+        descriptionEN: "Known for its long, flexible fibers. Ideal for fine weaving products and handicrafts."
+    },
+    {
+        id: "hitam",
+        name: "Bambu Hitam",
+        latinName: "Gigantochloa atroviolacea",
+        image: varietyHitam,
+        category: "Dekoratif",
+        height: "10-15 meter",
+        diameter: "6-10 cm",
+        usage: ["Interior", "Instrumen musik", "Furnitur premium"],
+        description: "Memiliki warna batang yang hitam eksotis secara alami. Sangat populer untuk estetika arsitektur dan alat musik.",
+        descriptionEN: "Naturally features exotic black stems. Very popular for architectural aesthetics and musical instruments."
+    },
+    {
+        id: "jangkar",
+        name: "Bambu Jangkar",
+        latinName: "Bambusa vulgaris",
+        image: varietyJangkar,
+        category: "Konservasi",
+        height: "10-20 meter",
+        diameter: "5-10 cm",
+        usage: ["Konservasi bantaran sungai", "Tiang darurat"],
+        description: "Memiliki perakaran yang sangat rapat dan kuat, menjadikannya pilihan utama untuk mencegah erosi dan memperbaiki kualitas air.",
+        descriptionEN: "Has very dense and strong roots, making it the top choice for preventing erosion and improving water quality."
+    },
+    {
+        id: "tali",
+        name: "Bambu Tali",
+        latinName: "Gigantochloa apus",
+        image: varietyTali,
+        category: "Kerajinan",
+        height: "8-22 meter",
+        diameter: "5-13 cm",
+        usage: ["Tali temali", "Anyaman", "Bahan bangunan ringan"],
+        description: "Bambu yang sangat ulet dan kuat setelah dikeringkan, sangat populer untuk pengikat dan bahan dasar anyaman.",
+        descriptionEN: "Very tough and strong bamboo after drying, highly popular for binding and as a base material for weaving."
+    },
+    {
+        id: "andong",
+        name: "Bambu Andong",
+        latinName: "Gigantochloa pseudoarundinacea",
+        image: varietyAndong,
+        category: "Konstruksi",
+        height: "10-20 meter",
+        diameter: "7-13 cm",
+        usage: ["Tiang bangunan", "Furniture", "Rak bambu"],
+        description: "Memiliki dinding yang tebal dan kuat, sering digunakan sebagai alternatif bambu Petung untuk konstruksi sedang.",
+        descriptionEN: "Has thick and strong culm walls, often used as an alternative to Petung bamboo for medium constructions."
+    },
+    {
+        id: "kuning",
+        name: "Bambu Kuning",
+        latinName: "Bambusa vulgaris var. striata",
+        image: varietyKuning,
+        category: "Dekoratif",
+        height: "5-10 meter",
+        diameter: "5-8 cm",
+        usage: ["Tanaman hias", "Pengobatan tradisional", "Dekorasi taman"],
+        description: "Warna kuning keemasan yang ikonik dengan garis hijau vertikal menjadikannya favorit untuk lanskap dan taman estetis.",
+        descriptionEN: "Iconic golden yellow color with vertical green stripes makes it a favorite for landscape and aesthetic gardens."
     }
 ];

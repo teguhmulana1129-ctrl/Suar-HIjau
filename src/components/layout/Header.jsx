@@ -21,6 +21,7 @@ export default function Header({ onMenuClick }) {
         { label: t.nav.home, href: "/" },
         { label: t.nav.about, href: "/about" },
         { label: t.nav.programs, href: "/programs" },
+        { label: t.nav.varieties, href: "/varieties" },
         { label: t.nav.products, href: "/products" },
         { label: t.nav.events, href: "/events" },
         { label: t.nav.blog, href: "/news" },
