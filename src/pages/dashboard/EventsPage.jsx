@@ -1,6 +1,11 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useStore } from '../../hooks/useStore';
-import { Plus, Pencil, Trash2, X, Image as ImageIcon, CalendarDays, MapPin, Clock } from 'lucide-react';
+import {
+    Plus, Pencil, Trash2, X, Image as ImageIcon,
+    CalendarDays, MapPin, Clock, Search, Filter,
+    CheckCircle2, AlertCircle, Info, Calendar as CalendarIcon,
+    Users, Activity
+} from 'lucide-react';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -49,13 +54,29 @@ export default function EventsPage() {
     const [editId, setEditId] = useState(null);
     const [form, setForm] = useState(emptyEvent);
     const [mapPosition, setMapPosition] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
+
+    // Stats Calculation
+    const stats = useMemo(() => {
+        const total = data.events.length;
+        const mendatang = data.events.filter(e => e.status === 'upcoming').length;
+        const selesai = data.events.filter(e => e.status === 'completed').length;
+        return { total, mendatang, selesai };
+    }, [data.events]);
+
+    // Filtering logic
+    const filteredEvents = useMemo(() => {
+        return data.events.filter(item =>
+            item.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            item.location?.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    }, [data.events, searchQuery]);
 
     const openAdd = () => { setForm(emptyEvent); setEditId(null); setMapPosition(null); setShowForm(true); };
     const openEdit = (item) => {
         const rundown = typeof item.rundown === 'string' ? JSON.parse(item.rundown) : item.rundown;
         const requirements = typeof item.requirements === 'string' ? JSON.parse(item.requirements) : item.requirements;
 
-        // Map snake_case DB columns to camelCase form fields
         setForm({
             ...emptyEvent,
             title: item.title || '',
@@ -93,64 +114,150 @@ export default function EventsPage() {
     };
 
     return (
-        <div className="space-y-6">
-            <div className="flex items-center justify-between">
-                <div>
-                    <h1 className="text-xl font-bold text-dark-900">Manajemen Event</h1>
-                    <p className="text-sm text-dark-400">{data.events.length} event terdaftar</p>
+        <div className="space-y-8 animate-in fade-in duration-700">
+            {/* Header Section */}
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div className="space-y-1">
+                    <h1 className="text-3xl font-bold bg-gradient-to-r from-dark-900 to-primary-800 bg-clip-text text-transparent">
+                        Manajemen Event
+                    </h1>
+                    <p className="text-dark-400 font-medium">
+                        Atur inisiatif kegiatan lingkungan dan komunitas.
+                    </p>
                 </div>
-                <button onClick={openAdd} className="flex items-center gap-2 bg-primary-600 text-white px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-primary-700 transition-colors shadow-sm">
-                    <Plus className="w-4 h-4" /> Tambah Event
+                <button
+                    onClick={openAdd}
+                    className="flex items-center justify-center gap-2 bg-primary-600 text-white px-6 py-3 rounded-2xl font-bold hover:bg-primary-700 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-primary-200"
+                >
+                    <Plus className="w-5 h-5" /> Buat Event Baru
                 </button>
             </div>
 
-            {loading && <div className="text-center text-dark-500 py-10">Memuat data event...</div>}
-            {error && <div className="text-center text-red-500 py-10">Error: {error}</div>}
+            {/* Stats Overview */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                {[
+                    { label: 'TOTAL EVENT', value: stats.total, icon: CalendarIcon, color: 'emerald', bg: 'bg-emerald-50' },
+                    { label: 'MENDATANG', value: stats.mendatang, icon: Activity, color: 'blue', bg: 'bg-blue-50' },
+                    { label: 'TELAH SELESAI', value: stats.selesai, icon: CheckCircle2, color: 'rose', bg: 'bg-rose-50' },
+                ].map((item, i) => (
+                    <div key={i} className="bg-white p-6 rounded-[2rem] border border-dark-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-shadow group">
+                        <div className={`w-14 h-14 ${item.bg} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                            <item.icon className={`w-7 h-7 text-${item.color}-600`} />
+                        </div>
+                        <div>
+                            <p className="text-[10px] font-black text-dark-300 tracking-widest uppercase mb-1">{item.label}</p>
+                            <p className="text-2xl font-bold text-dark-900 leading-none">{item.value}</p>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            {/* Search & Filter Bar */}
+            <div className="flex flex-col sm:flex-row gap-4 items-center bg-white p-2 rounded-[2rem] border border-dark-100 shadow-sm">
+                <div className="relative flex-1 w-full">
+                    <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-dark-300" />
+                    <input
+                        type="text"
+                        placeholder="Cari judul event atau lokasi..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full pl-14 pr-6 py-4 bg-transparent outline-none text-dark-700 font-medium placeholder:text-dark-300"
+                    />
+                </div>
+                <button className="flex items-center gap-2 px-6 py-3 bg-dark-50 text-dark-600 rounded-2xl font-bold hover:bg-dark-100 transition-colors mr-2">
+                    <Filter className="w-5 h-5 text-dark-400" /> Filter
+                </button>
+            </div>
+
+            {loading && (
+                <div className="flex flex-col items-center justify-center py-20 animate-pulse">
+                    <div className="w-12 h-12 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin mb-4"></div>
+                    <p className="text-dark-400 font-medium tracking-wide">Menghubungkan kalender kegiatan...</p>
+                </div>
+            )}
+
+            {error && (
+                <div className="flex items-center gap-3 p-6 bg-rose-50 text-rose-600 rounded-3xl border border-rose-100 italic font-medium">
+                    <AlertCircle className="w-6 h-6" /> Kendala sistem: {error}
+                </div>
+            )}
 
             {/* Events List */}
             {!loading && !error && (
-                <div className="space-y-4">
-                    {data.events.map(event => (
-                        <div key={event.id} className="bg-white rounded-2xl border border-dark-100 overflow-hidden hover:shadow-lg transition-all duration-300">
-                            <div className="flex flex-col md:flex-row">
-                                <div className="md:w-48 h-40 md:h-auto bg-dark-100 flex-shrink-0">
-                                    {event.image ? (
-                                        <img src={getImageUrl(event.image)} className="w-full h-full object-cover" alt="" />
-                                    ) : (
-                                        <div className="w-full h-full flex items-center justify-center">
-                                            <ImageIcon className="w-8 h-8 text-dark-300" />
-                                        </div>
-                                    )}
+                <div className="space-y-6">
+                    {filteredEvents.map(event => (
+                        <div key={event.id} className="bg-white rounded-[2.5rem] border border-dark-100 overflow-hidden group hover:shadow-2xl hover:border-primary-100 transition-all duration-500">
+                            <div className="flex flex-col lg:flex-row">
+                                <div className="lg:w-72 h-56 lg:h-auto bg-dark-50 flex-shrink-0 relative overflow-hidden p-4">
+                                    <div className="w-full h-full rounded-[1.8rem] overflow-hidden">
+                                        {event.image ? (
+                                            <img src={getImageUrl(event.image)} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="" />
+                                        ) : (
+                                            <div className="w-full h-full flex items-center justify-center bg-dark-100">
+                                                <ImageIcon className="w-10 h-10 text-dark-200" />
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className="absolute top-8 left-8">
+                                        <span className={`text-[10px] font-black px-3 py-1 rounded-full shadow-lg tracking-tighter uppercase ${event.status === 'upcoming' ? 'bg-emerald-500 text-white' : 'bg-dark-500 text-white'
+                                            }`}>
+                                            {event.status === 'upcoming' ? 'Mendatang' : 'Selesai'}
+                                        </span>
+                                    </div>
                                 </div>
-                                <div className="flex-1 p-5">
-                                    <div className="flex items-start justify-between gap-4">
-                                        <div>
-                                            <div className="flex items-center gap-2 mb-2">
-                                                <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider ${event.status === 'upcoming' ? 'bg-green-100 text-green-700' : 'bg-dark-100 text-dark-500'}`}>
-                                                    {event.status === 'upcoming' ? 'Mendatang' : 'Selesai'}
-                                                </span>
-                                                <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-700">{event.price}</span>
+                                <div className="flex-1 p-8">
+                                    <div className="flex flex-col h-full">
+                                        <div className="flex items-start justify-between gap-4 mb-4">
+                                            <div>
+                                                <div className="flex items-center gap-2 mb-3">
+                                                    <span className="text-[10px] font-black px-2.5 py-1 rounded-lg bg-primary-100 text-primary-700 uppercase tracking-widest">{event.price}</span>
+                                                    <span className="text-[10px] font-bold text-dark-300 flex items-center gap-1 uppercase tracking-widest"><Clock className="w-3 h-3" /> {event.time}</span>
+                                                </div>
+                                                <h3 className="text-2xl font-extrabold text-dark-900 group-hover:text-primary-700 transition-colors mb-2 leading-tight">{event.title}</h3>
+                                                <div className="flex flex-wrap gap-4 text-sm font-semibold text-dark-400">
+                                                    <span className="flex items-center gap-2 bg-dark-50 px-3 py-1.5 rounded-xl"><CalendarDays className="w-4 h-4 text-primary-500" /> {event.date}</span>
+                                                    <span className="flex items-center gap-2 bg-dark-50 px-3 py-1.5 rounded-xl"><MapPin className="w-4 h-4 text-primary-500" /> {event.location}</span>
+                                                </div>
                                             </div>
-                                            <h3 className="text-lg font-bold text-dark-900 mb-2">{event.title}</h3>
-                                            <div className="flex flex-wrap gap-3 text-xs text-dark-400">
-                                                <span className="flex items-center gap-1"><CalendarDays className="w-3.5 h-3.5" /> {event.date}</span>
-                                                <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> {event.time}</span>
-                                                <span className="flex items-center gap-1"><MapPin className="w-3.5 h-3.5" /> {event.location}</span>
+                                            <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <button onClick={() => openEdit(event)} className="p-3 bg-blue-50 text-blue-600 rounded-2xl hover:bg-blue-600 hover:text-white transition-all shadow-sm active:scale-95"><Pencil className="w-5 h-5" /></button>
+                                                <button onClick={() => deleteItem('events', event.id)} className="p-3 bg-rose-50 text-rose-600 rounded-2xl hover:bg-rose-600 hover:text-white transition-all shadow-sm active:scale-95"><Trash2 className="w-5 h-5" /></button>
                                             </div>
-                                            <p className="text-sm text-dark-500 mt-2 line-clamp-2">{event.description}</p>
                                         </div>
-                                        <div className="flex gap-1.5 flex-shrink-0">
-                                            <button onClick={() => openEdit(event)} className="p-2 hover:bg-blue-50 rounded-lg transition-colors"><Pencil className="w-4 h-4 text-blue-500" /></button>
-                                            <button onClick={() => deleteItem('events', event.id)} className="p-2 hover:bg-red-50 rounded-lg transition-colors"><Trash2 className="w-4 h-4 text-red-500" /></button>
+                                        <p className="text-dark-500 leading-relaxed font-medium line-clamp-2 mb-6">
+                                            {event.description}
+                                        </p>
+                                        <div className="mt-auto pt-6 border-t border-dark-50 flex items-center justify-between">
+                                            <div className="flex -space-x-3">
+                                                {[1, 2, 3].map(i => (
+                                                    <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-dark-100 flex items-center justify-center">
+                                                        <Users className="w-4 h-4 text-dark-300" />
+                                                    </div>
+                                                ))}
+                                                <div className="px-3 h-8 rounded-full border-2 border-white bg-primary-50 flex items-center justify-center text-[10px] font-bold text-primary-600">
+                                                    +24 Terdaftar
+                                                </div>
+                                            </div>
+                                            <button onClick={() => openEdit(event)} className="text-sm font-bold text-primary-600 hover:text-primary-700 flex items-center gap-2 group/btn">
+                                                Lihat Rincian Rundown <Info className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     ))}
-                    {data.events.length === 0 && (
-                        <div className="py-16 text-center text-dark-400 bg-white rounded-2xl border border-dark-100">
-                            Belum ada event. Klik "Tambah Event" untuk memulai.
+
+                    {filteredEvents.length === 0 && (
+                        <div className="py-24 flex flex-col items-center justify-center bg-white rounded-[3rem] border-2 border-dashed border-dark-100">
+                            <div className="w-20 h-20 bg-dark-50 rounded-full flex items-center justify-center mb-4">
+                                <CalendarIcon className="w-8 h-8 text-dark-200" />
+                            </div>
+                            <h3 className="text-xl font-bold text-dark-900 mb-1">Event Tidak Ditemukan</h3>
+                            <p className="text-dark-400 font-medium">Belum ada agenda untuk pencarian "{searchQuery}"</p>
+                            <button onClick={openAdd} className="mt-6 px-6 py-2.5 bg-primary-50 text-primary-700 font-bold rounded-xl hover:bg-primary-100 transition-colors">
+                                Buat Event Baru
+                            </button>
                         </div>
                     )}
                 </div>
@@ -158,32 +265,46 @@ export default function EventsPage() {
 
             {/* Form Modal */}
             {showForm && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={close}>
-                    <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-2xl" onClick={e => e.stopPropagation()}>
-                        <div className="sticky top-0 bg-white border-b border-dark-100 px-6 py-4 flex items-center justify-between rounded-t-2xl z-10">
-                            <h2 className="text-lg font-bold text-dark-900">{editId ? 'Edit Event' : 'Tambah Event'}</h2>
-                            <button onClick={close} className="p-2 hover:bg-dark-100 rounded-lg"><X className="w-5 h-5" /></button>
-                        </div>
-                        <form onSubmit={handleSubmit} className="p-6 space-y-4">
-                            <div className="grid sm:grid-cols-2 gap-4">
-                                <div className="sm:col-span-2">
-                                    <label className="block text-xs font-semibold text-dark-500 mb-1.5">Judul Event *</label>
-                                    <input required value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} className="w-full px-3 py-2.5 border border-dark-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none" />
-                                </div>
-                                <div>
-                                    <label className="block text-xs font-semibold text-dark-500 mb-1.5">Tanggal *</label>
-                                    <input required type="date" value={form.date} onChange={e => setForm(f => ({ ...f, date: e.target.value }))} className="w-full px-3 py-2.5 border border-dark-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none" />
-                                </div>
-                                <div>
-                                    <label className="block text-xs font-semibold text-dark-500 mb-1.5">Waktu</label>
-                                    <input value={form.time} onChange={e => setForm(f => ({ ...f, time: e.target.value }))} className="w-full px-3 py-2.5 border border-dark-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none" placeholder="07:00 - 11:00 WIB" />
-                                </div>
-                                <div className="sm:col-span-2">
-                                    <label className="block text-xs font-semibold text-dark-500 mb-1.5">Lokasi (Pilih di Peta)</label>
-                                    <input value={form.location} onChange={e => setForm(f => ({ ...f, location: e.target.value }))} className="w-full px-3 py-2.5 border border-dark-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none mb-3" placeholder="Klik pada peta atau ketik alamat manual..." />
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6" onClick={close}>
+                    <div className="absolute inset-0 bg-dark-900/60 backdrop-blur-xl animate-in fade-in duration-300" />
+                    <div className="relative w-full max-w-2xl max-h-[90vh] overflow-hidden bg-white rounded-[2.5rem] shadow-2xl animate-in zoom-in-95 duration-300 flex flex-col" onClick={e => e.stopPropagation()}>
 
-                                    <div className="h-[250px] w-full rounded-xl overflow-hidden border border-dark-200 z-0 relative">
-                                        <MapContainer center={[-7.817342, 112.0223]} zoom={13} style={{ height: '100%', width: '100%', zIndex: 0 }}>
+                        {/* Modal Header */}
+                        <div className="px-8 py-6 border-b border-dark-50 flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 bg-primary-100 rounded-2xl flex items-center justify-center">
+                                    <CalendarIcon className="w-6 h-6 text-primary-600" />
+                                </div>
+                                <div>
+                                    <h2 className="text-xl font-bold text-dark-900">{editId ? 'Edit Rencana Event' : 'Publikasi Event Baru'}</h2>
+                                    <p className="text-xs text-dark-400 font-medium">Kontribusi nyata untuk lingkungan hidup.</p>
+                                </div>
+                            </div>
+                            <button onClick={close} className="p-3 hover:bg-dark-50 rounded-2xl transition-colors text-dark-400">
+                                <X className="w-6 h-6" />
+                            </button>
+                        </div>
+
+                        {/* Modal Body */}
+                        <form onSubmit={handleSubmit} className="p-8 overflow-y-auto space-y-8">
+                            <div className="grid sm:grid-cols-2 gap-6">
+                                <div className="sm:col-span-2 space-y-2">
+                                    <label className="text-[10px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">JUDUL EVENT *</label>
+                                    <input required value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} className="w-full px-5 py-4 bg-dark-50 border-none rounded-2xl text-sm font-bold text-dark-800 focus:ring-2 focus:ring-primary-500 transition-all" placeholder="Misal: Penanaman 1000 Bibit Bambu" />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">TANGGAL PELAKSANAAN *</label>
+                                    <input required type="date" value={form.date} onChange={e => setForm(f => ({ ...f, date: e.target.value }))} className="w-full px-5 py-4 bg-dark-50 border-none rounded-2xl text-sm font-bold text-dark-800 focus:ring-2 focus:ring-primary-500 transition-all" />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">WAKTU ACARA</label>
+                                    <input value={form.time} onChange={e => setForm(f => ({ ...f, time: e.target.value }))} className="w-full px-5 py-4 bg-dark-50 border-none rounded-2xl text-sm font-bold text-dark-800 focus:ring-2 focus:ring-primary-500 transition-all" placeholder="08:00 - 12:00 WIB" />
+                                </div>
+                                <div className="sm:col-span-2 space-y-3">
+                                    <label className="text-[10px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">LOKASI KEGIATAN (PETA INTERAKTIF)</label>
+                                    <input value={form.location} onChange={e => setForm(f => ({ ...f, location: e.target.value }))} className="w-full px-5 py-4 bg-dark-50 border-none rounded-2xl text-sm font-medium text-dark-800 mb-2" placeholder="Gunakan peta atau ketik manual..." />
+                                    <div className="h-[250px] w-full rounded-2xl overflow-hidden border-2 border-dark-50 relative z-0">
+                                        <MapContainer center={[-7.817342, 112.0223]} zoom={13} style={{ height: '100%', width: '100%' }}>
                                             <TileLayer
                                                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                                                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -196,67 +317,59 @@ export default function EventsPage() {
                                         </MapContainer>
                                     </div>
                                 </div>
-                                <div>
-                                    <label className="block text-xs font-semibold text-dark-500 mb-1.5">Harga</label>
-                                    <input value={form.price} onChange={e => setForm(f => ({ ...f, price: e.target.value }))} className="w-full px-3 py-2.5 border border-dark-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none" placeholder="Gratis / Rp 150.000" />
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">BIAYA REGISTRASI</label>
+                                    <input value={form.price} onChange={e => setForm(f => ({ ...f, price: e.target.value }))} className="w-full px-5 py-4 bg-dark-50 border-none rounded-2xl text-sm font-bold text-primary-700 focus:ring-2 focus:ring-primary-500 transition-all" placeholder="Gratis / Nominal" />
                                 </div>
-                                <div>
-                                    <label className="block text-xs font-semibold text-dark-500 mb-1.5">Status</label>
-                                    <select value={form.status} onChange={e => setForm(f => ({ ...f, status: e.target.value }))} className="w-full px-3 py-2.5 border border-dark-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none">
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">STATUS EVENT</label>
+                                    <select value={form.status} onChange={e => setForm(f => ({ ...f, status: e.target.value }))} className="w-full px-5 py-4 bg-dark-50 border-none rounded-2xl text-sm font-bold text-dark-800 transition-all cursor-pointer">
                                         <option value="upcoming">Mendatang</option>
-                                        <option value="completed">Selesai</option>
+                                        <option value="completed">Telah Selesai</option>
                                     </select>
                                 </div>
                             </div>
 
-                            <div>
-                                <label className="block text-xs font-semibold text-dark-500 mb-1.5">Gambar</label>
-                                <div className="flex items-center gap-4">
-                                    {form.image && <img src={getImageUrl(form.image)} className="w-20 h-20 rounded-xl object-cover" alt="" />}
-                                    <label className="cursor-pointer px-4 py-2.5 border-2 border-dashed border-dark-200 rounded-xl text-sm text-dark-400 hover:border-primary-400 hover:text-primary-600 transition-colors">
+                            <div className="space-y-3">
+                                <label className="text-[10px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">POSTER EVENT</label>
+                                <div className="flex flex-col sm:flex-row items-center gap-6 p-4 bg-dark-50 rounded-2xl">
+                                    <div className="w-32 h-32 rounded-2xl bg-white border-2 border-dashed border-dark-200 flex items-center justify-center overflow-hidden">
+                                        {form.image ? (
+                                            <img src={getImageUrl(form.image)} className="w-full h-full object-cover" alt="" />
+                                        ) : (
+                                            <ImageIcon className="w-8 h-8 text-dark-200" />
+                                        )}
+                                    </div>
+                                    <label className="inline-flex items-center gap-3 px-6 py-3 bg-white text-dark-700 rounded-xl font-bold border border-dark-200 cursor-pointer hover:border-primary-400 hover:text-primary-600 transition-all text-sm shadow-sm">
                                         <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
-                                        📁 Pilih Gambar
+                                        🖼️ Unggah Poster Acara
                                     </label>
                                 </div>
                             </div>
 
-                            <div>
-                                <label className="block text-xs font-semibold text-dark-500 mb-1.5">Deskripsi Singkat</label>
-                                <textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} rows={2} className="w-full px-3 py-2.5 border border-dark-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none resize-none" />
-                            </div>
-                            <div>
-                                <label className="block text-xs font-semibold text-dark-500 mb-1.5">Deskripsi Lengkap</label>
-                                <textarea value={form.fullDescription} onChange={e => setForm(f => ({ ...f, fullDescription: e.target.value }))} rows={4} className="w-full px-3 py-2.5 border border-dark-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none resize-none" />
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">DESKRIPSI LENGKAP</label>
+                                <textarea value={form.fullDescription} onChange={e => setForm(f => ({ ...f, fullDescription: e.target.value }))} rows={4} className="w-full px-5 py-4 bg-dark-50 border-none rounded-3xl text-sm font-medium text-dark-800 focus:ring-2 focus:ring-primary-500 transition-all resize-none leading-relaxed" placeholder="Berikan rincian menarik tentang event ini..." />
                             </div>
 
-                            {/* Rundown */}
-                            <div>
-                                <label className="block text-xs font-semibold text-dark-500 mb-1.5">Rundown Acara</label>
+                            {/* Rundown Section */}
+                            <div className="space-y-4 p-6 bg-dark-50/50 rounded-3xl">
+                                <label className="text-[10px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">RUNDOWN ACARA</label>
                                 {form.rundown.map((item, i) => (
-                                    <div key={i} className="flex gap-2 mb-2">
-                                        <input value={item.time} onChange={e => { const arr = [...form.rundown]; arr[i] = { ...arr[i], time: e.target.value }; setForm(f => ({ ...f, rundown: arr })); }} className="w-36 px-3 py-2 border border-dark-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none" placeholder="07:00-08:00" />
-                                        <input value={item.activity} onChange={e => { const arr = [...form.rundown]; arr[i] = { ...arr[i], activity: e.target.value }; setForm(f => ({ ...f, rundown: arr })); }} className="flex-1 px-3 py-2 border border-dark-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none" placeholder="Kegiatan..." />
-                                        <button type="button" onClick={() => setForm(f => ({ ...f, rundown: f.rundown.filter((_, idx) => idx !== i) }))} className="p-2 hover:bg-red-50 rounded-lg"><Trash2 className="w-4 h-4 text-red-400" /></button>
+                                    <div key={i} className="flex gap-3 bg-white p-3 rounded-2xl shadow-sm border border-dark-50">
+                                        <input value={item.time} onChange={e => { const arr = [...form.rundown]; arr[i] = { ...arr[i], time: e.target.value }; setForm(f => ({ ...f, rundown: arr })); }} className="w-40 px-4 py-2 bg-dark-50 border-none rounded-xl text-xs font-bold" placeholder="07:00-08:00" />
+                                        <input value={item.activity} onChange={e => { const arr = [...form.rundown]; arr[i] = { ...arr[i], activity: e.target.value }; setForm(f => ({ ...f, rundown: arr })); }} className="flex-1 px-4 py-2 bg-dark-50 border-none rounded-xl text-xs font-medium" placeholder="Kegiatan..." />
+                                        <button type="button" onClick={() => setForm(f => ({ ...f, rundown: f.rundown.filter((_, idx) => idx !== i) }))} className="p-2 bg-rose-50 text-rose-500 rounded-xl hover:bg-rose-500 hover:text-white transition-all"><Trash2 className="w-4 h-4" /></button>
                                     </div>
                                 ))}
-                                <button type="button" onClick={() => setForm(f => ({ ...f, rundown: [...f.rundown, { time: '', activity: '' }] }))} className="text-xs text-primary-600 font-semibold">+ Tambah Rundown</button>
+                                <button type="button" onClick={() => setForm(f => ({ ...f, rundown: [...f.rundown, { time: '', activity: '' }] }))} className="w-full py-3 border-2 border-dashed border-dark-200 rounded-2xl text-xs font-bold text-dark-400 hover:border-primary-400 hover:text-primary-600 transition-all">+ Tambah Sesi Rundown</button>
                             </div>
 
-                            {/* Requirements */}
-                            <div>
-                                <label className="block text-xs font-semibold text-dark-500 mb-1.5">Persyaratan</label>
-                                {form.requirements.map((item, i) => (
-                                    <div key={i} className="flex gap-2 mb-2">
-                                        <input value={item} onChange={e => { const arr = [...form.requirements]; arr[i] = e.target.value; setForm(f => ({ ...f, requirements: arr })); }} className="flex-1 px-3 py-2 border border-dark-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none" placeholder="Syarat..." />
-                                        <button type="button" onClick={() => setForm(f => ({ ...f, requirements: f.requirements.filter((_, idx) => idx !== i) }))} className="p-2 hover:bg-red-50 rounded-lg"><Trash2 className="w-4 h-4 text-red-400" /></button>
-                                    </div>
-                                ))}
-                                <button type="button" onClick={() => setForm(f => ({ ...f, requirements: [...f.requirements, ''] }))} className="text-xs text-primary-600 font-semibold">+ Tambah Persyaratan</button>
-                            </div>
-
-                            <div className="flex gap-3 pt-4 border-t border-dark-100">
-                                <button type="button" onClick={close} className="flex-1 px-4 py-2.5 border border-dark-200 rounded-xl text-sm font-semibold text-dark-600 hover:bg-dark-50 transition-colors">Batal</button>
-                                <button type="submit" className="flex-1 px-4 py-2.5 bg-primary-600 text-white rounded-xl text-sm font-semibold hover:bg-primary-700 transition-colors">{editId ? 'Simpan' : 'Tambah Event'}</button>
+                            <div className="flex gap-4 pt-4 border-t border-dark-50">
+                                <button type="button" onClick={close} className="flex-1 px-8 py-4 bg-dark-50 text-dark-600 rounded-2xl font-bold hover:bg-dark-100 transition-all">Batal</button>
+                                <button type="submit" className="flex-[2] px-8 py-4 bg-primary-600 text-white rounded-2xl font-bold hover:bg-primary-700 hover:shadow-xl hover:shadow-primary-100 active:scale-95 transition-all outline-none">
+                                    {editId ? '✨ Perbarui Event' : '🚀 Publikasikan Kegiatan'}
+                                </button>
                             </div>
                         </form>
                     </div>

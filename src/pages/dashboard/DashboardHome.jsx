@@ -1,55 +1,187 @@
 import { useStore } from '../../hooks/useStore';
-import { FolderTree, ShoppingBag, CalendarDays, Newspaper, Users, TrendingUp, ArrowUpRight } from 'lucide-react';
+import { FolderTree, ShoppingBag, CalendarDays, Newspaper, Users, ArrowUpRight, Sparkles, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
+
+const statConfigs = [
+    {
+        label: 'Program',
+        icon: FolderTree,
+        link: '/dashboard/programs',
+        gradient: 'linear-gradient(135deg, #22c55e 0%, #15803d 100%)',
+        glow: 'rgba(34,197,94,0.3)',
+        bg: 'rgba(34,197,94,0.08)',
+        text: '#15803d',
+    },
+    {
+        label: 'Produk',
+        icon: ShoppingBag,
+        link: '/dashboard/products',
+        gradient: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+        glow: 'rgba(59,130,246,0.3)',
+        bg: 'rgba(59,130,246,0.08)',
+        text: '#1d4ed8',
+    },
+    {
+        label: 'Event',
+        icon: CalendarDays,
+        link: '/dashboard/events',
+        gradient: 'linear-gradient(135deg, #a855f7 0%, #7c3aed 100%)',
+        glow: 'rgba(168,85,247,0.3)',
+        bg: 'rgba(168,85,247,0.08)',
+        text: '#7c3aed',
+    },
+    {
+        label: 'Berita',
+        icon: Newspaper,
+        link: '/dashboard/news',
+        gradient: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+        glow: 'rgba(245,158,11,0.3)',
+        bg: 'rgba(245,158,11,0.08)',
+        text: '#d97706',
+    },
+    {
+        label: 'Anggota Tim',
+        icon: Users,
+        link: '/dashboard/team',
+        gradient: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+        glow: 'rgba(239,68,68,0.3)',
+        bg: 'rgba(239,68,68,0.08)',
+        text: '#dc2626',
+    },
+];
+
+// Dot pattern SVG as data URI
+const dotPatternSvg = `<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1.5" fill="white" fill-opacity="0.15"/><circle cx="32" cy="2" r="1.5" fill="white" fill-opacity="0.10"/><circle cx="2" cy="32" r="1.5" fill="white" fill-opacity="0.10"/><circle cx="62" cy="2" r="1.5" fill="white" fill-opacity="0.08"/><circle cx="2" cy="62" r="1.5" fill="white" fill-opacity="0.08"/><circle cx="32" cy="32" r="1.5" fill="white" fill-opacity="0.07"/></svg>`;
+const dotPatternUrl = `url("data:image/svg+xml,${encodeURIComponent(dotPatternSvg)}")`;
 
 export default function DashboardHome() {
     const { data, loading, error } = useStore();
 
-    if (loading) return <div className="flex justify-center py-20 text-dark-500">Memuat data dashboard...</div>;
-    if (error) return <div className="flex justify-center py-20 text-red-500">Error: {error}</div>;
+    if (loading) return (
+        <div className="flex flex-col items-center justify-center py-24 gap-3">
+            <div className="w-10 h-10 rounded-full border-2 border-green-200 border-t-green-500 animate-spin" />
+            <p className="text-slate-400 text-sm font-medium">Memuat data dashboard...</p>
+        </div>
+    );
+    if (error) return (
+        <div className="flex justify-center py-20 text-red-500 text-sm">Error: {error}</div>
+    );
 
-    const stats = [
-        { label: 'Program', count: data.programs?.length || 0, icon: FolderTree, color: 'bg-emerald-500', link: '/dashboard/programs' },
-        { label: 'Produk', count: data.products?.length || 0, icon: ShoppingBag, color: 'bg-blue-500', link: '/dashboard/products' },
-        { label: 'Event', count: data.events?.length || 0, icon: CalendarDays, color: 'bg-purple-500', link: '/dashboard/events' },
-        { label: 'Berita', count: data.news?.length || 0, icon: Newspaper, color: 'bg-orange-500', link: '/dashboard/news' },
-        { label: 'Anggota Tim', count: data.team?.length || 0, icon: Users, color: 'bg-pink-500', link: '/dashboard/team' },
+    const statsData = [
+        { ...statConfigs[0], count: data.programs?.length || 0 },
+        { ...statConfigs[1], count: data.products?.length || 0 },
+        { ...statConfigs[2], count: data.events?.length || 0 },
+        { ...statConfigs[3], count: data.news?.length || 0 },
+        { ...statConfigs[4], count: data.team?.length || 0 },
     ];
 
     const recentEvents = data.events.filter(e => e.status === 'upcoming').slice(0, 3);
     const recentNews = data.news.slice(0, 3);
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 page-fade-in">
             {/* Welcome Banner */}
-            <div className="bg-gradient-to-br from-primary-600 via-primary-700 to-dark-900 rounded-2xl p-6 lg:p-8 text-white relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/3" />
-                <div className="absolute bottom-0 left-1/2 w-32 h-32 bg-white/5 rounded-full translate-y-1/2" />
-                <div className="relative">
-                    <p className="text-primary-200 text-sm font-medium mb-1">Selamat Datang di</p>
-                    <h1 className="text-2xl lg:text-3xl font-bold mb-2">Dashboard SuaR Hijau 🌿</h1>
-                    <p className="text-white/70 max-w-lg text-sm">
-                        Kelola konten website Suar Hijau — program, produk, event, berita, dan tim — semua dari satu tempat.
+            <div
+                className="rounded-2xl p-7 lg:p-10 text-white relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-6"
+                style={{
+                    backgroundColor: '#0a1f12', // Fallback darker color
+                    boxShadow: '0 8px 32px rgba(10, 31, 18, 0.3)',
+                }}
+            >
+                {/* 1. Background Base - Solid Dark Green */}
+                <div
+                    className="absolute inset-0 z-0"
+                    style={{ backgroundColor: '#022c22' }}
+                />
+
+                {/* 2. Real Bamboo Photo (Loaded locally for 100% reliability) */}
+                <img
+                    src="/bamboo-bg.png"
+                    alt="Pohon Bambu SuaR Hijau"
+                    className="absolute inset-0 w-full h-full object-cover pointer-events-none opacity-85 z-0"
+                    style={{ filter: 'contrast(1.05) brightness(0.95)' }}
+                />
+
+                {/* 3. Ambient Lighting Gradient */}
+                <div className="absolute inset-0 pointer-events-none z-0"
+                    style={{ background: 'radial-gradient(circle at 10% 50%, rgba(34, 197, 94, 0.1) 0%, transparent 60%)' }} />
+
+                {/* 4. Balanced Overlay for Premium Look & Visibilitas */}
+                <div className="absolute inset-0 pointer-events-none z-0"
+                    style={{ background: 'linear-gradient(90deg, rgba(2, 44, 34, 0.8) 0%, rgba(2, 44, 34, 0.3) 100%)' }} />
+
+                <div className="relative flex-1 z-10">
+                    <div className="flex items-center gap-3 mb-3">
+                        <span className="text-green-300 text-[11px] font-bold uppercase tracking-[0.2em] opacity-90">Selamat Datang Di</span>
+                        {/* Sistem Aktif Badge */}
+                        <span
+                            className="inline-flex items-center gap-1.5 text-[10px] font-bold px-2.5 py-1 rounded-full bg-black/40 border border-green-500/30 backdrop-blur-md"
+                            style={{ color: '#4ade80' }}
+                        >
+                            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse shadow-[0_0_8px_#4ade80]" />
+                            Sistem Aktif
+                        </span>
+                    </div>
+                    <h1 className="text-3xl lg:text-4xl font-extrabold mb-3 tracking-tight flex items-center gap-2 drop-shadow-md">
+                        Dashboard SuaR Hijau <span className="text-2xl opacity-90">🌿</span>
+                    </h1>
+                    <p className="max-w-xl text-sm leading-relaxed text-emerald-100/80 font-medium">
+                        Kelola konten website Suar Hijau — program, produk, event, berita, dan tim<br className="hidden sm:block" />
+                        — semua dari satu tempat.
                     </p>
+                </div>
+
+                {/* Quick stat highlight */}
+                <div
+                    className="relative flex-shrink-0 flex items-center gap-3 px-5 py-4 rounded-xl border border-slate-700/50 bg-slate-800/40 backdrop-blur-md"
+                >
+                    <div className="flex flex-col items-center justify-center min-w-[50px]">
+                        <div className="flex items-center gap-1.5 mb-0.5">
+                            <TrendingUp className="w-3.5 h-3.5 text-green-400" />
+                            <span className="text-2xl font-bold text-white leading-none">
+                                {statsData.reduce((a, s) => a + s.count, 0)}
+                            </span>
+                        </div>
+                        <span className="text-[10px] font-medium text-slate-400 uppercase tracking-wide mt-1">
+                            Total Konten
+                        </span>
+                    </div>
                 </div>
             </div>
 
             {/* Stats Cards */}
             <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-                {stats.map(stat => (
+                {statsData.map(stat => (
                     <Link
                         key={stat.label}
                         to={stat.link}
-                        className="group bg-white rounded-2xl p-5 border border-dark-100 hover:border-primary-300 hover:shadow-lg hover:shadow-primary-500/5 transition-all duration-300"
+                        className="group bg-white rounded-2xl p-5 border border-slate-100 transition-all duration-300 hover:-translate-y-1"
+                        style={{
+                            boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
+                        }}
+                        onMouseEnter={e => {
+                            e.currentTarget.style.boxShadow = `0 8px 24px ${stat.glow}`;
+                            e.currentTarget.style.borderColor = 'transparent';
+                        }}
+                        onMouseLeave={e => {
+                            e.currentTarget.style.boxShadow = '0 1px 4px rgba(0,0,0,0.04)';
+                            e.currentTarget.style.borderColor = '#f1f5f9';
+                        }}
                     >
-                        <div className="flex items-start justify-between mb-3">
-                            <div className={`w-10 h-10 ${stat.color} rounded-xl flex items-center justify-center`}>
-                                <stat.icon className="w-5 h-5 text-white" />
+                        <div className="flex items-start justify-between mb-4">
+                            <div
+                                className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                                style={{ background: stat.gradient, boxShadow: `0 4px 12px ${stat.glow}` }}
+                            >
+                                <stat.icon className="w-[18px] h-[18px] text-white" />
                             </div>
-                            <ArrowUpRight className="w-4 h-4 text-dark-300 group-hover:text-primary-500 transition-colors" />
+                            <ArrowUpRight
+                                className="w-4 h-4 transition-all duration-200 opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0"
+                                style={{ color: stat.text }}
+                            />
                         </div>
-                        <p className="text-2xl font-bold text-dark-900">{stat.count}</p>
-                        <p className="text-xs text-dark-400 font-medium mt-0.5">{stat.label}</p>
+                        <p className="text-3xl font-bold text-slate-900 leading-none mb-1">{stat.count}</p>
+                        <p className="text-xs font-medium" style={{ color: '#94a3b8' }}>{stat.label}</p>
                     </Link>
                 ))}
             </div>
@@ -57,27 +189,57 @@ export default function DashboardHome() {
             {/* Bottom Grid */}
             <div className="grid lg:grid-cols-2 gap-6">
                 {/* Upcoming Events */}
-                <div className="bg-white rounded-2xl border border-dark-100 p-6">
-                    <div className="flex items-center justify-between mb-4">
-                        <h3 className="font-bold text-dark-900">Event Mendatang</h3>
-                        <Link to="/events" className="text-xs text-primary-600 hover:text-primary-700 font-semibold">
-                            Lihat Semua →
+                <div className="bg-white rounded-2xl border border-slate-100 p-6"
+                    style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
+                    <div className="flex items-center gap-2 mb-5">
+                        <div className="w-7 h-7 rounded-lg flex items-center justify-center"
+                            style={{ background: 'linear-gradient(135deg, #a855f7 0%, #7c3aed 100%)', boxShadow: '0 3px 8px rgba(168,85,247,0.3)' }}>
+                            <CalendarDays className="w-3.5 h-3.5 text-white" />
+                        </div>
+                        <h3 className="font-bold text-slate-800 flex-1">Event Mendatang</h3>
+                        <Link to="/dashboard/events" className="text-xs font-semibold text-green-600 hover:text-green-700 transition-colors flex items-center gap-0.5">
+                            Lihat Semua <ArrowUpRight className="w-3 h-3" />
                         </Link>
                     </div>
+
                     {recentEvents.length === 0 ? (
-                        <p className="text-sm text-dark-400 py-4">Belum ada event mendatang</p>
+                        <div className="flex flex-col items-center py-8 gap-3">
+                            {/* Simple SVG illustration */}
+                            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="8" y="16" width="48" height="40" rx="6" fill="#f3e8ff" />
+                                <rect x="8" y="16" width="48" height="12" rx="6" fill="#e9d5ff" />
+                                <rect x="20" y="8" width="6" height="12" rx="3" fill="#a855f7" />
+                                <rect x="38" y="8" width="6" height="12" rx="3" fill="#a855f7" />
+                                <rect x="16" y="36" width="12" height="3" rx="1.5" fill="#d8b4fe" />
+                                <rect x="16" y="44" width="20" height="3" rx="1.5" fill="#e9d5ff" />
+                            </svg>
+                            <p className="text-sm font-medium text-slate-400">Belum ada event mendatang</p>
+                            <Link to="/dashboard/events"
+                                className="text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors"
+                                style={{ background: 'rgba(168,85,247,0.1)', color: '#7c3aed' }}>
+                                + Tambah Event
+                            </Link>
+                        </div>
                     ) : (
-                        <div className="space-y-3">
+                        <div className="space-y-2">
                             {recentEvents.map(event => (
-                                <div key={event.id} className="flex items-start gap-3 p-3 rounded-xl bg-dark-50 hover:bg-dark-100 transition-colors">
-                                    <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <CalendarDays className="w-4 h-4 text-purple-500" />
+                                <div
+                                    key={event.id}
+                                    className="flex items-start gap-3 p-3 rounded-xl transition-all duration-200 cursor-default"
+                                    style={{ background: '#fafafa' }}
+                                    onMouseEnter={e => e.currentTarget.style.background = '#f5f3ff'}
+                                    onMouseLeave={e => e.currentTarget.style.background = '#fafafa'}
+                                >
+                                    <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
+                                        style={{ background: 'rgba(168,85,247,0.1)' }}>
+                                        <CalendarDays className="w-4 h-4" style={{ color: '#7c3aed' }} />
                                     </div>
-                                    <div className="min-w-0">
-                                        <p className="text-sm font-semibold text-dark-900 truncate">{event.title}</p>
-                                        <p className="text-xs text-dark-400">{event.date} • {event.location}</p>
+                                    <div className="min-w-0 flex-1">
+                                        <p className="text-sm font-semibold text-slate-800 truncate">{event.title}</p>
+                                        <p className="text-[11px] text-slate-400 mt-0.5">{event.date} · {event.location}</p>
                                     </div>
-                                    <span className="ml-auto text-[10px] font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-700 flex-shrink-0">
+                                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full flex-shrink-0"
+                                        style={{ background: 'rgba(34,197,94,0.12)', color: '#15803d' }}>
                                         {event.status}
                                     </span>
                                 </div>
@@ -87,27 +249,58 @@ export default function DashboardHome() {
                 </div>
 
                 {/* Recent News */}
-                <div className="bg-white rounded-2xl border border-dark-100 p-6">
-                    <div className="flex items-center justify-between mb-4">
-                        <h3 className="font-bold text-dark-900">Berita Terbaru</h3>
-                        <Link to="/news" className="text-xs text-primary-600 hover:text-primary-700 font-semibold">
-                            Lihat Semua →
+                <div className="bg-white rounded-2xl border border-slate-100 p-6"
+                    style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
+                    <div className="flex items-center gap-2 mb-5">
+                        <div className="w-7 h-7 rounded-lg flex items-center justify-center"
+                            style={{ background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', boxShadow: '0 3px 8px rgba(245,158,11,0.3)' }}>
+                            <Newspaper className="w-3.5 h-3.5 text-white" />
+                        </div>
+                        <h3 className="font-bold text-slate-800 flex-1">Berita Terbaru</h3>
+                        <Link to="/dashboard/news" className="text-xs font-semibold text-green-600 hover:text-green-700 transition-colors flex items-center gap-0.5">
+                            Lihat Semua <ArrowUpRight className="w-3 h-3" />
                         </Link>
                     </div>
+
                     {recentNews.length === 0 ? (
-                        <p className="text-sm text-dark-400 py-4">Belum ada berita</p>
+                        <div className="flex flex-col items-center py-8 gap-3">
+                            {/* Simple SVG illustration */}
+                            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="8" y="10" width="48" height="44" rx="6" fill="#fef3c7" />
+                                <rect x="16" y="20" width="32" height="4" rx="2" fill="#fde68a" />
+                                <rect x="16" y="28" width="24" height="3" rx="1.5" fill="#fef08a" />
+                                <rect x="16" y="35" width="28" height="3" rx="1.5" fill="#fef08a" />
+                                <rect x="16" y="42" width="16" height="3" rx="1.5" fill="#fed7aa" />
+                                <circle cx="46" cy="46" r="10" fill="#f59e0b" />
+                                <path d="M46 41v6M46 50v1" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                            </svg>
+                            <p className="text-sm font-medium text-slate-400">Belum ada berita</p>
+                            <Link to="/dashboard/news"
+                                className="text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors"
+                                style={{ background: 'rgba(245,158,11,0.1)', color: '#d97706' }}>
+                                + Tambah Berita
+                            </Link>
+                        </div>
                     ) : (
-                        <div className="space-y-3">
+                        <div className="space-y-2">
                             {recentNews.map(news => (
-                                <div key={news.id} className="flex items-start gap-3 p-3 rounded-xl bg-dark-50 hover:bg-dark-100 transition-colors">
-                                    <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <Newspaper className="w-4 h-4 text-orange-500" />
+                                <div
+                                    key={news.id}
+                                    className="flex items-start gap-3 p-3 rounded-xl transition-all duration-200 cursor-default"
+                                    style={{ background: '#fafafa' }}
+                                    onMouseEnter={e => e.currentTarget.style.background = '#fffbeb'}
+                                    onMouseLeave={e => e.currentTarget.style.background = '#fafafa'}
+                                >
+                                    <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
+                                        style={{ background: 'rgba(245,158,11,0.1)' }}>
+                                        <Newspaper className="w-4 h-4" style={{ color: '#d97706' }} />
                                     </div>
-                                    <div className="min-w-0">
-                                        <p className="text-sm font-semibold text-dark-900 truncate">{news.title}</p>
-                                        <p className="text-xs text-dark-400">{news.author} • {news.date}</p>
+                                    <div className="min-w-0 flex-1">
+                                        <p className="text-sm font-semibold text-slate-800 truncate">{news.title}</p>
+                                        <p className="text-[11px] text-slate-400 mt-0.5">{news.author} · {news.date}</p>
                                     </div>
-                                    <span className="ml-auto text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 flex-shrink-0">
+                                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full flex-shrink-0"
+                                        style={{ background: 'rgba(59,130,246,0.1)', color: '#1d4ed8' }}>
                                         {news.category}
                                     </span>
                                 </div>
