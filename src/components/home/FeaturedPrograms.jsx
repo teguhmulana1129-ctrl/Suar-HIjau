@@ -76,15 +76,16 @@ export default function FeaturedPrograms() {
                                     </div>
 
                                     <div className="mb-4">
-                                        <div className="flex justify-between text-xs font-semibold mb-1">
-                                            <span className="text-neutral-600">{t.progress}</span>
-                                            <span className="text-primary">{program.progress}%</span>
-                                        </div>
-                                        <div className="w-full bg-neutral-100 rounded-full h-2">
-                                            <div
-                                                className="bg-primary h-2 rounded-full transition-all duration-1000"
-                                                style={{ width: `${program.progress}%` }}
-                                            />
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-xs font-semibold text-neutral-600 uppercase tracking-wider">{t.status}</span>
+                                            <span className={`text-xs font-bold px-3 py-1 rounded-full ${program.status === 'completed' ? 'bg-primary/20 text-primary-dark' :
+                                                    program.status === 'in-progress' ? 'bg-secondary/20 text-secondary-dark' :
+                                                        'bg-neutral-200 text-neutral-700'
+                                                }`}>
+                                                {program.status === 'completed' ? (language === 'ID' ? 'Selesai' : 'Completed') :
+                                                    program.status === 'in-progress' ? (language === 'ID' ? 'Berjalan' : 'In Progress') :
+                                                        (language === 'ID' ? 'Akan Datang' : 'Upcoming')}
+                                            </span>
                                         </div>
                                     </div>
 

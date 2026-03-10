@@ -44,7 +44,7 @@ export const translations = {
             badge: "Program Konservasi",
             title: "Aksi Nyata Untuk Bumi",
             detail: "Detail",
-            progress: "Progress",
+            status: "Status",
             target: "Target"
         },
         impact: {
@@ -121,7 +121,7 @@ export const translations = {
             badge: "Conservation Programs",
             title: "Real Action for the Planet",
             detail: "Detail",
-            progress: "Progress",
+            status: "Status",
             target: "Target"
         },
         impact: {

@@ -18,40 +18,76 @@ import Events from './pages/Events';
 import EventDetail from './pages/EventDetail';
 import { LanguageProvider } from './context/LanguageContext';
 
-function App() {
+// Dashboard Imports
+import DashboardLayout from './components/dashboard/DashboardLayout';
+import DashboardHome from './pages/dashboard/DashboardHome';
+import ProgramsPage from './pages/dashboard/ProgramsPage';
+import ProductsPage from './pages/dashboard/ProductsPage';
+import EventsPage from './pages/dashboard/EventsPage';
+import NewsPage from './pages/dashboard/NewsPage';
+import TeamPage from './pages/dashboard/TeamPage';
+import { StoreProvider } from './hooks/useStore';
+
+import { useLocation } from 'react-router-dom';
+
+function AppContent() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  // Only show preloader on home page (hash is empty, "#", or "#/")
-  const isHomePage = !window.location.hash || window.location.hash === '#' || window.location.hash === '#/';
+  const location = useLocation();
+
+  // Only show preloader on home page
+  const isHomePage = location.pathname === '/' && location.hash === '';
   const [loading, setLoading] = useState(isHomePage);
 
+  // Determine if current route is under dashboard
+  const isDashboardRoute = location.pathname.startsWith('/dashboard');
+
   return (
-    <LanguageProvider>
+    <>
       <AnimatePresence mode="wait">
         {loading && <Preloader onComplete={() => setLoading(false)} />}
       </AnimatePresence>
+      <ScrollToTop />
+      <div className="antialiased text-neutral-900 bg-white font-sans">
+        {/* Only render main header/footer if NOT in dashboard */}
+        {!isDashboardRoute && <Header onMenuClick={() => setIsMenuOpen(true)} />}
+        {!isDashboardRoute && <MenuOverlay isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />}
+
+        <main>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/team" element={<Team />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/news/:id" element={<NewsDetail />} />
+            <Route path="/events" element={<Events />} />
+            <Route path="/events/:id" element={<EventDetail />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/programs" element={<Programs />} />
+
+            {/* Dashboard Routes */}
+            <Route path="/dashboard" element={<StoreProvider><DashboardLayout /></StoreProvider>}>
+              <Route index element={<DashboardHome />} />
+              <Route path="programs" element={<ProgramsPage />} />
+              <Route path="products" element={<ProductsPage />} />
+              <Route path="events" element={<EventsPage />} />
+              <Route path="news" element={<NewsPage />} />
+              <Route path="team" element={<TeamPage />} />
+            </Route>
+          </Routes>
+        </main>
+
+        {!isDashboardRoute && <Footer />}
+      </div>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <LanguageProvider>
       <Router>
-        <ScrollToTop />
-        <div className="antialiased text-neutral-900 bg-white font-sans">
-          <Header onMenuClick={() => setIsMenuOpen(true)} />
-          <MenuOverlay isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
-
-          <main>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/team" element={<Team />} />
-              <Route path="/products" element={<Products />} />
-              <Route path="/news" element={<News />} />
-              <Route path="/news/:id" element={<NewsDetail />} />
-              <Route path="/events" element={<Events />} />
-              <Route path="/events/:id" element={<EventDetail />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/programs" element={<Programs />} />
-            </Routes>
-          </main>
-
-          <Footer />
-        </div>
+        <AppContent />
       </Router>
     </LanguageProvider>
   );

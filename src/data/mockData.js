@@ -151,7 +151,7 @@ export const PROGRAMS = [
         categoryEN: "Forest Conservation",
         location: "Kediri, Jawa Timur",
         locationEN: "Kediri, East Java",
-        progress: 75,
+        status: 'in-progress',
         target: "1000 Pohon",
         targetEN: "1000 Trees",
         image: bambooNursery
@@ -164,7 +164,7 @@ export const PROGRAMS = [
         categoryEN: "Social Economy",
         location: "Kediri, Jawa Timur",
         locationEN: "Kediri, East Java",
-        progress: 45,
+        status: 'in-progress',
         target: "500 Pengrajin",
         targetEN: "500 Artisans",
         image: bambooFarmer
@@ -177,7 +177,7 @@ export const PROGRAMS = [
         categoryEN: "Greening",
         location: "Kediri, Jawa Timur",
         locationEN: "Kediri, East Java",
-        progress: 90,
+        status: 'upcoming',
         target: "20 Hektar",
         targetEN: "20 Hectares",
         image: imgErosion
@@ -190,7 +190,7 @@ export const PROGRAMS = [
         categoryEN: "Education",
         location: "Kediri, Jawa Timur",
         locationEN: "Kediri, East Java",
-        progress: 30,
+        status: 'in-progress',
         target: "50 Komunitas",
         targetEN: "50 Communities",
         image: imgEducation
@@ -203,7 +203,7 @@ export const PROGRAMS = [
         categoryEN: "Disaster Mitigation",
         location: "Kediri, Jawa Timur",
         locationEN: "Kediri, East Java",
-        progress: 40,
+        status: 'upcoming',
         target: "50 Hektar",
         targetEN: "50 Hectares",
         image: bambooMitigation
