@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import {
     LayoutDashboard, FolderTree, ShoppingBag, CalendarDays,
-    Newspaper, Users, Menu, X, Leaf, LogOut, ChevronRight,
+    Newspaper, Users, Menu, X, LogOut, ChevronRight,
     Search, Bell, ChevronDown
 } from 'lucide-react';
+import logoSuar from '../../assets/suar_full_white.png';
 
 const navItems = [
     { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -54,15 +55,11 @@ export default function DashboardLayout() {
 
                 {/* Logo */}
                 <div className="relative flex items-center gap-3 px-6 py-5 border-b border-white/[0.07]">
-                    <div
-                        className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-                        style={{
-                            background: 'linear-gradient(135deg, #22c55e 0%, #15803d 100%)',
-                            boxShadow: '0 0 16px rgba(34,197,94,0.35)',
-                        }}
-                    >
-                        <Leaf className="w-5 h-5 text-white" />
-                    </div>
+                    <img
+                        src={logoSuar}
+                        alt="Logo SuaR Hijau"
+                        className="w-10 h-10 rounded-xl object-contain flex-shrink-0"
+                    />
                     <div>
                         <h1 className="text-lg font-bold tracking-tight text-white">SuaR Hijau</h1>
                         <p className="text-[10px] text-green-400/60 font-medium uppercase tracking-widest">Content Management</p>
@@ -161,50 +158,17 @@ export default function DashboardLayout() {
 
                     {/* Breadcrumb */}
                     <div className="flex items-center gap-1.5 text-sm">
-                        <span className="text-slate-400 font-medium">Dashboard</span>
-                        {currentPage !== 'Dashboard' && (
+                        {currentPage !== 'Dashboard' ? (
                             <>
+                                <span className="text-slate-400 font-medium">Dashboard</span>
                                 <ChevronRight className="w-3.5 h-3.5 text-slate-300" />
-                                <span className="font-semibold text-slate-800">{currentPage}</span>
+                                <span className="font-bold text-slate-800">{currentPage}</span>
                             </>
-                        )}
-                        {currentPage === 'Dashboard' && (
-                            <span className="font-semibold text-slate-800 sr-only">Dashboard</span>
+                        ) : (
+                            <span className="font-bold text-slate-800">Dashboard</span>
                         )}
                     </div>
 
-                    {/* Right side actions */}
-                    <div className="ml-auto flex items-center gap-2">
-                        {/* Search */}
-                        <button className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200/80 transition-colors text-slate-400 text-xs font-medium">
-                            <Search className="w-3.5 h-3.5" />
-                            <span>Cari...</span>
-                        </button>
-
-                        {/* Notifications */}
-                        <button className="relative p-2 hover:bg-slate-100 rounded-lg transition-colors">
-                            <Bell className="w-4.5 h-4.5 text-slate-500" style={{ width: 18, height: 18 }} />
-                            <span
-                                className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full"
-                                style={{ background: '#22c55e', boxShadow: '0 0 6px #22c55e' }}
-                            />
-                        </button>
-
-                        {/* Admin Avatar */}
-                        <div className="flex items-center gap-2 pl-2 border-l border-slate-200 ml-1 cursor-pointer group">
-                            <div
-                                className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0"
-                                style={{ background: 'linear-gradient(135deg, #22c55e 0%, #15803d 100%)' }}
-                            >
-                                A
-                            </div>
-                            <div className="hidden sm:block">
-                                <p className="text-xs font-semibold text-slate-800 leading-tight">Admin</p>
-                                <p className="text-[10px] text-slate-400 leading-tight">Super Admin</p>
-                            </div>
-                            <ChevronDown className="w-3.5 h-3.5 text-slate-400 hidden sm:block group-hover:text-slate-600 transition-colors" />
-                        </div>
-                    </div>
                 </header>
 
                 {/* Page Content */}

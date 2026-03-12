@@ -1,5 +1,5 @@
 import { useStore } from '../../hooks/useStore';
-import { FolderTree, ShoppingBag, CalendarDays, Newspaper, Users, ArrowUpRight, Sparkles, TrendingUp } from 'lucide-react';
+import { FolderTree, ShoppingBag, CalendarDays, Newspaper, Users, ArrowUpRight, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const statConfigs = [
@@ -50,9 +50,12 @@ const statConfigs = [
     },
 ];
 
-// Dot pattern SVG as data URI
-const dotPatternSvg = `<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1.5" fill="white" fill-opacity="0.15"/><circle cx="32" cy="2" r="1.5" fill="white" fill-opacity="0.10"/><circle cx="2" cy="32" r="1.5" fill="white" fill-opacity="0.10"/><circle cx="62" cy="2" r="1.5" fill="white" fill-opacity="0.08"/><circle cx="2" cy="62" r="1.5" fill="white" fill-opacity="0.08"/><circle cx="32" cy="32" r="1.5" fill="white" fill-opacity="0.07"/></svg>`;
-const dotPatternUrl = `url("data:image/svg+xml,${encodeURIComponent(dotPatternSvg)}")`;
+function getTodayID() {
+    const hari = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+    const bulan = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+    const d = new Date();
+    return `${hari[d.getDay()]}, ${d.getDate()} ${bulan[d.getMonth()]} ${d.getFullYear()}`;
+}
 
 export default function DashboardHome() {
     const { data, loading, error } = useStore();
@@ -82,67 +85,66 @@ export default function DashboardHome() {
         <div className="space-y-4 page-fade-in pb-8">
             {/* Welcome Banner */}
             <div
-                className="rounded-xl p-5 lg:p-6 text-white relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-4"
-                style={{
-                    backgroundColor: '#0a1f12', // Fallback darker color
-                    boxShadow: '0 8px 32px rgba(10, 31, 18, 0.3)',
-                }}
+                className="rounded-2xl text-white relative overflow-hidden"
+                style={{ boxShadow: '0 8px 32px rgba(10,31,18,0.25)', minHeight: 140 }}
             >
-                {/* 1. Background Base - Solid Dark Green */}
-                <div
-                    className="absolute inset-0 z-0"
-                    style={{ backgroundColor: '#022c22' }}
-                />
+                {/* Background */}
+                <div className="absolute inset-0 z-0" style={{ backgroundColor: '#022c22' }} />
 
-                {/* 2. Real Bamboo Photo (Loaded locally for 100% reliability) */}
+                {/* Bamboo Photo */}
                 <img
                     src="/bamboo-bg.png"
                     alt="Pohon Bambu SuaR Hijau"
-                    className="absolute inset-0 w-full h-full object-cover pointer-events-none opacity-85 z-0"
-                    style={{ filter: 'contrast(1.05) brightness(0.95)' }}
+                    className="absolute inset-0 w-full h-full object-cover pointer-events-none z-0"
+                    style={{ filter: 'contrast(1.1) brightness(1.0) saturate(1.1)' }}
                 />
 
-                {/* 3. Ambient Lighting Gradient */}
+                {/* Left gradient for text readability only */}
                 <div className="absolute inset-0 pointer-events-none z-0"
-                    style={{ background: 'radial-gradient(circle at 10% 50%, rgba(34, 197, 94, 0.1) 0%, transparent 60%)' }} />
+                    style={{ background: 'linear-gradient(90deg, rgba(2,44,34,0.78) 0%, rgba(2,44,34,0.35) 55%, rgba(2,44,34,0.0) 80%)' }} />
 
-                {/* 4. Balanced Overlay for Premium Look & Visibilitas */}
-                <div className="absolute inset-0 pointer-events-none z-0"
-                    style={{ background: 'linear-gradient(90deg, rgba(2, 44, 34, 0.8) 0%, rgba(2, 44, 34, 0.3) 100%)' }} />
-
-                <div className="relative flex-1 z-10">
-                    <div className="flex items-center gap-2 mb-2">
-                        <span className="text-green-300 text-[9px] font-bold uppercase tracking-[0.2em] opacity-90">Selamat Datang Di</span>
-                        {/* Sistem Aktif Badge */}
-                        <span
-                            className="inline-flex items-center gap-1 text-[8px] font-bold px-1.5 py-0.5 rounded-full bg-black/40 border border-green-500/30 backdrop-blur-md"
-                            style={{ color: '#4ade80' }}
-                        >
-                            <span className="w-1 h-1 rounded-full bg-green-400 animate-pulse shadow-[0_0_8px_#4ade80]" />
-                            Sistem Aktif
-                        </span>
+                {/* Content */}
+                <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 lg:p-6">
+                    <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                            <span className="text-green-300 text-[9px] font-bold uppercase tracking-[0.2em] opacity-90">
+                                Selamat Datang Di
+                            </span>
+                            <span
+                                className="inline-flex items-center gap-1 text-[8px] font-bold px-1.5 py-0.5 rounded-full bg-black/40 border border-green-500/30 backdrop-blur-md"
+                                style={{ color: '#4ade80' }}
+                            >
+                                <span className="w-1 h-1 rounded-full bg-green-400 animate-pulse shadow-[0_0_8px_#4ade80]" />
+                                Sistem Aktif
+                            </span>
+                        </div>
+                        <h1 className="text-xl lg:text-2xl font-extrabold mb-1.5 tracking-tight drop-shadow-md">
+                            Dashboard SuaR Hijau
+                        </h1>
+                        <p className="max-w-xl text-[11px] leading-relaxed text-emerald-100/80 font-medium">
+                            Kelola konten website Suar Hijau — program, produk, event, berita, dan tim
+                            <br className="hidden sm:block" />— semua dari satu tempat.
+                        </p>
+                        <p className="text-[10px] text-emerald-300/60 mt-2 font-medium">{getTodayID()}</p>
                     </div>
-                    <h1 className="text-xl lg:text-2xl font-extrabold mb-1.5 tracking-tight flex items-center gap-2 drop-shadow-md">
-                        Dashboard SuaR Hijau <span className="text-lg opacity-90">🌿</span>
-                    </h1>
-                    <p className="max-w-xl text-[11px] leading-relaxed text-emerald-100/80 font-medium">
-                        Kelola konten website Suar Hijau — program, produk, event, berita, dan tim<br className="hidden sm:block" />
-                        — semua dari satu tempat.
-                    </p>
-                </div>
 
-                {/* Quick stat highlight */}
-                <div
-                    className="relative flex-shrink-0 flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-700/50 bg-slate-800/40 backdrop-blur-md"
-                >
-                    <div className="flex flex-col items-center justify-center min-w-[36px]">
-                        <div className="flex items-center gap-1 mb-0.5">
-                            <TrendingUp className="w-3 h-3 text-green-400" />
-                            <span className="text-lg font-bold text-white leading-none">
+                    {/* Total Konten */}
+                    <div
+                        className="relative flex-shrink-0 flex flex-col items-center justify-center px-5 py-3 rounded-xl backdrop-blur-md"
+                        style={{
+                            background: 'rgba(0,0,0,0.45)',
+                            border: '1px solid rgba(34,197,94,0.3)',
+                            boxShadow: '0 0 20px rgba(34,197,94,0.15), inset 0 1px 0 rgba(255,255,255,0.06)',
+                            minWidth: 100,
+                        }}
+                    >
+                        <div className="flex items-center gap-1.5 mb-1">
+                            <TrendingUp className="w-3.5 h-3.5 text-green-400" />
+                            <span className="text-2xl font-black text-white leading-none tracking-tight">
                                 {statsData.reduce((a, s) => a + s.count, 0)}
                             </span>
                         </div>
-                        <span className="text-[8px] font-medium text-slate-400 uppercase tracking-wider mt-0.5">
+                        <span className="text-[9px] font-bold uppercase tracking-widest" style={{ color: '#4ade80' }}>
                             Total Konten
                         </span>
                     </div>
@@ -156,9 +158,7 @@ export default function DashboardHome() {
                         key={stat.label}
                         to={stat.link}
                         className="group bg-white rounded-lg p-3 border border-slate-100 transition-all duration-300 hover:-translate-y-1"
-                        style={{
-                            boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
-                        }}
+                        style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}
                         onMouseEnter={e => {
                             e.currentTarget.style.boxShadow = `0 8px 24px ${stat.glow}`;
                             e.currentTarget.style.borderColor = 'transparent';
@@ -204,7 +204,6 @@ export default function DashboardHome() {
 
                     {recentEvents.length === 0 ? (
                         <div className="flex flex-col items-center py-4 gap-2">
-                            {/* Simple SVG illustration */}
                             <svg width="40" height="40" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <rect x="8" y="16" width="48" height="40" rx="6" fill="#f3e8ff" />
                                 <rect x="8" y="16" width="48" height="12" rx="6" fill="#e9d5ff" />
@@ -264,7 +263,6 @@ export default function DashboardHome() {
 
                     {recentNews.length === 0 ? (
                         <div className="flex flex-col items-center py-4 gap-2">
-                            {/* Simple SVG illustration */}
                             <svg width="40" height="40" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <rect x="8" y="10" width="48" height="44" rx="6" fill="#fef3c7" />
                                 <rect x="16" y="20" width="32" height="4" rx="2" fill="#fde68a" />
