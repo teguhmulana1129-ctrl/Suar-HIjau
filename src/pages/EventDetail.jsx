@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useParams, Link } from 'react-router-dom';
 import { Calendar, MapPin, Clock, ArrowLeft, CheckCircle2, DollarSign, ScrollText } from 'lucide-react';
-import { EVENTS } from '../data/mockData';
+import { useStore } from '../hooks/useStore';
 import { useLanguage } from '../context/LanguageContext';
 import { translations } from '../data/translations';
 import { useEffect } from 'react';
@@ -10,14 +10,23 @@ export default function EventDetail() {
     const { id } = useParams();
     const { language } = useLanguage();
     const t = translations[language];
+    const { data, loading, error, getImageUrl } = useStore();
 
-    const event = EVENTS.find(e => e.id === parseInt(id));
+    const event = data?.events?.find(e => e.id === parseInt(id));
 
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [id]);
 
-    if (!event) {
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <p className="text-neutral-500">Memuat detail event...</p>
+            </div>
+        );
+    }
+
+    if (error || !event) {
         return (
             <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
@@ -43,8 +52,8 @@ export default function EventDetail() {
                     className="relative h-[400px] rounded-3xl overflow-hidden shadow-sm"
                 >
                     <img
-                        src={event.image}
-                        alt={language === 'ID' ? event.title : event.titleEN}
+                        src={getImageUrl(event.image)}
+                        alt={language === 'ID' ? event.title : event.titleEN || event.title}
                         className="w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
@@ -53,7 +62,7 @@ export default function EventDetail() {
                             {event.status === 'upcoming' ? (language === 'ID' ? 'Akan Datang' : 'Upcoming') : (language === 'ID' ? 'Selesai' : 'Completed')}
                         </span>
                         <h1 className="text-4xl md:text-5xl font-bold font-display mb-4 leading-tight">
-                            {language === 'ID' ? event.title : event.titleEN}
+                            {language === 'ID' ? event.title : event.titleEN || event.title}
                         </h1>
                         <div className="flex flex-wrap gap-6 text-sm md:text-base font-medium text-white/90">
                             <span className="flex items-center gap-2">
@@ -88,31 +97,33 @@ export default function EventDetail() {
                                 {language === 'ID' ? 'Tentang Acara' : 'About Event'}
                             </h2>
                             <p className="text-neutral-600 leading-relaxed text-lg whitespace-pre-line">
-                                {language === 'ID' ? event.fullDescription : event.fullDescriptionEN}
+                                {language === 'ID' ? (event.fullDescription || event.full_description) : (event.fullDescriptionEN || event.fullDescription || event.full_description)}
                             </p>
                         </motion.section>
 
-                        <motion.section
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                        >
-                            <h2 className="text-2xl font-bold text-neutral-900 mb-6 font-display">
-                                {language === 'ID' ? 'Susunan Acara' : 'Event Rundown'}
-                            </h2>
-                            <div className="space-y-4">
-                                {event.rundown?.map((item, index) => (
-                                    <div key={index} className="flex gap-6 p-4 rounded-xl border border-neutral-100 bg-neutral-50/50 hover:bg-neutral-50 transition-colors">
-                                        <div className="w-32 flex-shrink-0 font-bold text-neutral-900 pt-1">
-                                            {item.time}
+                        {(event.rundown?.length > 0) && (
+                            <motion.section
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                            >
+                                <h2 className="text-2xl font-bold text-neutral-900 mb-6 font-display">
+                                    {language === 'ID' ? 'Susunan Acara' : 'Event Rundown'}
+                                </h2>
+                                <div className="space-y-4">
+                                    {event.rundown.map((item, index) => (
+                                        <div key={index} className="flex gap-6 p-4 rounded-xl border border-neutral-100 bg-neutral-50/50 hover:bg-neutral-50 transition-colors">
+                                            <div className="w-32 flex-shrink-0 font-bold text-neutral-900 pt-1">
+                                                {item.time}
+                                            </div>
+                                            <div className="flex-grow text-neutral-600">
+                                                {language === 'ID' ? item.activity : item.activityEN}
+                                            </div>
                                         </div>
-                                        <div className="flex-grow text-neutral-600">
-                                            {language === 'ID' ? item.activity : item.activityEN}
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </motion.section>
+                                    ))}
+                                </div>
+                            </motion.section>
+                        )}
                     </div>
 
                     {/* Right Column (Requirements & CTA) */}
@@ -127,36 +138,44 @@ export default function EventDetail() {
                                 <h3 className="text-lg font-bold text-neutral-900 mb-4 font-display">
                                     {language === 'ID' ? 'Info Partisipasi' : 'Participation Info'}
                                 </h3>
-                                <div className="flex items-center gap-2 text-2xl font-bold text-primary mb-1">
-                                    <DollarSign className="w-6 h-6" />
-                                    {language === 'ID' ? event.price : event.priceEN}
-                                </div>
+                                {(event.price || event.priceEN) ? (
+                                    <div className="flex items-center gap-2 text-2xl font-bold text-primary mb-1">
+                                        <DollarSign className="w-6 h-6" />
+                                        {language === 'ID' ? event.price : event.priceEN || event.price}
+                                    </div>
+                                ) : (
+                                    <div className="flex items-center gap-2 text-2xl font-bold text-primary mb-1">
+                                        {language === 'ID' ? 'Gratis' : 'Free'}
+                                    </div>
+                                )}
                                 <p className="text-xs text-neutral-500">
                                     {language === 'ID' ? 'Per orang' : 'Per person'}
                                 </p>
                             </div>
 
-                            <div className="mb-8">
-                                <h3 className="text-lg font-bold text-neutral-900 mb-4 font-display">
-                                    {language === 'ID' ? 'Persyaratan' : 'Requirements'}
-                                </h3>
-                                <ul className="space-y-3">
-                                    {language === 'ID'
-                                        ? event.requirements?.map((req, i) => (
-                                            <li key={i} className="flex items-start gap-2 text-sm text-neutral-600">
-                                                <CheckCircle2 className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                                                {req}
-                                            </li>
-                                        ))
-                                        : event.requirementsEN?.map((req, i) => (
-                                            <li key={i} className="flex items-start gap-2 text-sm text-neutral-600">
-                                                <CheckCircle2 className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                                                {req}
-                                            </li>
-                                        ))
-                                    }
-                                </ul>
-                            </div>
+                            {(event.requirements?.length > 0 || event.requirementsEN?.length > 0) && (
+                                <div className="mb-8">
+                                    <h3 className="text-lg font-bold text-neutral-900 mb-4 font-display">
+                                        {language === 'ID' ? 'Persyaratan' : 'Requirements'}
+                                    </h3>
+                                    <ul className="space-y-3">
+                                        {language === 'ID'
+                                            ? event.requirements?.map((req, i) => (
+                                                <li key={i} className="flex items-start gap-2 text-sm text-neutral-600">
+                                                    <CheckCircle2 className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                                                    {req}
+                                                </li>
+                                            ))
+                                            : event.requirementsEN?.map((req, i) => (
+                                                <li key={i} className="flex items-start gap-2 text-sm text-neutral-600">
+                                                    <CheckCircle2 className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                                                    {req}
+                                                </li>
+                                            ))
+                                        }
+                                    </ul>
+                                </div>
+                            )}
 
                             <a
                                 href="/contact"

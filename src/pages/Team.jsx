@@ -1,8 +1,9 @@
-
 import { motion } from 'framer-motion';
-import { TEAM_MEMBERS } from '../data/mockData';
+import { useStore } from '../hooks/useStore';
 
 export default function Team() {
+    const { data, loading, error, getImageUrl } = useStore();
+
     return (
         <div className="pt-24 min-h-screen bg-background pb-20">
             {/* Header */}
@@ -22,31 +23,36 @@ export default function Team() {
 
             {/* Team Grid */}
             <section className="container mx-auto px-6">
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {TEAM_MEMBERS.map((member, index) => (
-                        <motion.div
-                            key={index}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.1, duration: 0.5 }}
-                            viewport={{ once: true }}
-                            className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-neutral-100"
-                        >
-                            <div className="aspect-[3/4] overflow-hidden bg-neutral-100">
-                                <img
-                                    src={member.image}
-                                    alt={member.name}
-                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                />
-                            </div>
-                            <div className="p-6">
-                                <p className="text-xs font-bold text-secondary uppercase tracking-wider mb-2">{member.role}</p>
-                                <h3 className="text-xl font-bold text-neutral-900 font-display mb-3">{member.name}</h3>
-                                <p className="text-neutral-500 text-sm leading-relaxed font-sans">{member.bio}</p>
-                            </div>
-                        </motion.div>
-                    ))}
-                </div>
+                {loading && <p className="text-center text-neutral-500">Memuat anggota tim...</p>}
+                {error && <p className="text-center text-red-500 text-sm">Gagal memuat tim: {error}</p>}
+
+                {!loading && !error && (
+                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        {data.team.map((member, index) => (
+                            <motion.div
+                                key={member.id || index}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: index * 0.1, duration: 0.5 }}
+                                viewport={{ once: true }}
+                                className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-neutral-100"
+                            >
+                                <div className="aspect-[3/4] overflow-hidden bg-neutral-100">
+                                    <img
+                                        src={getImageUrl(member.image)}
+                                        alt={member.name}
+                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                    />
+                                </div>
+                                <div className="p-6">
+                                    <p className="text-xs font-bold text-secondary uppercase tracking-wider mb-2">{member.role}</p>
+                                    <h3 className="text-xl font-bold text-neutral-900 font-display mb-3">{member.name}</h3>
+                                    <p className="text-neutral-500 text-sm leading-relaxed font-sans">{member.bio}</p>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                )}
             </section>
         </div>
     );

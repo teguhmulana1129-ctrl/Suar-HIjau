@@ -78,101 +78,101 @@ export default function ProductsPage() {
     };
 
     return (
-        <div className="space-y-8 animate-in fade-in duration-700">
+        <div className="space-y-5 animate-in fade-in duration-500 pb-8">
             {/* Header Section */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-                <div className="space-y-1">
-                    <h1 className="text-3xl font-bold bg-gradient-to-r from-dark-900 to-primary-800 bg-clip-text text-transparent">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                <div className="space-y-0.5">
+                    <h1 className="text-xl font-bold tracking-tight bg-gradient-to-r from-dark-900 to-primary-800 bg-clip-text text-transparent">
                         Manajemen Produk
                     </h1>
-                    <p className="text-dark-400 font-medium">
+                    <p className="text-xs text-dark-500 font-medium">
                         Katalog kerajinan bambu premium SuaR Hijau.
                     </p>
                 </div>
                 <button
                     onClick={openAdd}
-                    className="flex items-center justify-center gap-2 bg-primary-600 text-white px-6 py-3 rounded-2xl font-bold hover:bg-primary-700 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-primary-200"
+                    className="flex items-center justify-center gap-1.5 bg-emerald-600 text-white px-3.5 py-2 rounded-lg text-xs font-bold hover:bg-emerald-700 transition-all shadow-sm active:scale-95"
                 >
-                    <Plus className="w-5 h-5" /> Tambah Produk Baru
+                    <Plus className="w-3.5 h-3.5" /> Tambah Produk
                 </button>
             </div>
 
             {/* Stats Overview */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {[
                     { label: 'TOTAL PRODUK', value: stats.total, icon: ShoppingBag, color: 'emerald', bg: 'bg-emerald-50' },
                     { label: 'STOK TERSEDIA', value: stats.tersedia, icon: Package, color: 'blue', bg: 'bg-blue-50' },
                     { label: 'STOK HABIS', value: stats.habis, icon: Archive, color: 'rose', bg: 'bg-rose-50' },
                 ].map((item, i) => (
-                    <div key={i} className="bg-white p-6 rounded-[2rem] border border-dark-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-shadow group">
-                        <div className={`w-14 h-14 ${item.bg} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                            <item.icon className={`w-7 h-7 text-${item.color}-600`} />
+                    <div key={i} className="bg-white p-4 rounded-xl border border-dark-100 shadow-sm flex items-center gap-3 hover:shadow-md transition-shadow group">
+                        <div className={`w-10 h-10 ${item.bg} rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                            <item.icon className={`w-5 h-5 text-${item.color}-600`} />
                         </div>
                         <div>
-                            <p className="text-[10px] font-black text-dark-300 tracking-widest uppercase mb-1">{item.label}</p>
-                            <p className="text-2xl font-bold text-dark-900 leading-none">{item.value}</p>
+                            <p className="text-[9px] font-bold text-dark-400 tracking-wider uppercase mb-0.5">{item.label}</p>
+                            <p className="text-lg font-bold text-dark-900 leading-none">{item.value}</p>
                         </div>
                     </div>
                 ))}
             </div>
 
             {/* Search & Filter Bar */}
-            <div className="flex flex-col sm:flex-row gap-4 items-center bg-white p-2 rounded-[2rem] border border-dark-100 shadow-sm">
+            <div className="flex flex-col sm:flex-row gap-2.5 items-center bg-white p-1.5 rounded-xl border border-dark-100 shadow-sm">
                 <div className="relative flex-1 w-full">
-                    <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-dark-300" />
+                    <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-dark-400" />
                     <input
                         type="text"
                         placeholder="Cari nama produk atau kategori..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full pl-14 pr-6 py-4 bg-transparent outline-none text-dark-700 font-medium placeholder:text-dark-300"
+                        className="w-full pl-9 pr-4 py-2 text-[13px] bg-transparent outline-none text-dark-700 font-medium placeholder:text-dark-300"
                     />
                 </div>
-                <button className="flex items-center gap-2 px-6 py-3 bg-dark-50 text-dark-600 rounded-2xl font-bold hover:bg-dark-100 transition-colors mr-2">
-                    <Filter className="w-5 h-5 text-dark-400" /> Filter
+                <button className="flex items-center gap-1.5 px-4 py-2 bg-dark-50 text-dark-600 rounded-lg text-[13px] font-semibold hover:bg-dark-100 transition-colors mr-1">
+                    <Filter className="w-3.5 h-3.5 text-dark-500" /> Filter
                 </button>
             </div>
 
             {loading && (
-                <div className="flex flex-col items-center justify-center py-20 animate-pulse">
-                    <div className="w-12 h-12 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin mb-4"></div>
-                    <p className="text-dark-400 font-medium tracking-wide">Menyelaraskan data katalog...</p>
+                <div className="flex flex-col items-center justify-center py-12 animate-pulse">
+                    <div className="w-8 h-8 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin mb-2.5"></div>
+                    <p className="text-xs text-dark-400 font-medium tracking-wide">Menyelaraskan data katalog...</p>
                 </div>
             )}
 
             {error && (
-                <div className="flex items-center gap-3 p-6 bg-rose-50 text-rose-600 rounded-3xl border border-rose-100 italic font-medium">
-                    <AlertCircle className="w-6 h-6" /> Sistem mengalami kendala: {error}
+                <div className="flex items-center gap-2 p-3 bg-rose-50 text-xs text-rose-600 rounded-xl border border-rose-100 italic font-medium">
+                    <AlertCircle className="w-4 h-4" /> Sistem mengalami kendala: {error}
                 </div>
             )}
 
             {/* Product Cards Grid */}
             {!loading && !error && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {filteredProducts.map(product => (
-                        <div key={product.id} className="bg-white rounded-[2.5rem] border border-dark-100 overflow-hidden group hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 flex flex-col">
+                        <div key={product.id} className="bg-white rounded-xl border border-dark-100 overflow-hidden group hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col">
                             {/* Image Container */}
-                            <div className="relative h-56 bg-dark-50 p-3">
-                                <div className="w-full h-full rounded-[1.8rem] overflow-hidden">
+                            <div className="relative h-44 bg-dark-50 p-2">
+                                <div className="w-full h-full rounded-lg overflow-hidden">
                                     {product.image ? (
-                                        <img src={getImageUrl(product.image)} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="" />
+                                        <img src={getImageUrl(product.image)} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="" />
                                     ) : (
                                         <div className="w-full h-full flex items-center justify-center bg-dark-100">
-                                            <ImageIcon className="w-12 h-12 text-dark-200" />
+                                            <ImageIcon className="w-8 h-8 text-dark-300" />
                                         </div>
                                     )}
                                 </div>
 
                                 {/* Badge Overlay */}
-                                <div className="absolute top-6 left-6 flex flex-col gap-2">
-                                    <span className="text-[10px] font-black px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-dark-800 shadow-sm border border-white/20 tracking-tighter uppercase">
+                                <div className="absolute top-3 left-3 flex flex-col gap-1.5">
+                                    <span className="text-[9px] font-bold px-2 py-0.5 rounded bg-white/95 backdrop-blur-sm text-dark-800 shadow-sm border border-dark-100 tracking-tight uppercase">
                                         {product.category}
                                     </span>
                                 </div>
 
-                                <div className="absolute top-6 right-6">
-                                    <span className={`text-[10px] font-black px-3 py-1 rounded-full shadow-sm tracking-tighter uppercase ${product.stock === 'Tersedia' ? 'bg-emerald-500 text-white' :
-                                            product.stock === 'Pre-order' ? 'bg-blue-500 text-white' : 'bg-rose-500 text-white'
+                                <div className="absolute top-3 right-3">
+                                    <span className={`text-[9px] font-bold px-2 py-0.5 rounded shadow-sm tracking-tight uppercase ${product.stock === 'Tersedia' ? 'bg-emerald-500 text-white' :
+                                        product.stock === 'Pre-order' ? 'bg-blue-500 text-white' : 'bg-rose-500 text-white'
                                         }`}>
                                         {product.stock}
                                     </span>
@@ -180,31 +180,31 @@ export default function ProductsPage() {
                             </div>
 
                             {/* Info Container */}
-                            <div className="p-6 pt-2 flex-1 flex flex-col">
-                                <h3 className="text-lg font-bold text-dark-900 mb-1 group-hover:text-primary-700 transition-colors">
+                            <div className="p-4 pt-3 flex-1 flex flex-col">
+                                <h3 className="text-sm font-bold text-dark-900 mb-0.5 leading-tight group-hover:text-primary-600 transition-colors">
                                     {product.title}
                                 </h3>
-                                <p className="text-xs text-dark-400 line-clamp-2 mb-4 font-medium leading-relaxed">
+                                <p className="text-[11px] text-dark-500 line-clamp-2 mb-3 font-medium leading-relaxed">
                                     {product.desc || product.description}
                                 </p>
 
                                 <div className="mt-auto flex items-center justify-between">
                                     <div className="space-y-0.5">
-                                        <p className="text-[10px] font-black text-dark-300 tracking-[0.2em] uppercase">HARGA ESTIMASI</p>
-                                        <p className="text-xl font-black text-primary-600">{product.price}</p>
+                                        <p className="text-[9px] font-bold text-dark-400 tracking-wider uppercase">HARGA</p>
+                                        <p className="text-base font-bold text-primary-600">{product.price}</p>
                                     </div>
-                                    <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <div className="flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
                                         <button
                                             onClick={() => openEdit(product)}
-                                            className="p-2.5 bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-600 hover:text-white transition-all shadow-sm active:scale-95"
+                                            className="p-1.5 bg-blue-50 text-blue-600 rounded-md hover:bg-blue-600 hover:text-white transition-all shadow-sm active:scale-95"
                                         >
-                                            <Pencil className="w-4 h-4" />
+                                            <Pencil className="w-3.5 h-3.5" />
                                         </button>
                                         <button
                                             onClick={() => deleteItem('products', product.id)}
-                                            className="p-2.5 bg-rose-50 text-rose-600 rounded-xl hover:bg-rose-600 hover:text-white transition-all shadow-sm active:scale-95"
+                                            className="p-1.5 bg-rose-50 text-rose-600 rounded-md hover:bg-rose-600 hover:text-white transition-all shadow-sm active:scale-95"
                                         >
-                                            <Trash2 className="w-4 h-4" />
+                                            <Trash2 className="w-3.5 h-3.5" />
                                         </button>
                                     </div>
                                 </div>
@@ -213,13 +213,13 @@ export default function ProductsPage() {
                     ))}
 
                     {filteredProducts.length === 0 && (
-                        <div className="col-span-full py-24 flex flex-col items-center justify-center bg-white rounded-[3rem] border-2 border-dashed border-dark-100">
-                            <div className="w-20 h-20 bg-dark-50 rounded-full flex items-center justify-center mb-4">
-                                <ImageIcon className="w-8 h-8 text-dark-200" />
+                        <div className="col-span-full py-12 flex flex-col items-center justify-center bg-white rounded-xl border border-dashed border-dark-200">
+                            <div className="w-12 h-12 bg-dark-50 rounded-full flex items-center justify-center mb-2.5">
+                                <ImageIcon className="w-5 h-5 text-dark-400" />
                             </div>
-                            <h3 className="text-xl font-bold text-dark-900 mb-1">Produk Tidak Ditemukan</h3>
-                            <p className="text-dark-400 font-medium">Belum ada produk untuk kata kunci "{searchQuery}"</p>
-                            <button onClick={openAdd} className="mt-6 px-6 py-2.5 bg-primary-50 text-primary-700 font-bold rounded-xl hover:bg-primary-100 transition-colors">
+                            <h3 className="text-[15px] font-bold text-dark-900 mb-0.5">Produk Tidak Ditemukan</h3>
+                            <p className="text-xs text-dark-500 font-medium">Belum ada produk untuk kata kunci "{searchQuery}"</p>
+                            <button onClick={openAdd} className="mt-4 px-4 py-2 text-xs bg-primary-50 text-primary-700 font-semibold rounded-lg hover:bg-primary-100 transition-colors">
                                 Tambah Produk Baru
                             </button>
                         </div>
@@ -229,93 +229,93 @@ export default function ProductsPage() {
 
             {/* Form Modal */}
             {showForm && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6" onClick={close}>
-                    <div className="absolute inset-0 bg-dark-900/60 backdrop-blur-xl animate-in fade-in duration-300" />
-                    <div className="relative w-full max-w-2xl max-h-[90vh] overflow-hidden bg-white rounded-[2.5rem] shadow-2xl animate-in zoom-in-95 duration-300 flex flex-col" onClick={e => e.stopPropagation()}>
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-5" onClick={close}>
+                    <div className="absolute inset-0 bg-dark-900/40 backdrop-blur-sm animate-in fade-in duration-200" />
+                    <div className="relative w-full max-w-2xl max-h-[90vh] overflow-hidden bg-white rounded-xl shadow-2xl animate-in zoom-in-95 duration-200 flex flex-col" onClick={e => e.stopPropagation()}>
 
                         {/* Modal Header */}
-                        <div className="px-8 py-6 border-b border-dark-50 flex items-center justify-between">
-                            <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 bg-primary-100 rounded-2xl flex items-center justify-center">
-                                    <ShoppingBag className="w-6 h-6 text-primary-600" />
+                        <div className="px-5 py-3.5 border-b border-dark-100 flex items-center justify-between bg-dark-50/50">
+                            <div className="flex items-center gap-2.5">
+                                <div className="w-8 h-8 bg-white border border-dark-100 shadow-sm rounded-lg flex items-center justify-center">
+                                    <ShoppingBag className="w-4 h-4 text-primary-600" />
                                 </div>
                                 <div>
-                                    <h2 className="text-xl font-bold text-dark-900">{editId ? 'Edit Katalog Produk' : 'Tambah Produk Baru'}</h2>
-                                    <p className="text-xs text-dark-400 font-medium">Pastikan detail produk lengkap dan menarik.</p>
+                                    <h2 className="text-[15px] font-bold text-dark-900">{editId ? 'Edit Produk' : 'Tambah Produk Baru'}</h2>
+                                    <p className="text-[11px] text-dark-500 font-medium">Lengkapi detail informasi produk di bawah ini.</p>
                                 </div>
                             </div>
-                            <button onClick={close} className="p-3 hover:bg-dark-50 rounded-2xl transition-colors text-dark-400">
-                                <X className="w-6 h-6" />
+                            <button onClick={close} className="p-1.5 hover:bg-dark-100 rounded-md transition-colors text-dark-500">
+                                <X className="w-4 h-4" />
                             </button>
                         </div>
 
                         {/* Modal Body */}
-                        <form onSubmit={handleSubmit} className="p-8 overflow-y-auto space-y-8">
+                        <form onSubmit={handleSubmit} className="p-5 overflow-y-auto space-y-5 custom-scrollbar">
                             {/* Visual Asset Section */}
-                            <div className="space-y-3">
-                                <label className="flex items-center gap-2 text-[10px] font-black text-dark-300 tracking-[0.2em] uppercase">
-                                    <ImageIcon className="w-3 h-3" /> FOTO PRODUK (ASSET VISUAL)
+                            <div className="space-y-1.5">
+                                <label className="flex items-center gap-1.5 text-[9px] font-bold text-dark-500 tracking-wider uppercase">
+                                    <ImageIcon className="w-3 h-3" /> FOTO PRODUK
                                 </label>
-                                <div className="flex flex-col sm:flex-row items-center gap-6">
-                                    <div className="w-40 h-40 rounded-[2rem] bg-dark-50 border-2 border-dashed border-dark-200 flex items-center justify-center overflow-hidden flex-shrink-0">
+                                <div className="flex flex-col sm:flex-row items-center gap-4">
+                                    <div className="w-24 h-24 rounded-lg bg-dark-50 border border-dashed border-dark-200 flex items-center justify-center overflow-hidden flex-shrink-0">
                                         {form.image ? (
                                             <img src={getImageUrl(form.image)} className="w-full h-full object-cover" alt="" />
                                         ) : (
-                                            <ImageIcon className="w-10 h-10 text-dark-200" />
+                                            <ImageIcon className="w-6 h-6 text-dark-300" />
                                         )}
                                     </div>
-                                    <div className="flex-1 space-y-4 text-center sm:text-left">
-                                        <p className="text-sm text-dark-500 leading-relaxed font-medium capitalize">
-                                            Gunakan foto produk dengan pencahayaan alami untuk menonjolkan serat bambu yang premium.
+                                    <div className="flex-1 space-y-2 text-center sm:text-left">
+                                        <p className="text-[11px] text-dark-500 leading-relaxed font-medium">
+                                            Format yang didukung: JPG, PNG, WEBP. Maksimal ukuran file 2MB.
                                         </p>
-                                        <label className="inline-flex items-center gap-3 px-6 py-3 bg-primary-600 text-white rounded-2xl font-bold cursor-pointer hover:bg-primary-700 transition-all shadow-lg shadow-primary-100 text-sm">
+                                        <label className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-dark-900 text-white rounded-lg font-semibold cursor-pointer hover:bg-dark-800 transition-colors text-xs shadow-sm">
                                             <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
-                                            📁 Pilih Berkas Foto
+                                            Pilih Foto
                                         </label>
                                     </div>
                                 </div>
                             </div>
 
                             {/* General Info Section */}
-                            <div className="grid sm:grid-cols-2 gap-6">
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">NAMA PRODUK *</label>
-                                    <input required value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} className="w-full px-5 py-4 bg-dark-50 border-none rounded-2xl text-sm font-bold text-dark-800 placeholder:text-dark-300 focus:ring-2 focus:ring-primary-500 transition-all" placeholder="Misal: Wadah Sajian Anyaman Bambu" />
+                            <div className="grid sm:grid-cols-2 gap-4">
+                                <div className="space-y-1">
+                                    <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">NAMA PRODUK *</label>
+                                    <input required value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-semibold text-dark-900 placeholder:text-dark-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none" placeholder="Masukkan nama produk..." />
                                 </div>
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">ESTIMASI HARGA *</label>
-                                    <input required value={form.price} onChange={e => setForm(f => ({ ...f, price: formatRupiah(e.target.value) }))} className="w-full px-5 py-4 bg-dark-50 border-none rounded-2xl text-sm font-bold text-primary-700 placeholder:text-dark-300 focus:ring-2 focus:ring-primary-500 transition-all" placeholder="Rp. 0" />
+                                <div className="space-y-1">
+                                    <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">HARGA *</label>
+                                    <input required value={form.price} onChange={e => setForm(f => ({ ...f, price: formatRupiah(e.target.value) }))} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-semibold text-primary-700 placeholder:text-dark-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none" placeholder="Rp 0" />
                                 </div>
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">KATEGORI PRODUK</label>
-                                    <select value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} className="w-full px-5 py-4 bg-dark-50 border-none rounded-2xl text-sm font-bold text-dark-800 focus:ring-2 focus:ring-primary-500 transition-all appearance-none cursor-pointer">
+                                <div className="space-y-1">
+                                    <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">KATEGORI</label>
+                                    <select value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-semibold text-dark-900 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none cursor-pointer">
                                         {categories.map(c => <option key={c} value={c}>{c}</option>)}
                                     </select>
                                 </div>
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">STATUS KETERSEDIAAN</label>
-                                    <select value={form.stock} onChange={e => setForm(f => ({ ...f, stock: e.target.value }))} className="w-full px-5 py-4 bg-dark-50 border-none rounded-2xl text-sm font-bold text-dark-800 focus:ring-2 focus:ring-primary-500 transition-all appearance-none cursor-pointer">
+                                <div className="space-y-1">
+                                    <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">STATUS KETERSEDIAAN</label>
+                                    <select value={form.stock} onChange={e => setForm(f => ({ ...f, stock: e.target.value }))} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-semibold text-dark-900 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none cursor-pointer">
                                         <option value="Tersedia">Tersedia</option>
                                         <option value="Pre-order">Pre-order</option>
                                         <option value="Habis">Habis</option>
                                     </select>
                                 </div>
-                                <div className="sm:col-span-2 space-y-2">
-                                    <label className="text-[10px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">MATERIAL & BAHAN</label>
-                                    <input value={form.material} onChange={e => setForm(f => ({ ...f, material: e.target.value }))} className="w-full px-5 py-4 bg-dark-50 border-none rounded-2xl text-sm font-medium text-dark-800 focus:ring-2 focus:ring-primary-500 transition-all" placeholder="Misal: 100% Bambu Pilihan, Pewarnaan Alami" />
+                                <div className="sm:col-span-2 space-y-1">
+                                    <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">MATERIAL / BAHAN</label>
+                                    <input value={form.material} onChange={e => setForm(f => ({ ...f, material: e.target.value }))} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-medium text-dark-900 placeholder:text-dark-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none" placeholder="Contoh: 100% Bambu Pilihan..." />
                                 </div>
                             </div>
 
-                            <div className="space-y-2">
-                                <label className="text-[10px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">DESKRIPSI LENGKAP</label>
-                                <textarea value={form.desc} onChange={e => setForm(f => ({ ...f, desc: e.target.value }))} rows={4} className="w-full px-5 py-4 bg-dark-50 border-none rounded-3xl text-sm font-medium text-dark-800 focus:ring-2 focus:ring-primary-500 transition-all resize-none leading-relaxed" placeholder="Jelaskan keunggulan produk ini di sini..." />
+                            <div className="space-y-1">
+                                <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">DESKRIPSI PRODUK</label>
+                                <textarea value={form.desc} onChange={e => setForm(f => ({ ...f, desc: e.target.value }))} rows={3} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-medium text-dark-900 placeholder:text-dark-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none resize-none" placeholder="Tuliskan deskripsi produk dengan lengkap..." />
                             </div>
 
                             {/* Footer Section */}
-                            <div className="flex gap-4 pt-4 border-t border-dark-50">
-                                <button type="button" onClick={close} className="flex-1 px-8 py-4 bg-dark-50 text-dark-600 rounded-2xl font-bold hover:bg-dark-100 transition-all">Batal</button>
-                                <button type="submit" className="flex-[2] px-8 py-4 bg-primary-600 text-white rounded-2xl font-bold hover:bg-primary-700 hover:shadow-xl hover:shadow-primary-100 active:scale-95 transition-all outline-none">
-                                    {editId ? '✨ Perbarui Katalog' : '🚀 Publikasikan Produk'}
+                            <div className="flex justify-end gap-2.5 pt-3 border-t border-dark-100">
+                                <button type="button" onClick={close} className="px-4 py-2 bg-white border border-dark-200 text-dark-700 rounded-lg text-xs font-semibold hover:bg-dark-50 transition-colors">Batal</button>
+                                <button type="submit" className="px-4 py-2 bg-primary-600 text-white rounded-lg text-xs font-semibold hover:bg-primary-700 shadow-sm active:scale-95 transition-all outline-none">
+                                    {editId ? 'Simpan Perubahan' : 'Tambah Produk'}
                                 </button>
                             </div>
                         </form>
@@ -325,3 +325,4 @@ export default function ProductsPage() {
         </div>
     );
 }
+

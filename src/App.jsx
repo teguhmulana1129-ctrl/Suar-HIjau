@@ -66,7 +66,7 @@ function AppContent() {
             <Route path="/programs" element={<Programs />} />
 
             {/* Dashboard Routes */}
-            <Route path="/dashboard" element={<StoreProvider><DashboardLayout /></StoreProvider>}>
+            <Route path="/dashboard" element={<DashboardLayout />}>
               <Route index element={<DashboardHome />} />
               <Route path="programs" element={<ProgramsPage />} />
               <Route path="products" element={<ProductsPage />} />
@@ -86,9 +86,11 @@ function AppContent() {
 function App() {
   return (
     <LanguageProvider>
-      <Router>
-        <AppContent />
-      </Router>
+      <StoreProvider>
+        <Router>
+          <AppContent />
+        </Router>
+      </StoreProvider>
     </LanguageProvider>
   );
 }

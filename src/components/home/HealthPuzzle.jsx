@@ -1,33 +1,59 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ArrowUpRight, Leaf, Award, Package, Sparkles } from 'lucide-react';
-import { PRODUCTS } from '../../data/mockData';
 import { cn } from '../../lib/utils';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../../context/LanguageContext';
 import { translations } from '../../data/translations';
-
+import { useStore } from '../../hooks/useStore';
 
 export default function HealthPuzzle() {
     const { language } = useLanguage();
     const t = translations[language];
+    const { data: storeData, getImageUrl } = useStore();
+    const products = storeData?.products || [];
 
     const [activeIndex, setActiveIndex] = useState(0);
     const [isHovered, setIsHovered] = useState(false);
 
     useEffect(() => {
-        if (isHovered) return;
+        if (isHovered || products.length === 0) return;
         const timer = setInterval(() => {
-            setActiveIndex(prev => (prev + 1) % PRODUCTS.length);
+            setActiveIndex(prev => (prev + 1) % products.length);
         }, 5000);
         return () => clearInterval(timer);
-    }, [isHovered]);
+    }, [isHovered, products.length]);
+
+    if (products.length === 0) {
+        return null;
+    }
+
+    const currentProduct = products[activeIndex] || products[0];
 
     const stats = [
         { value: '100+', label: language === 'ID' ? 'Produk' : 'Products', icon: Package },
         { value: '50+', label: language === 'ID' ? 'Pengrajin' : 'Artisans', icon: Award },
         { value: '100%', label: language === 'ID' ? 'Organik' : 'Organic', icon: Leaf },
     ];
+
+    const getTitle = (prod) => {
+        if (!prod) return '';
+        const titleProp = language === 'ID' ? prod.title : (prod.titleEN || prod.title);
+        if (typeof titleProp === 'object') return titleProp[language] || titleProp.ID || '';
+        return titleProp || '';
+    };
+
+    const getDesc = (prod) => {
+        if (!prod) return '';
+        const descProp = language === 'ID' ? prod.desc : (prod.descEN || prod.desc);
+        if (typeof descProp === 'object') return descProp[language] || descProp.ID || '';
+        return descProp || '';
+    };
+
+    // Prepare arrays for rendering remaining products (limited to maintain layout)
+    const rightColProducts = products.slice(0, 2);
+    // Keep layout structure similar. If less than available it may just show less blocks.
+    const bottomRowProducts = products.length > 2 ? products.slice(2, 4) : [];
 
     return (
         <section id="products" className="relative py-32 overflow-hidden bg-[#fafafa]">
@@ -96,8 +122,8 @@ export default function HealthPuzzle() {
                             <AnimatePresence mode="wait">
                                 <motion.img
                                     key={activeIndex}
-                                    src={PRODUCTS[activeIndex].image}
-                                    alt={PRODUCTS[activeIndex].title}
+                                    src={getImageUrl(currentProduct.image)}
+                                    alt={getTitle(currentProduct)}
                                     initial={{ opacity: 0, scale: 1.1 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     exit={{ opacity: 0 }}
@@ -118,7 +144,7 @@ export default function HealthPuzzle() {
                                         Featured
                                     </span>
                                     <Link
-                                        to={`/products?open=${encodeURIComponent(PRODUCTS[activeIndex].title)}`}
+                                        to={`/products?open=${encodeURIComponent(getTitle(currentProduct))}`}
                                         className="w-12 h-12 flex items-center justify-center bg-white/10 backdrop-blur-md text-white border border-white/20 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 hover:bg-white/20"
                                     >
                                         <ArrowUpRight className="w-5 h-5" />
@@ -135,10 +161,13 @@ export default function HealthPuzzle() {
                                         transition={{ duration: 0.4 }}
                                     >
                                         <div className="flex items-center gap-3 mb-4">
-                                            {PRODUCTS.map((_, i) => (
+                                            {products.slice(0, 5).map((_, i) => (
                                                 <button
                                                     key={i}
-                                                    onClick={() => setActiveIndex(i)}
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        setActiveIndex(i);
+                                                    }}
                                                     className={cn(
                                                         "h-1 rounded-full transition-all duration-500",
                                                         i === activeIndex ? "w-8 bg-white" : "w-4 bg-white/30 hover:bg-white/50"
@@ -147,10 +176,10 @@ export default function HealthPuzzle() {
                                             ))}
                                         </div>
                                         <h3 className="text-2xl lg:text-4xl font-bold text-white font-display mb-3">
-                                            {language === 'ID' ? PRODUCTS[activeIndex].title : PRODUCTS[activeIndex].titleEN || PRODUCTS[activeIndex].title}
+                                            {getTitle(currentProduct)}
                                         </h3>
                                         <p className="text-white/70 text-sm lg:text-lg max-w-md">
-                                            {language === 'ID' ? PRODUCTS[activeIndex].desc : PRODUCTS[activeIndex].descEN || PRODUCTS[activeIndex].desc}
+                                            {getDesc(currentProduct)}
                                         </p>
                                     </motion.div>
                                 </AnimatePresence>
@@ -159,7 +188,7 @@ export default function HealthPuzzle() {
                     </motion.div>
 
                     {/* Right Column - Small Cards */}
-                    {PRODUCTS.slice(0, 2).map((product, idx) => (
+                    {rightColProducts.map((product, idx) => (
                         <motion.div
                             key={idx}
                             initial={{ opacity: 0, y: 30 }}
@@ -169,21 +198,21 @@ export default function HealthPuzzle() {
                             className="col-span-6 lg:col-span-5"
                         >
                             <Link
-                                to={`/products?open=${encodeURIComponent(product.title)}`}
+                                to={`/products?open=${encodeURIComponent(getTitle(product))}`}
                                 className={cn(
                                     "block relative h-[240px] lg:h-[288px] rounded-2xl overflow-hidden cursor-pointer group transition-all duration-500",
                                     activeIndex === idx ? "ring-2 ring-primary ring-offset-4 ring-offset-[#fafafa]" : ""
                                 )}
                             >
                                 <img
-                                    src={product.image}
-                                    alt={product.title}
+                                    src={getImageUrl(product.image)}
+                                    alt={getTitle(product)}
                                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/80 to-transparent" />
                                 <div className="absolute bottom-0 left-0 right-0 p-3 lg:p-5">
-                                    <h4 className="text-sm lg:text-lg font-semibold text-white mb-1 leading-tight">{language === 'ID' ? product.title : product.titleEN || product.title}</h4>
-                                    <p className="text-white/60 text-xs md:text-sm line-clamp-1 opacity-90">{language === 'ID' ? product.desc : product.descEN || product.desc}</p>
+                                    <h4 className="text-sm lg:text-lg font-semibold text-white mb-1 leading-tight">{getTitle(product)}</h4>
+                                    <p className="text-white/60 text-xs md:text-sm line-clamp-1 opacity-90">{getDesc(product)}</p>
                                 </div>
                                 <div className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-white/10 backdrop-blur-md text-white border border-white/20 rounded-full opacity-0 group-hover:opacity-100 transition-all hover:bg-white/20 z-20">
                                     <ArrowUpRight className="w-4 h-4" />
@@ -193,7 +222,7 @@ export default function HealthPuzzle() {
                     ))}
 
                     {/* Bottom Row - Remaining Cards */}
-                    {PRODUCTS.slice(2).map((product, idx) => (
+                    {bottomRowProducts.map((product, idx) => (
                         <motion.div
                             key={idx + 2}
                             initial={{ opacity: 0, y: 30 }}
@@ -203,21 +232,21 @@ export default function HealthPuzzle() {
                             className="col-span-6 lg:col-span-4"
                         >
                             <Link
-                                to={`/products?open=${encodeURIComponent(product.title)}`}
+                                to={`/products?open=${encodeURIComponent(getTitle(product))}`}
                                 className={cn(
                                     "block relative h-[200px] lg:h-[240px] rounded-2xl overflow-hidden cursor-pointer group transition-all duration-500",
                                     activeIndex === idx + 2 ? "ring-2 ring-primary ring-offset-4 ring-offset-[#fafafa]" : ""
                                 )}
                             >
                                 <img
-                                    src={product.image}
-                                    alt={product.title}
+                                    src={getImageUrl(product.image)}
+                                    alt={getTitle(product)}
                                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/80 to-transparent" />
                                 <div className="absolute bottom-0 left-0 right-0 p-3 lg:p-5">
-                                    <h4 className="text-sm lg:text-lg font-semibold text-white mb-1 leading-tight">{language === 'ID' ? product.title : product.titleEN || product.title}</h4>
-                                    <p className="text-white/60 text-xs md:text-sm line-clamp-1 opacity-90">{language === 'ID' ? product.desc : product.descEN || product.desc}</p>
+                                    <h4 className="text-sm lg:text-lg font-semibold text-white mb-1 leading-tight">{getTitle(product)}</h4>
+                                    <p className="text-white/60 text-xs md:text-sm line-clamp-1 opacity-90">{getDesc(product)}</p>
                                 </div>
                                 <div className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-white/10 backdrop-blur-md text-white border border-white/20 rounded-full opacity-0 group-hover:opacity-100 transition-all hover:bg-white/20 z-20">
                                     <ArrowUpRight className="w-4 h-4" />
@@ -232,7 +261,10 @@ export default function HealthPuzzle() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.5 }}
-                        className="col-span-12 lg:col-span-4"
+                        className={cn(
+                            "col-span-12",
+                            (products.length < 3) ? "lg:col-span-5" : "lg:col-span-4"
+                        )}
                     >
                         <Link
                             to="/products"

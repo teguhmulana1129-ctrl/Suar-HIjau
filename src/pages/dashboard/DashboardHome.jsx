@@ -58,13 +58,13 @@ export default function DashboardHome() {
     const { data, loading, error } = useStore();
 
     if (loading) return (
-        <div className="flex flex-col items-center justify-center py-24 gap-3">
-            <div className="w-10 h-10 rounded-full border-2 border-green-200 border-t-green-500 animate-spin" />
-            <p className="text-slate-400 text-sm font-medium">Memuat data dashboard...</p>
+        <div className="flex flex-col items-center justify-center py-20 gap-2.5">
+            <div className="w-6 h-6 rounded-full border-2 border-green-200 border-t-green-500 animate-spin" />
+            <p className="text-slate-400 text-xs font-medium">Memuat data dashboard...</p>
         </div>
     );
     if (error) return (
-        <div className="flex justify-center py-20 text-red-500 text-sm">Error: {error}</div>
+        <div className="flex justify-center py-16 text-red-500 text-xs">Error: {error}</div>
     );
 
     const statsData = [
@@ -79,10 +79,10 @@ export default function DashboardHome() {
     const recentNews = data.news.slice(0, 3);
 
     return (
-        <div className="space-y-6 page-fade-in">
+        <div className="space-y-4 page-fade-in pb-8">
             {/* Welcome Banner */}
             <div
-                className="rounded-2xl p-7 lg:p-10 text-white relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-6"
+                className="rounded-xl p-5 lg:p-6 text-white relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-4"
                 style={{
                     backgroundColor: '#0a1f12', // Fallback darker color
                     boxShadow: '0 8px 32px rgba(10, 31, 18, 0.3)',
@@ -111,21 +111,21 @@ export default function DashboardHome() {
                     style={{ background: 'linear-gradient(90deg, rgba(2, 44, 34, 0.8) 0%, rgba(2, 44, 34, 0.3) 100%)' }} />
 
                 <div className="relative flex-1 z-10">
-                    <div className="flex items-center gap-3 mb-3">
-                        <span className="text-green-300 text-[11px] font-bold uppercase tracking-[0.2em] opacity-90">Selamat Datang Di</span>
+                    <div className="flex items-center gap-2 mb-2">
+                        <span className="text-green-300 text-[9px] font-bold uppercase tracking-[0.2em] opacity-90">Selamat Datang Di</span>
                         {/* Sistem Aktif Badge */}
                         <span
-                            className="inline-flex items-center gap-1.5 text-[10px] font-bold px-2.5 py-1 rounded-full bg-black/40 border border-green-500/30 backdrop-blur-md"
+                            className="inline-flex items-center gap-1 text-[8px] font-bold px-1.5 py-0.5 rounded-full bg-black/40 border border-green-500/30 backdrop-blur-md"
                             style={{ color: '#4ade80' }}
                         >
-                            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse shadow-[0_0_8px_#4ade80]" />
+                            <span className="w-1 h-1 rounded-full bg-green-400 animate-pulse shadow-[0_0_8px_#4ade80]" />
                             Sistem Aktif
                         </span>
                     </div>
-                    <h1 className="text-3xl lg:text-4xl font-extrabold mb-3 tracking-tight flex items-center gap-2 drop-shadow-md">
-                        Dashboard SuaR Hijau <span className="text-2xl opacity-90">🌿</span>
+                    <h1 className="text-xl lg:text-2xl font-extrabold mb-1.5 tracking-tight flex items-center gap-2 drop-shadow-md">
+                        Dashboard SuaR Hijau <span className="text-lg opacity-90">🌿</span>
                     </h1>
-                    <p className="max-w-xl text-sm leading-relaxed text-emerald-100/80 font-medium">
+                    <p className="max-w-xl text-[11px] leading-relaxed text-emerald-100/80 font-medium">
                         Kelola konten website Suar Hijau — program, produk, event, berita, dan tim<br className="hidden sm:block" />
                         — semua dari satu tempat.
                     </p>
@@ -133,16 +133,16 @@ export default function DashboardHome() {
 
                 {/* Quick stat highlight */}
                 <div
-                    className="relative flex-shrink-0 flex items-center gap-3 px-5 py-4 rounded-xl border border-slate-700/50 bg-slate-800/40 backdrop-blur-md"
+                    className="relative flex-shrink-0 flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-700/50 bg-slate-800/40 backdrop-blur-md"
                 >
-                    <div className="flex flex-col items-center justify-center min-w-[50px]">
-                        <div className="flex items-center gap-1.5 mb-0.5">
-                            <TrendingUp className="w-3.5 h-3.5 text-green-400" />
-                            <span className="text-2xl font-bold text-white leading-none">
+                    <div className="flex flex-col items-center justify-center min-w-[36px]">
+                        <div className="flex items-center gap-1 mb-0.5">
+                            <TrendingUp className="w-3 h-3 text-green-400" />
+                            <span className="text-lg font-bold text-white leading-none">
                                 {statsData.reduce((a, s) => a + s.count, 0)}
                             </span>
                         </div>
-                        <span className="text-[10px] font-medium text-slate-400 uppercase tracking-wide mt-1">
+                        <span className="text-[8px] font-medium text-slate-400 uppercase tracking-wider mt-0.5">
                             Total Konten
                         </span>
                     </div>
@@ -150,12 +150,12 @@ export default function DashboardHome() {
             </div>
 
             {/* Stats Cards */}
-            <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
                 {statsData.map(stat => (
                     <Link
                         key={stat.label}
                         to={stat.link}
-                        className="group bg-white rounded-2xl p-5 border border-slate-100 transition-all duration-300 hover:-translate-y-1"
+                        className="group bg-white rounded-lg p-3 border border-slate-100 transition-all duration-300 hover:-translate-y-1"
                         style={{
                             boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
                         }}
@@ -168,44 +168,44 @@ export default function DashboardHome() {
                             e.currentTarget.style.borderColor = '#f1f5f9';
                         }}
                     >
-                        <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-start justify-between mb-2.5">
                             <div
-                                className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-                                style={{ background: stat.gradient, boxShadow: `0 4px 12px ${stat.glow}` }}
+                                className="w-7 h-7 rounded-md flex items-center justify-center flex-shrink-0"
+                                style={{ background: stat.gradient, boxShadow: `0 3px 10px ${stat.glow}` }}
                             >
-                                <stat.icon className="w-[18px] h-[18px] text-white" />
+                                <stat.icon className="w-3.5 h-3.5 text-white" />
                             </div>
                             <ArrowUpRight
-                                className="w-4 h-4 transition-all duration-200 opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0"
+                                className="w-3 h-3 transition-all duration-200 opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0"
                                 style={{ color: stat.text }}
                             />
                         </div>
-                        <p className="text-3xl font-bold text-slate-900 leading-none mb-1">{stat.count}</p>
-                        <p className="text-xs font-medium" style={{ color: '#94a3b8' }}>{stat.label}</p>
+                        <p className="text-xl font-bold text-slate-900 leading-none mb-1">{stat.count}</p>
+                        <p className="text-[9px] font-medium" style={{ color: '#94a3b8' }}>{stat.label}</p>
                     </Link>
                 ))}
             </div>
 
             {/* Bottom Grid */}
-            <div className="grid lg:grid-cols-2 gap-6">
+            <div className="grid lg:grid-cols-2 gap-4">
                 {/* Upcoming Events */}
-                <div className="bg-white rounded-2xl border border-slate-100 p-6"
+                <div className="bg-white rounded-xl border border-slate-100 p-4"
                     style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
-                    <div className="flex items-center gap-2 mb-5">
-                        <div className="w-7 h-7 rounded-lg flex items-center justify-center"
-                            style={{ background: 'linear-gradient(135deg, #a855f7 0%, #7c3aed 100%)', boxShadow: '0 3px 8px rgba(168,85,247,0.3)' }}>
-                            <CalendarDays className="w-3.5 h-3.5 text-white" />
+                    <div className="flex items-center gap-2 mb-3">
+                        <div className="w-5 h-5 rounded flex items-center justify-center"
+                            style={{ background: 'linear-gradient(135deg, #a855f7 0%, #7c3aed 100%)', boxShadow: '0 2px 6px rgba(168,85,247,0.3)' }}>
+                            <CalendarDays className="w-2.5 h-2.5 text-white" />
                         </div>
-                        <h3 className="font-bold text-slate-800 flex-1">Event Mendatang</h3>
-                        <Link to="/dashboard/events" className="text-xs font-semibold text-green-600 hover:text-green-700 transition-colors flex items-center gap-0.5">
-                            Lihat Semua <ArrowUpRight className="w-3 h-3" />
+                        <h3 className="font-bold text-slate-800 text-[13px] flex-1">Event Mendatang</h3>
+                        <Link to="/dashboard/events" className="text-[9px] font-semibold text-green-600 hover:text-green-700 transition-colors flex items-center gap-0.5">
+                            Lihat Semua <ArrowUpRight className="w-2.5 h-2.5" />
                         </Link>
                     </div>
 
                     {recentEvents.length === 0 ? (
-                        <div className="flex flex-col items-center py-8 gap-3">
+                        <div className="flex flex-col items-center py-4 gap-2">
                             {/* Simple SVG illustration */}
-                            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg width="40" height="40" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <rect x="8" y="16" width="48" height="40" rx="6" fill="#f3e8ff" />
                                 <rect x="8" y="16" width="48" height="12" rx="6" fill="#e9d5ff" />
                                 <rect x="20" y="8" width="6" height="12" rx="3" fill="#a855f7" />
@@ -213,32 +213,32 @@ export default function DashboardHome() {
                                 <rect x="16" y="36" width="12" height="3" rx="1.5" fill="#d8b4fe" />
                                 <rect x="16" y="44" width="20" height="3" rx="1.5" fill="#e9d5ff" />
                             </svg>
-                            <p className="text-sm font-medium text-slate-400">Belum ada event mendatang</p>
+                            <p className="text-[11px] font-medium text-slate-400">Belum ada event mendatang</p>
                             <Link to="/dashboard/events"
-                                className="text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors"
+                                className="text-[9px] font-semibold px-2 py-1 rounded transition-colors mt-0.5"
                                 style={{ background: 'rgba(168,85,247,0.1)', color: '#7c3aed' }}>
                                 + Tambah Event
                             </Link>
                         </div>
                     ) : (
-                        <div className="space-y-2">
+                        <div className="space-y-1">
                             {recentEvents.map(event => (
                                 <div
                                     key={event.id}
-                                    className="flex items-start gap-3 p-3 rounded-xl transition-all duration-200 cursor-default"
+                                    className="flex items-start gap-2 p-2 rounded-lg transition-all duration-200 cursor-default border border-transparent hover:border-slate-100"
                                     style={{ background: '#fafafa' }}
                                     onMouseEnter={e => e.currentTarget.style.background = '#f5f3ff'}
                                     onMouseLeave={e => e.currentTarget.style.background = '#fafafa'}
                                 >
-                                    <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
+                                    <div className="w-7 h-7 rounded flex items-center justify-center flex-shrink-0"
                                         style={{ background: 'rgba(168,85,247,0.1)' }}>
-                                        <CalendarDays className="w-4 h-4" style={{ color: '#7c3aed' }} />
+                                        <CalendarDays className="w-3 h-3" style={{ color: '#7c3aed' }} />
                                     </div>
                                     <div className="min-w-0 flex-1">
-                                        <p className="text-sm font-semibold text-slate-800 truncate">{event.title}</p>
-                                        <p className="text-[11px] text-slate-400 mt-0.5">{event.date} · {event.location}</p>
+                                        <p className="text-[11px] font-semibold text-slate-800 truncate">{event.title}</p>
+                                        <p className="text-[9px] text-slate-400 mt-0.5">{event.date} · {event.location}</p>
                                     </div>
-                                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full flex-shrink-0"
+                                    <span className="text-[8px] font-semibold px-1.5 py-0.5 rounded-full flex-shrink-0"
                                         style={{ background: 'rgba(34,197,94,0.12)', color: '#15803d' }}>
                                         {event.status}
                                     </span>
@@ -249,23 +249,23 @@ export default function DashboardHome() {
                 </div>
 
                 {/* Recent News */}
-                <div className="bg-white rounded-2xl border border-slate-100 p-6"
+                <div className="bg-white rounded-xl border border-slate-100 p-4"
                     style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}>
-                    <div className="flex items-center gap-2 mb-5">
-                        <div className="w-7 h-7 rounded-lg flex items-center justify-center"
-                            style={{ background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', boxShadow: '0 3px 8px rgba(245,158,11,0.3)' }}>
-                            <Newspaper className="w-3.5 h-3.5 text-white" />
+                    <div className="flex items-center gap-2 mb-3">
+                        <div className="w-5 h-5 rounded flex items-center justify-center"
+                            style={{ background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', boxShadow: '0 2px 6px rgba(245,158,11,0.3)' }}>
+                            <Newspaper className="w-2.5 h-2.5 text-white" />
                         </div>
-                        <h3 className="font-bold text-slate-800 flex-1">Berita Terbaru</h3>
-                        <Link to="/dashboard/news" className="text-xs font-semibold text-green-600 hover:text-green-700 transition-colors flex items-center gap-0.5">
-                            Lihat Semua <ArrowUpRight className="w-3 h-3" />
+                        <h3 className="font-bold text-slate-800 text-[13px] flex-1">Berita Terbaru</h3>
+                        <Link to="/dashboard/news" className="text-[9px] font-semibold text-green-600 hover:text-green-700 transition-colors flex items-center gap-0.5">
+                            Lihat Semua <ArrowUpRight className="w-2.5 h-2.5" />
                         </Link>
                     </div>
 
                     {recentNews.length === 0 ? (
-                        <div className="flex flex-col items-center py-8 gap-3">
+                        <div className="flex flex-col items-center py-4 gap-2">
                             {/* Simple SVG illustration */}
-                            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg width="40" height="40" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <rect x="8" y="10" width="48" height="44" rx="6" fill="#fef3c7" />
                                 <rect x="16" y="20" width="32" height="4" rx="2" fill="#fde68a" />
                                 <rect x="16" y="28" width="24" height="3" rx="1.5" fill="#fef08a" />
@@ -274,32 +274,32 @@ export default function DashboardHome() {
                                 <circle cx="46" cy="46" r="10" fill="#f59e0b" />
                                 <path d="M46 41v6M46 50v1" stroke="white" strokeWidth="2" strokeLinecap="round" />
                             </svg>
-                            <p className="text-sm font-medium text-slate-400">Belum ada berita</p>
+                            <p className="text-[11px] font-medium text-slate-400">Belum ada berita</p>
                             <Link to="/dashboard/news"
-                                className="text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors"
+                                className="text-[9px] font-semibold px-2 py-1 rounded transition-colors mt-0.5"
                                 style={{ background: 'rgba(245,158,11,0.1)', color: '#d97706' }}>
                                 + Tambah Berita
                             </Link>
                         </div>
                     ) : (
-                        <div className="space-y-2">
+                        <div className="space-y-1">
                             {recentNews.map(news => (
                                 <div
                                     key={news.id}
-                                    className="flex items-start gap-3 p-3 rounded-xl transition-all duration-200 cursor-default"
+                                    className="flex items-start gap-2 p-2 rounded-lg transition-all duration-200 cursor-default border border-transparent hover:border-slate-100"
                                     style={{ background: '#fafafa' }}
                                     onMouseEnter={e => e.currentTarget.style.background = '#fffbeb'}
                                     onMouseLeave={e => e.currentTarget.style.background = '#fafafa'}
                                 >
-                                    <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
+                                    <div className="w-7 h-7 rounded flex items-center justify-center flex-shrink-0"
                                         style={{ background: 'rgba(245,158,11,0.1)' }}>
-                                        <Newspaper className="w-4 h-4" style={{ color: '#d97706' }} />
+                                        <Newspaper className="w-3 h-3" style={{ color: '#d97706' }} />
                                     </div>
                                     <div className="min-w-0 flex-1">
-                                        <p className="text-sm font-semibold text-slate-800 truncate">{news.title}</p>
-                                        <p className="text-[11px] text-slate-400 mt-0.5">{news.author} · {news.date}</p>
+                                        <p className="text-[11px] font-semibold text-slate-800 truncate">{news.title}</p>
+                                        <p className="text-[9px] text-slate-400 mt-0.5">{news.author} · {news.date}</p>
                                     </div>
-                                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full flex-shrink-0"
+                                    <span className="text-[8px] font-semibold px-1.5 py-0.5 rounded-full flex-shrink-0"
                                         style={{ background: 'rgba(59,130,246,0.1)', color: '#1d4ed8' }}>
                                         {news.category}
                                     </span>

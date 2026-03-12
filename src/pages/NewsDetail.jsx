@@ -3,22 +3,31 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Calendar, User, Share2 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
-import { newsData } from '../data/newsData';
+import { useStore } from '../hooks/useStore';
 
 export default function NewsDetail() {
     const { id } = useParams();
     const navigate = useNavigate();
     const { language } = useLanguage();
+    const { data, loading, error, getImageUrl } = useStore();
 
     // Find post by ID (convert id to number as params returns string)
-    const post = newsData.find(p => p.id === parseInt(id));
+    const post = data?.news?.find(p => p.id === parseInt(id));
 
     useEffect(() => {
         // Scroll to top when component mounts
         window.scrollTo(0, 0);
-    }, []);
+    }, [id]);
 
-    if (!post) {
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center pt-24">
+                <p className="text-neutral-500">Memuat artikel...</p>
+            </div>
+        );
+    }
+
+    if (error || !post) {
         return (
             <div className="min-h-screen flex items-center justify-center pt-24">
                 <div className="text-center">
@@ -35,6 +44,17 @@ export default function NewsDetail() {
             </div>
         );
     }
+
+    const title = (post.title && typeof post.title === 'object') ? post.title[language] || post.title.ID : (post.title || '');
+    const category = (post.category && typeof post.category === 'object') ? post.category[language] || post.category.ID : (post.category || 'Berita');
+    const date = (post.date && typeof post.date === 'object') ? post.date[language] || post.date.ID : (post.date || '');
+
+    let parsedSections = [];
+    if (post.sections) {
+        parsedSections = typeof post.sections === 'string' ? JSON.parse(post.sections) : post.sections;
+    }
+
+    const legacyContent = (post.content && typeof post.content === 'object') ? post.content[language] || post.content.ID : (post.content || '');
 
     return (
         <article className="pt-28 pb-20 min-h-screen bg-white">
@@ -55,8 +75,8 @@ export default function NewsDetail() {
                 >
                     <div className="aspect-[21/9] w-full rounded-2xl overflow-hidden bg-neutral-100 mb-8">
                         <img
-                            src={post.image}
-                            alt={post.title[language]}
+                            src={getImageUrl(post.image)}
+                            alt={title}
                             className="w-full h-full object-cover"
                         />
                     </div>
@@ -64,29 +84,67 @@ export default function NewsDetail() {
                     <div className="max-w-4xl mx-auto">
                         <div className="flex flex-wrap items-center gap-4 text-sm text-neutral-500 mb-6">
                             <span className="bg-primary/10 text-primary px-3 py-1 rounded-full font-semibold">
-                                {post.category[language]}
+                                {category}
                             </span>
                             <span className="flex items-center gap-1">
                                 <Calendar className="w-4 h-4" />
-                                {post.date[language]}
+                                {new Date(date).toLocaleDateString(language === 'ID' ? 'id-ID' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' })}
                             </span>
                             <span className="flex items-center gap-1">
                                 <User className="w-4 h-4" />
-                                {post.author}
+                                {post.author || 'Tim SuaR Hijau'}
                             </span>
                         </div>
 
                         <h1 className="text-3xl md:text-5xl font-bold text-neutral-900 font-display mb-8 leading-tight">
-                            {post.title[language]}
+                            {title}
                         </h1>
 
-                        <div
-                            className="prose prose-lg prose-neutral max-w-none font-sans leading-relaxed text-neutral-600
-                                prose-headings:font-display prose-headings:font-bold prose-headings:text-neutral-900
-                                prose-a:text-primary prose-a:no-underline hover:prose-a:underline
-                                prose-img:rounded-xl prose-img:shadow-sm"
-                            dangerouslySetInnerHTML={{ __html: post.content[language] }}
-                        />
+                        <div className="prose prose-lg prose-neutral max-w-none font-sans leading-relaxed text-neutral-600">
+                            {parsedSections.length > 0 ? (
+                                parsedSections.map((section, idx) => {
+                                    if (section.type === 'text') {
+                                        return <p key={idx} className="mb-6 whitespace-pre-wrap">{section.content}</p>;
+                                    }
+                                    if (section.type === 'heading') {
+                                        return <h3 key={idx} className="text-2xl font-bold text-neutral-900 font-display mt-8 mb-4">{section.content}</h3>;
+                                    }
+                                    if (section.type === 'quote') {
+                                        return (
+                                            <blockquote key={idx} className="border-l-4 border-primary pl-6 py-2 my-8 italic text-xl text-neutral-700 font-medium">
+                                                "{section.content}"
+                                            </blockquote>
+                                        );
+                                    }
+                                    if (section.type === 'image') {
+                                        return (
+                                            <div key={idx} className="my-10 rounded-xl overflow-hidden shadow-sm">
+                                                <img src={getImageUrl(section.content)} alt="Article Section" className="w-full object-cover" />
+                                            </div>
+                                        );
+                                    }
+                                    if (section.type === 'video') {
+                                        // simple iframe embed for youtube/vimeo if content is url
+                                        // or a plain link if not easily embeddable
+                                        return (
+                                            <div key={idx} className="my-10 aspect-video rounded-xl overflow-hidden bg-neutral-100 shadow-sm relative">
+                                                <iframe
+                                                    src={section.content.replace('watch?v=', 'embed/')}
+                                                    className="absolute inset-0 w-full h-full"
+                                                    allowFullScreen
+                                                ></iframe>
+                                            </div>
+                                        );
+                                    }
+                                    return null;
+                                })
+                            ) : (
+                                <div
+                                    dangerouslySetInnerHTML={{ __html: legacyContent }}
+                                    className="prose-headings:font-display prose-headings:font-bold prose-headings:text-neutral-900 prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-xl prose-img:shadow-sm"
+                                />
+                            )}
+                        </div>
 
                         {/* Share Section - Optional */}
                         <div className="mt-12 pt-8 border-t border-neutral-100 flex items-center justify-between">

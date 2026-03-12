@@ -114,132 +114,145 @@ export default function EventsPage() {
     };
 
     return (
-        <div className="space-y-8 animate-in fade-in duration-700">
+        <div className="space-y-5 animate-in fade-in duration-500 pb-8">
             {/* Header Section */}
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-                <div className="space-y-1">
-                    <h1 className="text-3xl font-bold bg-gradient-to-r from-dark-900 to-primary-800 bg-clip-text text-transparent">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                <div className="space-y-0.5">
+                    <h1 className="text-xl font-bold tracking-tight bg-gradient-to-r from-dark-900 to-primary-800 bg-clip-text text-transparent">
                         Manajemen Event
                     </h1>
-                    <p className="text-dark-400 font-medium">
+                    <p className="text-xs text-dark-500 font-medium">
                         Atur inisiatif kegiatan lingkungan dan komunitas.
                     </p>
                 </div>
                 <button
                     onClick={openAdd}
-                    className="flex items-center justify-center gap-2 bg-primary-600 text-white px-6 py-3 rounded-2xl font-bold hover:bg-primary-700 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-primary-200"
+                    className="flex items-center justify-center gap-1.5 bg-emerald-600 text-white px-3.5 py-2 rounded-lg text-xs font-bold hover:bg-emerald-700 transition-all shadow-sm active:scale-95"
                 >
-                    <Plus className="w-5 h-5" /> Buat Event Baru
+                    <Plus className="w-3.5 h-3.5" /> Buat Event
                 </button>
             </div>
 
             {/* Stats Overview */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {[
                     { label: 'TOTAL EVENT', value: stats.total, icon: CalendarIcon, color: 'emerald', bg: 'bg-emerald-50' },
                     { label: 'MENDATANG', value: stats.mendatang, icon: Activity, color: 'blue', bg: 'bg-blue-50' },
                     { label: 'TELAH SELESAI', value: stats.selesai, icon: CheckCircle2, color: 'rose', bg: 'bg-rose-50' },
                 ].map((item, i) => (
-                    <div key={i} className="bg-white p-6 rounded-[2rem] border border-dark-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-shadow group">
-                        <div className={`w-14 h-14 ${item.bg} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                            <item.icon className={`w-7 h-7 text-${item.color}-600`} />
+                    <div key={i} className="bg-white p-4 rounded-xl border border-dark-100 shadow-sm flex items-center gap-3 hover:shadow-md transition-shadow group">
+                        <div className={`w-10 h-10 ${item.bg} rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                            <item.icon className={`w-5 h-5 text-${item.color}-600`} />
                         </div>
                         <div>
-                            <p className="text-[10px] font-black text-dark-300 tracking-widest uppercase mb-1">{item.label}</p>
-                            <p className="text-2xl font-bold text-dark-900 leading-none">{item.value}</p>
+                            <p className="text-[9px] font-bold text-dark-400 tracking-wider uppercase mb-0.5">{item.label}</p>
+                            <p className="text-lg font-bold text-dark-900 leading-none">{item.value}</p>
                         </div>
                     </div>
                 ))}
             </div>
 
             {/* Search & Filter Bar */}
-            <div className="flex flex-col sm:flex-row gap-4 items-center bg-white p-2 rounded-[2rem] border border-dark-100 shadow-sm">
+            <div className="flex flex-col sm:flex-row gap-2.5 items-center bg-white p-1.5 rounded-xl border border-dark-100 shadow-sm">
                 <div className="relative flex-1 w-full">
-                    <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-dark-300" />
+                    <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-dark-400" />
                     <input
                         type="text"
                         placeholder="Cari judul event atau lokasi..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full pl-14 pr-6 py-4 bg-transparent outline-none text-dark-700 font-medium placeholder:text-dark-300"
+                        className="w-full pl-9 pr-4 py-2 text-[13px] bg-transparent outline-none text-dark-700 font-medium placeholder:text-dark-300"
                     />
                 </div>
-                <button className="flex items-center gap-2 px-6 py-3 bg-dark-50 text-dark-600 rounded-2xl font-bold hover:bg-dark-100 transition-colors mr-2">
-                    <Filter className="w-5 h-5 text-dark-400" /> Filter
+                <button className="flex items-center gap-1.5 px-4 py-2 bg-dark-50 text-dark-600 rounded-lg text-[13px] font-semibold hover:bg-dark-100 transition-colors mr-1">
+                    <Filter className="w-3.5 h-3.5 text-dark-500" /> Filter
                 </button>
             </div>
 
             {loading && (
-                <div className="flex flex-col items-center justify-center py-20 animate-pulse">
-                    <div className="w-12 h-12 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin mb-4"></div>
-                    <p className="text-dark-400 font-medium tracking-wide">Menghubungkan kalender kegiatan...</p>
+                <div className="flex flex-col items-center justify-center py-12 animate-pulse">
+                    <div className="w-8 h-8 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin mb-2.5"></div>
+                    <p className="text-xs text-dark-400 font-medium tracking-wide">Menghubungkan kalender kegiatan...</p>
                 </div>
             )}
 
             {error && (
-                <div className="flex items-center gap-3 p-6 bg-rose-50 text-rose-600 rounded-3xl border border-rose-100 italic font-medium">
-                    <AlertCircle className="w-6 h-6" /> Kendala sistem: {error}
+                <div className="flex items-center gap-2 p-3 bg-rose-50 text-xs text-rose-600 rounded-xl border border-rose-100 italic font-medium">
+                    <AlertCircle className="w-4 h-4" /> Kendala sistem: {error}
                 </div>
             )}
 
             {/* Events List */}
             {!loading && !error && (
-                <div className="space-y-6">
+                <div className="space-y-3">
                     {filteredEvents.map(event => (
-                        <div key={event.id} className="bg-white rounded-[2.5rem] border border-dark-100 overflow-hidden group hover:shadow-2xl hover:border-primary-100 transition-all duration-500">
-                            <div className="flex flex-col lg:flex-row">
-                                <div className="lg:w-72 h-56 lg:h-auto bg-dark-50 flex-shrink-0 relative overflow-hidden p-4">
-                                    <div className="w-full h-full rounded-[1.8rem] overflow-hidden">
+                        <div key={event.id} className="bg-white rounded-xl border border-dark-100 overflow-hidden group hover:shadow-lg transition-all duration-300">
+                            <div className="flex flex-col sm:flex-row">
+                                <div className="sm:w-48 h-40 sm:h-auto bg-dark-50 flex-shrink-0 relative overflow-hidden p-2">
+                                    <div className="w-full h-full rounded-lg overflow-hidden">
                                         {event.image ? (
-                                            <img src={getImageUrl(event.image)} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="" />
+                                            <img src={getImageUrl(event.image)} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="" />
                                         ) : (
                                             <div className="w-full h-full flex items-center justify-center bg-dark-100">
-                                                <ImageIcon className="w-10 h-10 text-dark-200" />
+                                                <ImageIcon className="w-6 h-6 text-dark-300" />
                                             </div>
                                         )}
                                     </div>
-                                    <div className="absolute top-8 left-8">
-                                        <span className={`text-[10px] font-black px-3 py-1 rounded-full shadow-lg tracking-tighter uppercase ${event.status === 'upcoming' ? 'bg-emerald-500 text-white' : 'bg-dark-500 text-white'
+                                    <div className="absolute top-3 left-3">
+                                        <span className={`text-[9px] font-bold px-2 py-0.5 rounded shadow-sm tracking-tight uppercase ${event.status === 'upcoming' ? 'bg-emerald-500 text-white' : 'bg-dark-500 text-white'
                                             }`}>
                                             {event.status === 'upcoming' ? 'Mendatang' : 'Selesai'}
                                         </span>
                                     </div>
                                 </div>
-                                <div className="flex-1 p-8">
+                                <div className="flex-1 p-4">
                                     <div className="flex flex-col h-full">
-                                        <div className="flex items-start justify-between gap-4 mb-4">
+                                        <div className="flex items-start justify-between gap-3 mb-2">
                                             <div>
-                                                <div className="flex items-center gap-2 mb-3">
-                                                    <span className="text-[10px] font-black px-2.5 py-1 rounded-lg bg-primary-100 text-primary-700 uppercase tracking-widest">{event.price}</span>
-                                                    <span className="text-[10px] font-bold text-dark-300 flex items-center gap-1 uppercase tracking-widest"><Clock className="w-3 h-3" /> {event.time}</span>
+                                                <div className="flex items-center gap-1.5 mb-1.5">
+                                                    <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-primary-50 text-primary-700 uppercase tracking-wider">{event.price}</span>
+                                                    <span className="text-[9px] font-bold text-dark-400 flex items-center gap-1 uppercase tracking-wider"><Clock className="w-3 h-3" /> {event.time}</span>
                                                 </div>
-                                                <h3 className="text-2xl font-extrabold text-dark-900 group-hover:text-primary-700 transition-colors mb-2 leading-tight">{event.title}</h3>
-                                                <div className="flex flex-wrap gap-4 text-sm font-semibold text-dark-400">
-                                                    <span className="flex items-center gap-2 bg-dark-50 px-3 py-1.5 rounded-xl"><CalendarDays className="w-4 h-4 text-primary-500" /> {event.date}</span>
-                                                    <span className="flex items-center gap-2 bg-dark-50 px-3 py-1.5 rounded-xl"><MapPin className="w-4 h-4 text-primary-500" /> {event.location}</span>
+                                                <h3 className="text-[15px] font-bold text-dark-900 group-hover:text-primary-600 transition-colors mb-1.5 leading-tight">{event.title}</h3>
+                                                <div className="flex flex-wrap gap-2 text-[11px] font-semibold text-dark-500">
+                                                    <span className="flex items-center gap-1"><CalendarDays className="w-3.5 h-3.5 text-primary-500" /> {new Date(event.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+                                                    <span className="flex items-center gap-1"><MapPin className="w-3.5 h-3.5 text-primary-500" /> {event.location}</span>
                                                 </div>
                                             </div>
-                                            <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <button onClick={() => openEdit(event)} className="p-3 bg-blue-50 text-blue-600 rounded-2xl hover:bg-blue-600 hover:text-white transition-all shadow-sm active:scale-95"><Pencil className="w-5 h-5" /></button>
-                                                <button onClick={() => deleteItem('events', event.id)} className="p-3 bg-rose-50 text-rose-600 rounded-2xl hover:bg-rose-600 hover:text-white transition-all shadow-sm active:scale-95"><Trash2 className="w-5 h-5" /></button>
+                                            <div className="flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <button onClick={() => openEdit(event)} className="p-1.5 bg-blue-50 text-blue-600 rounded-md hover:bg-blue-600 hover:text-white transition-all shadow-sm active:scale-95"><Pencil className="w-3.5 h-3.5" /></button>
+                                                <button onClick={() => deleteItem('events', event.id)} className="p-1.5 bg-rose-50 text-rose-600 rounded-md hover:bg-rose-600 hover:text-white transition-all shadow-sm active:scale-95"><Trash2 className="w-3.5 h-3.5" /></button>
                                             </div>
                                         </div>
-                                        <p className="text-dark-500 leading-relaxed font-medium line-clamp-2 mb-6">
-                                            {event.description}
+                                        <p className="text-[11px] text-dark-500 leading-relaxed font-medium line-clamp-2 mb-3">
+                                            {event.description || event.fullDescription || 'Belum ada deskripsi.'}
                                         </p>
-                                        <div className="mt-auto pt-6 border-t border-dark-50 flex items-center justify-between">
-                                            <div className="flex -space-x-3">
-                                                {[1, 2, 3].map(i => (
-                                                    <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-dark-100 flex items-center justify-center">
-                                                        <Users className="w-4 h-4 text-dark-300" />
-                                                    </div>
-                                                ))}
-                                                <div className="px-3 h-8 rounded-full border-2 border-white bg-primary-50 flex items-center justify-center text-[10px] font-bold text-primary-600">
-                                                    +24 Terdaftar
+
+                                        {/* Tampilkan Rundown Singkat */}
+                                        {event.rundown && Array.isArray(event.rundown) && event.rundown.length > 0 && event.rundown[0].activity && (
+                                            <div className="mb-3">
+                                                <p className="text-[10px] font-bold text-dark-900 tracking-wider uppercase mb-1.5 flex items-center gap-1.5 border-b border-dark-100 pb-1">
+                                                    <Clock className="w-3.5 h-3.5 text-primary-500" /> Rundown Singkat
+                                                </p>
+                                                <div className="space-y-1.5">
+                                                    {event.rundown.slice(0, 3).map((r, i) => (
+                                                        <div key={i} className="flex items-start gap-2 text-[10px]">
+                                                            <span className="font-bold text-primary-600 bg-primary-50 px-1.5 py-0.5 rounded whitespace-nowrap">{r.time}</span>
+                                                            <span className="text-dark-600 font-medium leading-tight pt-0.5">{r.activity}</span>
+                                                        </div>
+                                                    ))}
+                                                    {event.rundown.length > 3 && (
+                                                        <p className="text-[10px] font-medium text-dark-400 italic pt-1">
+                                                            + {event.rundown.length - 3} agenda lainnya...
+                                                        </p>
+                                                    )}
                                                 </div>
                                             </div>
-                                            <button onClick={() => openEdit(event)} className="text-sm font-bold text-primary-600 hover:text-primary-700 flex items-center gap-2 group/btn">
-                                                Lihat Rincian Rundown <Info className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
+                                        )}
+
+                                        <div className="mt-auto pt-3 border-t border-dark-100 flex items-center justify-end">
+                                            <button onClick={() => openEdit(event)} className="text-[11px] font-bold text-primary-600 hover:text-primary-700 flex items-center gap-1 group/btn">
+                                                Detail Rundown <Info className="w-3.5 h-3.5 group-hover/btn:scale-110 transition-transform" />
                                             </button>
                                         </div>
                                     </div>
@@ -249,13 +262,13 @@ export default function EventsPage() {
                     ))}
 
                     {filteredEvents.length === 0 && (
-                        <div className="py-24 flex flex-col items-center justify-center bg-white rounded-[3rem] border-2 border-dashed border-dark-100">
-                            <div className="w-20 h-20 bg-dark-50 rounded-full flex items-center justify-center mb-4">
-                                <CalendarIcon className="w-8 h-8 text-dark-200" />
+                        <div className="py-12 flex flex-col items-center justify-center bg-white rounded-xl border border-dashed border-dark-200">
+                            <div className="w-12 h-12 bg-dark-50 rounded-full flex items-center justify-center mb-2.5">
+                                <CalendarIcon className="w-5 h-5 text-dark-400" />
                             </div>
-                            <h3 className="text-xl font-bold text-dark-900 mb-1">Event Tidak Ditemukan</h3>
-                            <p className="text-dark-400 font-medium">Belum ada agenda untuk pencarian "{searchQuery}"</p>
-                            <button onClick={openAdd} className="mt-6 px-6 py-2.5 bg-primary-50 text-primary-700 font-bold rounded-xl hover:bg-primary-100 transition-colors">
+                            <h3 className="text-[15px] font-bold text-dark-900 mb-0.5">Event Tidak Ditemukan</h3>
+                            <p className="text-xs text-dark-500 font-medium">Belum ada agenda untuk pencarian "{searchQuery}"</p>
+                            <button onClick={openAdd} className="mt-4 px-4 py-2 text-xs bg-primary-50 text-primary-700 font-semibold rounded-lg hover:bg-primary-100 transition-colors">
                                 Buat Event Baru
                             </button>
                         </div>
@@ -265,45 +278,45 @@ export default function EventsPage() {
 
             {/* Form Modal */}
             {showForm && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6" onClick={close}>
-                    <div className="absolute inset-0 bg-dark-900/60 backdrop-blur-xl animate-in fade-in duration-300" />
-                    <div className="relative w-full max-w-2xl max-h-[90vh] overflow-hidden bg-white rounded-[2.5rem] shadow-2xl animate-in zoom-in-95 duration-300 flex flex-col" onClick={e => e.stopPropagation()}>
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-5" onClick={close}>
+                    <div className="absolute inset-0 bg-dark-900/40 backdrop-blur-sm animate-in fade-in duration-200" />
+                    <div className="relative w-full max-w-2xl max-h-[90vh] overflow-hidden bg-white rounded-xl shadow-2xl animate-in zoom-in-95 duration-200 flex flex-col" onClick={e => e.stopPropagation()}>
 
                         {/* Modal Header */}
-                        <div className="px-8 py-6 border-b border-dark-50 flex items-center justify-between">
-                            <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 bg-primary-100 rounded-2xl flex items-center justify-center">
-                                    <CalendarIcon className="w-6 h-6 text-primary-600" />
+                        <div className="px-5 py-3.5 border-b border-dark-100 flex items-center justify-between bg-dark-50/50">
+                            <div className="flex items-center gap-2.5">
+                                <div className="w-8 h-8 bg-white border border-dark-100 shadow-sm rounded-lg flex items-center justify-center">
+                                    <CalendarIcon className="w-4 h-4 text-primary-600" />
                                 </div>
                                 <div>
-                                    <h2 className="text-xl font-bold text-dark-900">{editId ? 'Edit Rencana Event' : 'Publikasi Event Baru'}</h2>
-                                    <p className="text-xs text-dark-400 font-medium">Kontribusi nyata untuk lingkungan hidup.</p>
+                                    <h2 className="text-[15px] font-bold text-dark-900">{editId ? 'Edit Rencana Event' : 'Publikasi Event Baru'}</h2>
+                                    <p className="text-[11px] text-dark-500 font-medium">Kontribusi nyata untuk lingkungan hidup.</p>
                                 </div>
                             </div>
-                            <button onClick={close} className="p-3 hover:bg-dark-50 rounded-2xl transition-colors text-dark-400">
-                                <X className="w-6 h-6" />
+                            <button onClick={close} className="p-1.5 hover:bg-dark-100 rounded-md transition-colors text-dark-500">
+                                <X className="w-4 h-4" />
                             </button>
                         </div>
 
                         {/* Modal Body */}
-                        <form onSubmit={handleSubmit} className="p-8 overflow-y-auto space-y-8">
-                            <div className="grid sm:grid-cols-2 gap-6">
-                                <div className="sm:col-span-2 space-y-2">
-                                    <label className="text-[10px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">JUDUL EVENT *</label>
-                                    <input required value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} className="w-full px-5 py-4 bg-dark-50 border-none rounded-2xl text-sm font-bold text-dark-800 focus:ring-2 focus:ring-primary-500 transition-all" placeholder="Misal: Penanaman 1000 Bibit Bambu" />
+                        <form onSubmit={handleSubmit} className="p-5 overflow-y-auto space-y-5 custom-scrollbar">
+                            <div className="grid sm:grid-cols-2 gap-4">
+                                <div className="sm:col-span-2 space-y-1">
+                                    <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">JUDUL EVENT *</label>
+                                    <input required value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-semibold text-dark-900 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none" placeholder="Misal: Penanaman 1000 Bibit Bambu" />
                                 </div>
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">TANGGAL PELAKSANAAN *</label>
-                                    <input required type="date" value={form.date} onChange={e => setForm(f => ({ ...f, date: e.target.value }))} className="w-full px-5 py-4 bg-dark-50 border-none rounded-2xl text-sm font-bold text-dark-800 focus:ring-2 focus:ring-primary-500 transition-all" />
+                                <div className="space-y-1">
+                                    <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">TANGGAL PELAKSANAAN *</label>
+                                    <input required type="date" value={form.date} onChange={e => setForm(f => ({ ...f, date: e.target.value }))} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-semibold text-dark-900 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none" />
                                 </div>
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">WAKTU ACARA</label>
-                                    <input value={form.time} onChange={e => setForm(f => ({ ...f, time: e.target.value }))} className="w-full px-5 py-4 bg-dark-50 border-none rounded-2xl text-sm font-bold text-dark-800 focus:ring-2 focus:ring-primary-500 transition-all" placeholder="08:00 - 12:00 WIB" />
+                                <div className="space-y-1">
+                                    <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">WAKTU ACARA</label>
+                                    <input value={form.time} onChange={e => setForm(f => ({ ...f, time: e.target.value }))} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-semibold text-dark-900 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none" placeholder="08:00 - 12:00 WIB" />
                                 </div>
-                                <div className="sm:col-span-2 space-y-3">
-                                    <label className="text-[10px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">LOKASI KEGIATAN (PETA INTERAKTIF)</label>
-                                    <input value={form.location} onChange={e => setForm(f => ({ ...f, location: e.target.value }))} className="w-full px-5 py-4 bg-dark-50 border-none rounded-2xl text-sm font-medium text-dark-800 mb-2" placeholder="Gunakan peta atau ketik manual..." />
-                                    <div className="h-[250px] w-full rounded-2xl overflow-hidden border-2 border-dark-50 relative z-0">
+                                <div className="sm:col-span-2 space-y-1.5">
+                                    <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">LOKASI KEGIATAN (PETA INTERAKTIF)</label>
+                                    <input value={form.location} onChange={e => setForm(f => ({ ...f, location: e.target.value }))} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-medium text-dark-900 mb-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all" placeholder="Gunakan peta atau ketik manual..." />
+                                    <div className="h-[180px] w-full rounded-lg overflow-hidden border border-dark-200 relative z-0 shadow-sm">
                                         <MapContainer center={[-7.817342, 112.0223]} zoom={13} style={{ height: '100%', width: '100%' }}>
                                             <TileLayer
                                                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -317,58 +330,58 @@ export default function EventsPage() {
                                         </MapContainer>
                                     </div>
                                 </div>
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">BIAYA REGISTRASI</label>
-                                    <input value={form.price} onChange={e => setForm(f => ({ ...f, price: e.target.value }))} className="w-full px-5 py-4 bg-dark-50 border-none rounded-2xl text-sm font-bold text-primary-700 focus:ring-2 focus:ring-primary-500 transition-all" placeholder="Gratis / Nominal" />
+                                <div className="space-y-1">
+                                    <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">BIAYA REGISTRASI</label>
+                                    <input value={form.price} onChange={e => setForm(f => ({ ...f, price: e.target.value }))} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-semibold text-primary-700 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none" placeholder="Gratis / Nominal" />
                                 </div>
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">STATUS EVENT</label>
-                                    <select value={form.status} onChange={e => setForm(f => ({ ...f, status: e.target.value }))} className="w-full px-5 py-4 bg-dark-50 border-none rounded-2xl text-sm font-bold text-dark-800 transition-all cursor-pointer">
+                                <div className="space-y-1">
+                                    <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">STATUS EVENT</label>
+                                    <select value={form.status} onChange={e => setForm(f => ({ ...f, status: e.target.value }))} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-semibold text-dark-900 transition-all outline-none cursor-pointer focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
                                         <option value="upcoming">Mendatang</option>
                                         <option value="completed">Telah Selesai</option>
                                     </select>
                                 </div>
                             </div>
 
-                            <div className="space-y-3">
-                                <label className="text-[10px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">POSTER EVENT</label>
-                                <div className="flex flex-col sm:flex-row items-center gap-6 p-4 bg-dark-50 rounded-2xl">
-                                    <div className="w-32 h-32 rounded-2xl bg-white border-2 border-dashed border-dark-200 flex items-center justify-center overflow-hidden">
+                            <div className="space-y-1.5">
+                                <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">POSTER EVENT</label>
+                                <div className="flex flex-col sm:flex-row items-center gap-4 p-2.5 bg-dark-50 rounded-lg border border-dark-100">
+                                    <div className="w-20 h-20 rounded-md bg-white border border-dashed border-dark-300 flex items-center justify-center overflow-hidden">
                                         {form.image ? (
                                             <img src={getImageUrl(form.image)} className="w-full h-full object-cover" alt="" />
                                         ) : (
-                                            <ImageIcon className="w-8 h-8 text-dark-200" />
+                                            <ImageIcon className="w-5 h-5 text-dark-300" />
                                         )}
                                     </div>
-                                    <label className="inline-flex items-center gap-3 px-6 py-3 bg-white text-dark-700 rounded-xl font-bold border border-dark-200 cursor-pointer hover:border-primary-400 hover:text-primary-600 transition-all text-sm shadow-sm">
+                                    <label className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-dark-900 text-white rounded-lg font-semibold cursor-pointer hover:bg-dark-800 transition-colors text-xs shadow-sm">
                                         <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
-                                        🖼️ Unggah Poster Acara
+                                        Unggah Poster
                                     </label>
                                 </div>
                             </div>
 
-                            <div className="space-y-2">
-                                <label className="text-[10px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">DESKRIPSI LENGKAP</label>
-                                <textarea value={form.fullDescription} onChange={e => setForm(f => ({ ...f, fullDescription: e.target.value }))} rows={4} className="w-full px-5 py-4 bg-dark-50 border-none rounded-3xl text-sm font-medium text-dark-800 focus:ring-2 focus:ring-primary-500 transition-all resize-none leading-relaxed" placeholder="Berikan rincian menarik tentang event ini..." />
+                            <div className="space-y-1">
+                                <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">DESKRIPSI EVENT</label>
+                                <textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} rows={3} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-medium text-dark-900 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none resize-none" placeholder="Berikan rincian menarik tentang event ini..." />
                             </div>
 
                             {/* Rundown Section */}
-                            <div className="space-y-4 p-6 bg-dark-50/50 rounded-3xl">
-                                <label className="text-[10px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">RUNDOWN ACARA</label>
+                            <div className="space-y-2 p-4 bg-dark-50/50 rounded-xl border border-dark-100">
+                                <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">RUNDOWN ACARA</label>
                                 {form.rundown.map((item, i) => (
-                                    <div key={i} className="flex gap-3 bg-white p-3 rounded-2xl shadow-sm border border-dark-50">
-                                        <input value={item.time} onChange={e => { const arr = [...form.rundown]; arr[i] = { ...arr[i], time: e.target.value }; setForm(f => ({ ...f, rundown: arr })); }} className="w-40 px-4 py-2 bg-dark-50 border-none rounded-xl text-xs font-bold" placeholder="07:00-08:00" />
-                                        <input value={item.activity} onChange={e => { const arr = [...form.rundown]; arr[i] = { ...arr[i], activity: e.target.value }; setForm(f => ({ ...f, rundown: arr })); }} className="flex-1 px-4 py-2 bg-dark-50 border-none rounded-xl text-xs font-medium" placeholder="Kegiatan..." />
-                                        <button type="button" onClick={() => setForm(f => ({ ...f, rundown: f.rundown.filter((_, idx) => idx !== i) }))} className="p-2 bg-rose-50 text-rose-500 rounded-xl hover:bg-rose-500 hover:text-white transition-all"><Trash2 className="w-4 h-4" /></button>
+                                    <div key={i} className="flex gap-1.5 bg-white p-1.5 rounded-lg shadow-sm border border-dark-100">
+                                        <input value={item.time} onChange={e => { const arr = [...form.rundown]; arr[i] = { ...arr[i], time: e.target.value }; setForm(f => ({ ...f, rundown: arr })); }} className="w-24 px-2 py-1.5 bg-dark-50 border-transparent rounded-md text-[11px] font-semibold outline-none focus:ring-2 focus:ring-primary-400" placeholder="07:00-08:00" />
+                                        <input value={item.activity} onChange={e => { const arr = [...form.rundown]; arr[i] = { ...arr[i], activity: e.target.value }; setForm(f => ({ ...f, rundown: arr })); }} className="flex-1 px-2 py-1.5 bg-dark-50 border-transparent rounded-md text-[11px] font-medium outline-none focus:ring-2 focus:ring-primary-400" placeholder="Kegiatan..." />
+                                        <button type="button" onClick={() => setForm(f => ({ ...f, rundown: f.rundown.filter((_, idx) => idx !== i) }))} className="p-1.5 bg-rose-50 text-rose-500 rounded-md hover:bg-rose-500 hover:text-white transition-all"><Trash2 className="w-3.5 h-3.5" /></button>
                                     </div>
                                 ))}
-                                <button type="button" onClick={() => setForm(f => ({ ...f, rundown: [...f.rundown, { time: '', activity: '' }] }))} className="w-full py-3 border-2 border-dashed border-dark-200 rounded-2xl text-xs font-bold text-dark-400 hover:border-primary-400 hover:text-primary-600 transition-all">+ Tambah Sesi Rundown</button>
+                                <button type="button" onClick={() => setForm(f => ({ ...f, rundown: [...f.rundown, { time: '', activity: '' }] }))} className="w-full py-2 border border-dashed border-dark-300 rounded-lg text-[11px] font-bold text-dark-500 hover:border-primary-500 hover:text-primary-600 transition-colors bg-white hover:bg-primary-50">+ Tambah Sesi Rundown</button>
                             </div>
 
-                            <div className="flex gap-4 pt-4 border-t border-dark-50">
-                                <button type="button" onClick={close} className="flex-1 px-8 py-4 bg-dark-50 text-dark-600 rounded-2xl font-bold hover:bg-dark-100 transition-all">Batal</button>
-                                <button type="submit" className="flex-[2] px-8 py-4 bg-primary-600 text-white rounded-2xl font-bold hover:bg-primary-700 hover:shadow-xl hover:shadow-primary-100 active:scale-95 transition-all outline-none">
-                                    {editId ? '✨ Perbarui Event' : '🚀 Publikasikan Kegiatan'}
+                            <div className="flex justify-end gap-2.5 pt-3 border-t border-dark-100">
+                                <button type="button" onClick={close} className="px-4 py-2 bg-white border border-dark-200 text-dark-700 rounded-lg text-xs font-semibold hover:bg-dark-50 transition-colors">Batal</button>
+                                <button type="submit" className="px-4 py-2 bg-primary-600 text-white rounded-lg text-xs font-semibold hover:bg-primary-700 shadow-sm active:scale-95 transition-all outline-none">
+                                    {editId ? 'Simpan Perubahan' : 'Publikasikan Kegiatan'}
                                 </button>
                             </div>
                         </form>

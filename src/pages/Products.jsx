@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, ArrowRight, Leaf, Package, Award, CheckCircle2, X, MessageCircle, Eye } from 'lucide-react';
-import { PRODUCTS } from '../data/mockData';
+import { useStore } from '../hooks/useStore';
 import { cn } from '../lib/utils';
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
@@ -15,6 +15,8 @@ export default function Products() {
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [activeFilter, setActiveFilter] = useState('Semua');
     const location = useLocation();
+
+    const { data, loading, error, getImageUrl } = useStore();
 
     // Prevent body scroll when modal is open
     useEffect(() => {
@@ -32,8 +34,8 @@ export default function Products() {
     useEffect(() => {
         const params = new URLSearchParams(location.search);
         const openProduct = params.get('open');
-        if (openProduct) {
-            const found = PRODUCTS_DETAILED.find(p => p.title === openProduct || p.titleEN === openProduct);
+        if (openProduct && data.products) {
+            const found = data.products.find(p => p.title === openProduct || p.titleEN === openProduct);
             if (found) {
                 setSelectedProduct(found);
                 // Scroll to the product element
@@ -45,19 +47,15 @@ export default function Products() {
                 }, 100);
             }
         }
-    }, [location.search]);
+    }, [location.search, data.products]);
 
-    const PRODUCTS_DETAILED = PRODUCTS.map((product, idx) => ({
+    // Format PRODUCTS from backend (which doesn't have features/craftTime by default in schema)
+    const PRODUCTS_DETAILED = data.products.map((product, idx) => ({
         ...product,
-        id: idx,
-        price: ['Rp 85.000', 'Rp 45.000', 'Rp 35.000', 'Rp 55.000'][idx] || 'Rp 50.000',
-        category: [
-            language === 'ID' ? 'Wadah' : 'Container',
-            language === 'ID' ? 'Kemasan' : 'Packaging',
-            language === 'ID' ? 'Aksesoris' : 'Accessories',
-            language === 'ID' ? 'Peralatan' : 'Tools'
-        ][idx] || (language === 'ID' ? 'Lainnya' : 'Other'),
-        material: language === 'ID' ? '100% Bambu Pilihan' : '100% Premium Bamboo',
+        // Backend overrides
+        price: product.price || ['Rp 85.000', 'Rp 45.000', 'Rp 35.000', 'Rp 55.000'][idx] || 'Rp 50.000',
+        category: product.category || (language === 'ID' ? 'Lainnya' : 'Other'),
+        material: product.material || (language === 'ID' ? '100% Bambu Pilihan' : '100% Premium Bamboo'),
         craftTime: [
             language === 'ID' ? '3-5 hari' : '3-5 days',
             language === 'ID' ? '2-3 hari' : '2-3 days',
@@ -69,12 +67,7 @@ export default function Products() {
         features: language === 'ID'
             ? ['Dibuat handmade oleh pengrajin lokal', 'Material bambu berkualitas tinggi', 'Ramah lingkungan & biodegradable', 'Desain tradisional autentik']
             : ['Handmade by local artisans', 'High-quality bamboo material', 'Eco-friendly & biodegradable', 'Authentic traditional design'],
-        stock: [
-            language === 'ID' ? 'Tersedia' : 'Available',
-            language === 'ID' ? 'Tersedia' : 'Available',
-            language === 'ID' ? 'Pre-order' : 'Pre-order',
-            language === 'ID' ? 'Tersedia' : 'Available'
-        ][idx] || (language === 'ID' ? 'Tersedia' : 'Available'),
+        stock: product.stock || 'Tersedia',
     }));
 
     const categories = language === 'ID'
@@ -161,81 +154,85 @@ export default function Products() {
 
             {/* Products Grid - Compact 3 Column */}
             <section className="relative z-10 max-w-screen-xl mx-auto px-6">
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                    {filteredProducts.map((product, index) => (
-                        <motion.div
-                            id={`product-${product.id}`}
-                            key={index}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: index * 0.05 }}
-                            className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-neutral-100"
-                        >
-                            {/* Image */}
-                            <div className="relative h-48 overflow-hidden">
-                                <img
-                                    src={product.image}
-                                    alt={product.title}
-                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                />
-                                {/* Badges */}
-                                <div className="absolute top-3 left-3 flex gap-2">
-                                    <span className="bg-white/90 backdrop-blur-sm text-xs font-semibold px-2.5 py-1 rounded-full">
-                                        {product.category}
-                                    </span>
-                                </div>
-                                <div className="absolute top-3 right-3">
-                                    <span className={cn(
-                                        "text-xs font-semibold px-2.5 py-1 rounded-full",
-                                        product.stock === 'Tersedia'
-                                            ? "bg-green-500 text-white"
-                                            : "bg-yellow-500 text-white"
-                                    )}>
-                                        {product.stock}
-                                    </span>
-                                </div>
-                                {/* Quick View Overlay */}
-                                <div
-                                    onClick={() => setSelectedProduct(product)}
-                                    className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
-                                >
-                                    <span className="flex items-center gap-2 bg-white text-neutral-900 px-4 py-2 rounded-full text-sm font-semibold">
-                                        <Eye className="w-4 h-4" />
-                                        {language === 'ID' ? 'Lihat Detail' : 'View Details'}
-                                    </span>
-                                </div>
-                            </div>
-
-                            {/* Content */}
-                            <div className="p-5">
-                                <h3 className="font-bold text-neutral-900 mb-1 ">
-                                    {language === 'ID' ? product.title : product.titleEN || product.title}
-                                </h3>
-                                <p className="text-sm text-neutral-500 line-clamp-2 mb-3">
-                                    {language === 'ID' ? product.desc : product.descEN || product.desc}
-                                </p>
-
-                                {/* Price & Size */}
-                                <div className="flex items-center justify-between mb-4">
-                                    <span className="text-lg font-bold text-neutral-900 ">{product.price}</span>
-                                    <span className="text-xs text-neutral-400">{language === 'ID' ? 'Ukuran' : 'Size'} {product.size}</span>
+                {loading && <p className="text-center text-neutral-500 py-10">Memuat produk...</p>}
+                {error && <p className="text-center text-red-500 text-sm py-10">Gagal memuat produk: {error}</p>}
+                {!loading && !error && (
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                        {filteredProducts.map((product, index) => (
+                            <motion.div
+                                id={`product-${product.id}`}
+                                key={index}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: index * 0.05 }}
+                                className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-neutral-100"
+                            >
+                                {/* Image */}
+                                <div className="relative h-48 overflow-hidden">
+                                    <img
+                                        src={getImageUrl(product.image)}
+                                        alt={product.title}
+                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                    />
+                                    {/* Badges */}
+                                    <div className="absolute top-3 left-3 flex gap-2">
+                                        <span className="bg-white/90 backdrop-blur-sm text-xs font-semibold px-2.5 py-1 rounded-full">
+                                            {product.category}
+                                        </span>
+                                    </div>
+                                    <div className="absolute top-3 right-3">
+                                        <span className={cn(
+                                            "text-xs font-semibold px-2.5 py-1 rounded-full",
+                                            product.stock === 'Tersedia'
+                                                ? "bg-green-500 text-white"
+                                                : "bg-yellow-500 text-white"
+                                        )}>
+                                            {product.stock}
+                                        </span>
+                                    </div>
+                                    {/* Quick View Overlay */}
+                                    <div
+                                        onClick={() => setSelectedProduct(product)}
+                                        className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
+                                    >
+                                        <span className="flex items-center gap-2 bg-white text-neutral-900 px-4 py-2 rounded-full text-sm font-semibold">
+                                            <Eye className="w-4 h-4" />
+                                            {language === 'ID' ? 'Lihat Detail' : 'View Details'}
+                                        </span>
+                                    </div>
                                 </div>
 
-                                {/* CTA */}
-                                <a
-                                    href={`https://wa.me/081314838361?text=Halo, saya tertarik dengan produk ${product.title}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="w-full flex items-center justify-center gap-2 bg-neutral-900 text-white py-2.5 rounded-lg text-sm font-semibold hover:bg-neutral-800 transition-colors"
-                                >
-                                    <ShoppingBag className="w-4 h-4" />
-                                    <span>{language === 'ID' ? 'Pesan' : 'Order'}</span>
-                                </a>
-                            </div>
-                        </motion.div>
-                    ))}
-                </div>
+                                {/* Content */}
+                                <div className="p-5">
+                                    <h3 className="font-bold text-neutral-900 mb-1 ">
+                                        {language === 'ID' ? product.title : product.titleEN || product.title}
+                                    </h3>
+                                    <p className="text-sm text-neutral-500 line-clamp-2 mb-3">
+                                        {language === 'ID' ? (product.description || product.desc) : product.descEN || (product.description || product.desc)}
+                                    </p>
+
+                                    {/* Price & Size */}
+                                    <div className="flex items-center justify-between mb-4">
+                                        <span className="text-lg font-bold text-neutral-900 ">{product.price}</span>
+                                        <span className="text-xs text-neutral-400">{language === 'ID' ? 'Ukuran' : 'Size'} {product.size}</span>
+                                    </div>
+
+                                    {/* CTA */}
+                                    <a
+                                        href={`https://wa.me/081314838361?text=Halo, saya tertarik dengan produk ${product.title}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-full flex items-center justify-center gap-2 bg-neutral-900 text-white py-2.5 rounded-lg text-sm font-semibold hover:bg-neutral-800 transition-colors"
+                                    >
+                                        <ShoppingBag className="w-4 h-4" />
+                                        <span>{language === 'ID' ? 'Pesan' : 'Order'}</span>
+                                    </a>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                )}
             </section>
 
             {/* CTA Section - Compact */}
@@ -289,7 +286,7 @@ export default function Products() {
                                 {/* Image */}
                                 <div className="relative h-64 md:h-auto">
                                     <img
-                                        src={selectedProduct.image}
+                                        src={getImageUrl(selectedProduct.image)}
                                         alt={selectedProduct.title}
                                         className="w-full h-full object-cover"
                                     />

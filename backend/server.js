@@ -344,13 +344,13 @@ app.get('/api/news', async (req, res) => {
 });
 
 app.post('/api/news', async (req, res) => {
-    const { title, category, author, date, image, excerpt, content } = req.body;
+    const { title, slug, category, author, date, image, excerpt, content, tags, sections } = req.body;
     try {
         const imageUrl = await processImage(image);
         const result = await pool.query(
-            `INSERT INTO news (title, category, author, date, image, excerpt, content) 
-       VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
-            [title, category, author, date || new Date(), imageUrl, excerpt, content]
+            `INSERT INTO news (title, slug, category, author, date, image, excerpt, content, tags, sections) 
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`,
+            [title, slug, category, author, date || new Date(), imageUrl, excerpt, content, tags, JSON.stringify(sections || [])]
         );
         res.status(201).json(result.rows[0]);
     } catch (err) {
@@ -360,7 +360,7 @@ app.post('/api/news', async (req, res) => {
 
 app.put('/api/news/:id', async (req, res) => {
     const { id } = req.params;
-    const { title, category, author, date, image, excerpt, content } = req.body;
+    const { title, slug, category, author, date, image, excerpt, content, tags, sections } = req.body;
     try {
         let imageUrl = image;
         if (image && image.startsWith('data:image/')) {
@@ -371,8 +371,8 @@ app.put('/api/news/:id', async (req, res) => {
         }
 
         const result = await pool.query(
-            `UPDATE news SET title=$1, category=$2, author=$3, date=$4, image=$5, excerpt=$6, content=$7 WHERE id=$8 RETURNING *`,
-            [title, category, author, date, imageUrl, excerpt, content, id]
+            `UPDATE news SET title=$1, slug=$2, category=$3, author=$4, date=$5, image=$6, excerpt=$7, content=$8, tags=$9, sections=$10 WHERE id=$11 RETURNING *`,
+            [title, slug, category, author, date, imageUrl, excerpt, content, tags, JSON.stringify(sections || []), id]
         );
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Berita tidak ditemukan' });

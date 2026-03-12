@@ -1,27 +1,46 @@
 
 import { motion } from 'framer-motion';
-import { TreeDeciduous, Users, CloudRain, Map } from 'lucide-react';
-import { IMPACT_STATS } from '../../data/mockData';
+import { TreeDeciduous, Users, CloudRain, Map, ShoppingBag, CalendarDays } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { translations } from '../../data/translations';
-
-const iconMap = {
-    Tree: TreeDeciduous,
-    Users: Users,
-    Cloud: CloudRain,
-    Map: Map
-};
+import { useStore } from '../../hooks/useStore';
 
 export default function ImpactPreview() {
     const { language } = useLanguage();
     const t = translations[language].impact;
+    const { data: storeData } = useStore();
 
-    const statLabelsMap = {
-        "Bambu Ditanam": t.stats.planted,
-        "Pengrajin Binaan": t.stats.artisans,
-        "Oksigen Dihasilkan": t.stats.oxygen,
-        "Lahan Konservasi": t.stats.conservation
-    };
+    const programCount = storeData?.programs?.length || 0;
+    const teamCount = storeData?.team?.length || 0;
+    const productCount = storeData?.products?.length || 0;
+    const eventCount = storeData?.events?.length || 0;
+
+    const stats = [
+        {
+            icon: TreeDeciduous,
+            value: programCount,
+            suffix: '+',
+            label: language === 'ID' ? 'Program Aktif' : 'Active Programs'
+        },
+        {
+            icon: Users,
+            value: teamCount,
+            suffix: '+',
+            label: language === 'ID' ? 'Anggota Tim' : 'Team Members'
+        },
+        {
+            icon: ShoppingBag,
+            value: productCount,
+            suffix: '+',
+            label: language === 'ID' ? 'Produk Bambu' : 'Bamboo Products'
+        },
+        {
+            icon: CalendarDays,
+            value: eventCount,
+            suffix: '+',
+            label: language === 'ID' ? 'Event Dijalankan' : 'Events Held'
+        }
+    ];
 
     return (
         <section className="py-20 bg-primary/5">
@@ -35,8 +54,8 @@ export default function ImpactPreview() {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-                    {IMPACT_STATS.map((stat, index) => {
-                        const Icon = iconMap[stat.icon] || TreeDeciduous;
+                    {stats.map((stat, index) => {
+                        const Icon = stat.icon;
                         return (
                             <motion.div
                                 key={index}
@@ -53,7 +72,7 @@ export default function ImpactPreview() {
                                     {stat.value.toLocaleString()}{stat.suffix && <span className="text-lg text-neutral-500 ml-1">{stat.suffix}</span>}
                                 </div>
                                 <p className="text-sm font-semibold text-neutral-500 uppercase tracking-wide">
-                                    {statLabelsMap[stat.label] || stat.label}
+                                    {stat.label}
                                 </p>
                             </motion.div>
                         );
@@ -63,3 +82,4 @@ export default function ImpactPreview() {
         </section>
     );
 }
+
