@@ -3,8 +3,9 @@ import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import {
     LayoutDashboard, FolderTree, ShoppingBag, CalendarDays,
     Newspaper, Users, Menu, X, LogOut, ChevronRight,
-    Search, Bell, ChevronDown
+    Search, Bell, ChevronDown, ShieldCheck, Settings
 } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 import logoSuar from '../../assets/suar_full_white.png';
 
 const navItems = [
@@ -14,11 +15,14 @@ const navItems = [
     { to: '/dashboard/events', icon: CalendarDays, label: 'Event' },
     { to: '/dashboard/news', icon: Newspaper, label: 'Berita' },
     { to: '/dashboard/team', icon: Users, label: 'Tim' },
+    { to: '/dashboard/admins', icon: ShieldCheck, label: 'Admin' },
+    { to: '/dashboard/settings', icon: Settings, label: 'Setting' },
 ];
 
 export default function DashboardLayout() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const location = useLocation();
+    const { logout } = useAuth();
 
     const currentPage = navItems.find(i => i.to === location.pathname)?.label || 'Dashboard';
 
@@ -118,9 +122,11 @@ export default function DashboardLayout() {
                     ))}
                 </nav>
 
-                {/* Admin Footer */}
                 <div className="relative px-3 py-4 border-t border-white/[0.07]">
-                    <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/[0.05] transition-colors cursor-pointer group">
+                    <div
+                        onClick={logout}
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/[0.05] transition-colors cursor-pointer group"
+                    >
                         <div className="relative w-8 h-8 rounded-full flex-shrink-0"
                             style={{ background: 'linear-gradient(135deg, #22c55e 0%, #15803d 100%)' }}
                         >

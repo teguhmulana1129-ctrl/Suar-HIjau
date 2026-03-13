@@ -29,6 +29,8 @@ import ProductsPage from './pages/dashboard/ProductsPage';
 import EventsPage from './pages/dashboard/EventsPage';
 import NewsPage from './pages/dashboard/NewsPage';
 import TeamPage from './pages/dashboard/TeamPage';
+import AdminsPage from './pages/dashboard/AdminsPage';
+import SettingsPage from './pages/dashboard/SettingsPage';
 import { StoreProvider } from './hooks/useStore';
 
 import { useLocation } from 'react-router-dom';
@@ -78,6 +80,8 @@ function AppContent() {
                 <Route path="events" element={<EventsPage />} />
                 <Route path="news" element={<NewsPage />} />
                 <Route path="team" element={<TeamPage />} />
+                <Route path="admins" element={<AdminsPage />} />
+                <Route path="settings" element={<SettingsPage />} />
               </Route>
             </Route>
           </Routes>

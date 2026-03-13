@@ -21,7 +21,8 @@ export function StoreProvider({ children }) {
         products: [],
         events: [],
         news: [],
-        team: []
+        team: [],
+        admins: []
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -30,24 +31,28 @@ export function StoreProvider({ children }) {
         try {
             setLoading(true);
             setError(null);
-            const [programsRes, productsRes, eventsRes, newsRes, teamRes] = await Promise.all([
+            const [programsRes, productsRes, eventsRes, newsRes, teamRes, adminsRes] = await Promise.all([
                 fetch(`${API_BASE}/programs`),
                 fetch(`${API_BASE}/products`),
                 fetch(`${API_BASE}/events`),
                 fetch(`${API_BASE}/news`),
-                fetch(`${API_BASE}/team`)
+                fetch(`${API_BASE}/team`),
+                fetch(`${API_BASE}/admins`, {
+                    headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+                })
             ]);
 
-            if (!programsRes.ok || !productsRes.ok || !eventsRes.ok || !newsRes.ok || !teamRes.ok) {
+            if (!programsRes.ok || !productsRes.ok || !eventsRes.ok || !newsRes.ok || !teamRes.ok || !adminsRes.ok) {
                 throw new Error('Gagal mengambil data dari server');
             }
 
-            const [programs, products, events, news, team] = await Promise.all([
+            const [programs, products, events, news, team, admins] = await Promise.all([
                 safeJson(programsRes),
                 safeJson(productsRes),
                 safeJson(eventsRes),
                 safeJson(newsRes),
-                safeJson(teamRes)
+                safeJson(teamRes),
+                safeJson(adminsRes)
             ]);
 
             setData({
@@ -55,7 +60,8 @@ export function StoreProvider({ children }) {
                 products: products || [],
                 events: events || [],
                 news: news || [],
-                team: team || []
+                team: team || [],
+                admins: admins || []
             });
         } catch (err) {
             setError(err.message);

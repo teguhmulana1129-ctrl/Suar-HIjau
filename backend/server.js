@@ -518,6 +518,44 @@ app.delete('/api/team/:id', authMiddleware, async (req, res) => {
     }
 });
 
+// ======================================
+// ADMINS
+// ======================================
+app.get('/api/admins', authMiddleware, async (req, res) => {
+    try {
+        const result = await pool.query('SELECT id, username, full_name as "fullName", role, email, created_at FROM admin_users ORDER BY created_at DESC');
+        res.json(result.rows);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.put('/api/admins/:id', authMiddleware, async (req, res) => {
+    const { id } = req.params;
+    const { username, fullName, role, password, email } = req.body;
+    try {
+        let query = 'UPDATE admin_users SET username=$1, full_name=$2, role=$3, email=$4';
+        let params = [username, fullName, role, email];
+        
+        if (password && password.trim() !== '') {
+            const password_hash = await bcrypt.hash(password, 10);
+            query += ', password_hash=$5 WHERE id=$6 RETURNING id, username, full_name as "fullName", role, email';
+            params.push(password_hash, id);
+        } else {
+            query += ' WHERE id=$5 RETURNING id, username, full_name as "fullName", role, email';
+            params.push(id);
+        }
+
+        const result = await pool.query(query, params);
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Atmin tidak ditemukan' });
+        }
+        res.json(result.rows[0]);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 // START SERVER
 app.listen(PORT, () => {
     console.log(`🚀 Suar Hijau API berjalan di port ${PORT}`);
