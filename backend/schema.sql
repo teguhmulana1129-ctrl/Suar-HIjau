@@ -1,9 +1,20 @@
 -- Drop tables if they exist to start fresh
+DROP TABLE IF EXISTS admin_users;
 DROP TABLE IF EXISTS team;
 DROP TABLE IF EXISTS news;
 DROP TABLE IF EXISTS events;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS programs;
+
+CREATE TABLE admin_users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(100) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    full_name VARCHAR(255),
+    role VARCHAR(50) DEFAULT 'admin',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_login TIMESTAMP
+);
 
 CREATE TABLE programs (
     id SERIAL PRIMARY KEY,

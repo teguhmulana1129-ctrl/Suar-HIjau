@@ -17,6 +17,9 @@ import Programs from './pages/Programs';
 import Events from './pages/Events';
 import EventDetail from './pages/EventDetail';
 import { LanguageProvider } from './context/LanguageContext';
+import { AuthProvider } from './context/AuthContext';
+import ProtectedRoute from './components/auth/ProtectedRoute';
+import Login from './pages/Login';
 
 // Dashboard Imports
 import DashboardLayout from './components/dashboard/DashboardLayout';
@@ -38,8 +41,8 @@ function AppContent() {
   const isHomePage = location.pathname === '/' && location.hash === '';
   const [loading, setLoading] = useState(isHomePage);
 
-  // Determine if current route is under dashboard
-  const isDashboardRoute = location.pathname.startsWith('/dashboard');
+  // Determine if current route is under dashboard or login
+  const isMinimalRoute = location.pathname.startsWith('/dashboard') || location.pathname === '/login';
 
   return (
     <>
@@ -48,9 +51,9 @@ function AppContent() {
       </AnimatePresence>
       <ScrollToTop />
       <div className="antialiased text-neutral-900 bg-white font-sans">
-        {/* Only render main header/footer if NOT in dashboard */}
-        {!isDashboardRoute && <Header onMenuClick={() => setIsMenuOpen(true)} />}
-        {!isDashboardRoute && <MenuOverlay isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />}
+        {/* Only render main header/footer if NOT in dashboard or login */}
+        {!isMinimalRoute && <Header onMenuClick={() => setIsMenuOpen(true)} />}
+        {!isMinimalRoute && <MenuOverlay isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />}
 
         <main>
           <Routes>
@@ -66,18 +69,21 @@ function AppContent() {
             <Route path="/programs" element={<Programs />} />
 
             {/* Dashboard Routes */}
-            <Route path="/dashboard" element={<DashboardLayout />}>
-              <Route index element={<DashboardHome />} />
-              <Route path="programs" element={<ProgramsPage />} />
-              <Route path="products" element={<ProductsPage />} />
-              <Route path="events" element={<EventsPage />} />
-              <Route path="news" element={<NewsPage />} />
-              <Route path="team" element={<TeamPage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/dashboard" element={<ProtectedRoute />}>
+              <Route element={<DashboardLayout />}>
+                <Route index element={<DashboardHome />} />
+                <Route path="programs" element={<ProgramsPage />} />
+                <Route path="products" element={<ProductsPage />} />
+                <Route path="events" element={<EventsPage />} />
+                <Route path="news" element={<NewsPage />} />
+                <Route path="team" element={<TeamPage />} />
+              </Route>
             </Route>
           </Routes>
         </main>
 
-        {!isDashboardRoute && <Footer />}
+        {!isMinimalRoute && <Footer />}
       </div>
     </>
   );
@@ -88,7 +94,9 @@ function App() {
     <LanguageProvider>
       <StoreProvider>
         <Router>
-          <AppContent />
+          <AuthProvider>
+            <AppContent />
+          </AuthProvider>
         </Router>
       </StoreProvider>
     </LanguageProvider>

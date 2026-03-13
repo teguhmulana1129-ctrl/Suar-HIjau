@@ -4,6 +4,8 @@ const cors = require('cors');
 const { Pool } = require('pg');
 const Minio = require('minio');
 const { v4: uuidv4 } = require('uuid');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const app = express();
 app.use(cors());
@@ -139,6 +141,64 @@ app.get('/api/image', async (req, res) => {
 });
 
 // ======================================
+// AUTH MIDDLEWARE
+// ======================================
+const authMiddleware = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({ error: 'Unauthorized: No token provided' });
+    }
+
+    const token = authHeader.split(' ')[1];
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;
+        next();
+    } catch (err) {
+        return res.status(401).json({ error: 'Unauthorized: Invalid token' });
+    }
+};
+
+// ======================================
+// AUTH ENDPOINTS
+// ======================================
+app.post('/api/auth/login', async (req, res) => {
+    const { username, password } = req.body;
+    try {
+        const result = await pool.query('SELECT * FROM admin_users WHERE username = $1', [username]);
+        const user = result.rows[0];
+
+        if (!user) {
+            return res.status(401).json({ error: 'Username atau password salah' });
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password_hash);
+        if (!isMatch) {
+            return res.status(401).json({ error: 'Username atau password salah' });
+        }
+
+        const token = jwt.sign(
+            { id: user.id, username: user.username, role: user.role },
+            process.env.JWT_SECRET,
+            { expiresIn: '24h' }
+        );
+
+        await pool.query('UPDATE admin_users SET last_login = CURRENT_TIMESTAMP WHERE id = $1', [user.id]);
+
+        res.json({
+            token,
+            user: { id: user.id, username: user.username, role: user.role, fullName: user.full_name }
+        });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.get('/api/auth/verify', authMiddleware, (req, res) => {
+    res.json({ valid: true, user: req.user });
+});
+
+// ======================================
 // PROGRAMS
 // ======================================
 app.get('/api/programs', async (req, res) => {
@@ -150,7 +210,7 @@ app.get('/api/programs', async (req, res) => {
     }
 });
 
-app.post('/api/programs', async (req, res) => {
+app.post('/api/programs', authMiddleware, async (req, res) => {
     const { title, category, location, target, volunteers, startDate, image, fullDescription, impact, status } = req.body;
     try {
         const imageUrl = await processImage(image);
@@ -165,7 +225,7 @@ app.post('/api/programs', async (req, res) => {
     }
 });
 
-app.put('/api/programs/:id', async (req, res) => {
+app.put('/api/programs/:id', authMiddleware, async (req, res) => {
     const { id } = req.params;
     const { title, category, location, target, volunteers, startDate, image, fullDescription, impact, status } = req.body;
     try {
@@ -191,7 +251,7 @@ app.put('/api/programs/:id', async (req, res) => {
     }
 });
 
-app.delete('/api/programs/:id', async (req, res) => {
+app.delete('/api/programs/:id', authMiddleware, async (req, res) => {
     try {
         const doc = await pool.query('SELECT image FROM programs WHERE id=$1', [req.params.id]);
         if (doc.rows[0]?.image) await deleteImageFromMinio(doc.rows[0].image);
@@ -215,7 +275,7 @@ app.get('/api/products', async (req, res) => {
     }
 });
 
-app.post('/api/products', async (req, res) => {
+app.post('/api/products', authMiddleware, async (req, res) => {
     const { title, category, price, stock, material, craftTime, size, weight, image, desc, features } = req.body;
     try {
         const imageUrl = await processImage(image);
@@ -230,7 +290,7 @@ app.post('/api/products', async (req, res) => {
     }
 });
 
-app.put('/api/products/:id', async (req, res) => {
+app.put('/api/products/:id', authMiddleware, async (req, res) => {
     const { id } = req.params;
     const { title, category, price, stock, material, craftTime, size, weight, image, desc, features } = req.body;
     try {
@@ -255,7 +315,7 @@ app.put('/api/products/:id', async (req, res) => {
     }
 });
 
-app.delete('/api/products/:id', async (req, res) => {
+app.delete('/api/products/:id', authMiddleware, async (req, res) => {
     try {
         const doc = await pool.query('SELECT image FROM products WHERE id=$1', [req.params.id]);
         if (doc.rows[0]?.image) await deleteImageFromMinio(doc.rows[0].image);
@@ -279,7 +339,7 @@ app.get('/api/events', async (req, res) => {
     }
 });
 
-app.post('/api/events', async (req, res) => {
+app.post('/api/events', authMiddleware, async (req, res) => {
     const { title, date, time, location, price, status, image, description, fullDescription, rundown, requirements } = req.body;
     try {
         const imageUrl = await processImage(image);
@@ -294,7 +354,7 @@ app.post('/api/events', async (req, res) => {
     }
 });
 
-app.put('/api/events/:id', async (req, res) => {
+app.put('/api/events/:id', authMiddleware, async (req, res) => {
     const { id } = req.params;
     const { title, date, time, location, price, status, image, description, fullDescription, rundown, requirements } = req.body;
     try {
@@ -319,7 +379,7 @@ app.put('/api/events/:id', async (req, res) => {
     }
 });
 
-app.delete('/api/events/:id', async (req, res) => {
+app.delete('/api/events/:id', authMiddleware, async (req, res) => {
     try {
         const doc = await pool.query('SELECT image FROM events WHERE id=$1', [req.params.id]);
         if (doc.rows[0]?.image) await deleteImageFromMinio(doc.rows[0].image);
@@ -343,7 +403,7 @@ app.get('/api/news', async (req, res) => {
     }
 });
 
-app.post('/api/news', async (req, res) => {
+app.post('/api/news', authMiddleware, async (req, res) => {
     const { title, slug, category, author, date, image, excerpt, content, tags, sections } = req.body;
     try {
         const imageUrl = await processImage(image);
@@ -358,7 +418,7 @@ app.post('/api/news', async (req, res) => {
     }
 });
 
-app.put('/api/news/:id', async (req, res) => {
+app.put('/api/news/:id', authMiddleware, async (req, res) => {
     const { id } = req.params;
     const { title, slug, category, author, date, image, excerpt, content, tags, sections } = req.body;
     try {
@@ -383,7 +443,7 @@ app.put('/api/news/:id', async (req, res) => {
     }
 });
 
-app.delete('/api/news/:id', async (req, res) => {
+app.delete('/api/news/:id', authMiddleware, async (req, res) => {
     try {
         const doc = await pool.query('SELECT image FROM news WHERE id=$1', [req.params.id]);
         if (doc.rows[0]?.image) await deleteImageFromMinio(doc.rows[0].image);
@@ -407,7 +467,7 @@ app.get('/api/team', async (req, res) => {
     }
 });
 
-app.post('/api/team', async (req, res) => {
+app.post('/api/team', authMiddleware, async (req, res) => {
     const { name, role, bio, image } = req.body;
     try {
         const imageUrl = await processImage(image);
@@ -421,7 +481,7 @@ app.post('/api/team', async (req, res) => {
     }
 });
 
-app.put('/api/team/:id', async (req, res) => {
+app.put('/api/team/:id', authMiddleware, async (req, res) => {
     const { id } = req.params;
     const { name, role, bio, image } = req.body;
     try {
@@ -446,7 +506,7 @@ app.put('/api/team/:id', async (req, res) => {
     }
 });
 
-app.delete('/api/team/:id', async (req, res) => {
+app.delete('/api/team/:id', authMiddleware, async (req, res) => {
     try {
         const doc = await pool.query('SELECT image FROM team WHERE id=$1', [req.params.id]);
         if (doc.rows[0]?.image) await deleteImageFromMinio(doc.rows[0].image);

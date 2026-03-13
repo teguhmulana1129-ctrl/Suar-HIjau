@@ -74,7 +74,10 @@ export function StoreProvider({ children }) {
         try {
             const res = await fetch(`${API_BASE}/${collection}`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
                 body: JSON.stringify(item)
             });
             if (!res.ok) {
@@ -99,7 +102,10 @@ export function StoreProvider({ children }) {
         try {
             const res = await fetch(`${API_BASE}/${collection}/${id}`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
                 body: JSON.stringify(updates)
             });
             if (!res.ok) {
@@ -124,7 +130,10 @@ export function StoreProvider({ children }) {
         if (window.confirm('Apakah Anda yakin ingin menghapus data ini?')) {
             try {
                 const res = await fetch(`${API_BASE}/${collection}/${id}`, {
-                    method: 'DELETE'
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
                 });
                 if (!res.ok) throw new Error(`Gagal hapus ${collection}`);
 
