@@ -21,6 +21,12 @@ export default function AdminsPage() {
         (a.fullName || '').toLowerCase().includes(searchQuery.toLowerCase())
     );
 
+    const openAdd = () => {
+        setForm(emptyAdmin);
+        setEditId(null);
+        setShowForm(true);
+    };
+
     const openEdit = (admin) => {
         setForm({
             username: admin.username || '',
@@ -42,10 +48,14 @@ export default function AdminsPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await updateItem('admins', editId, form);
+            if (editId) {
+                await updateItem('admins', editId, form);
+            } else {
+                await addItem('admins', form);
+            }
             close();
         } catch (err) {
-            console.error("Error updating admin:", err);
+            console.error("Error saving admin:", err);
         }
     };
 
@@ -56,6 +66,12 @@ export default function AdminsPage() {
                     <h1 className="text-xl font-bold text-slate-900 tracking-tight">Manajemen Admin</h1>
                     <p className="text-slate-500 text-xs mt-0.5">Kelola hak akses dan akun pengelola dashboard.</p>
                 </div>
+                <button
+                    onClick={openAdd}
+                    className="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold transition-all shadow-sm shadow-emerald-100 active:scale-95"
+                >
+                    <Plus className="w-4 h-4" /> Tambah Admin Baru
+                </button>
             </div>
 
             <div className="bg-white p-1.5 rounded-xl border border-slate-100 shadow-sm flex flex-col sm:flex-row gap-2.5">
@@ -152,8 +168,12 @@ export default function AdminsPage() {
                     <div className="relative w-full max-w-md bg-white rounded-xl shadow-2xl flex flex-col animate-in zoom-in-95 duration-200" onClick={e => e.stopPropagation()}>
                         <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
                             <div>
-                                <h2 className="text-[15px] font-black text-slate-800 tracking-tight">Edit Profile Admin</h2>
-                                <p className="text-slate-400 text-[11px] font-medium mt-0.5">Ubah username atau perbarui password.</p>
+                                <h2 className="text-[15px] font-black text-slate-800 tracking-tight">
+                                    {editId ? 'Edit Profile Admin' : 'Tambah Admin Baru'}
+                                </h2>
+                                <p className="text-slate-400 text-[11px] font-medium mt-0.5">
+                                    {editId ? 'Ubah username atau perbarui password.' : 'Tambahkan pengelola dashboard baru.'}
+                                </p>
                             </div>
                             <button onClick={close} className="w-8 h-8 flex items-center justify-center bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-slate-800 transition-all">
                                 <X className="w-4 h-4" />

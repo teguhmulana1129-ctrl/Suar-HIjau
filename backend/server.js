@@ -530,13 +530,31 @@ app.get('/api/admins', authMiddleware, async (req, res) => {
     }
 });
 
+app.post('/api/admins', authMiddleware, async (req, res) => {
+    const { username, password, fullName, email, role } = req.body;
+    try {
+        const password_hash = await bcrypt.hash(password, 10);
+        const result = await pool.query(
+            `INSERT INTO admin_users (username, password_hash, full_name, email, role) 
+             VALUES ($1, $2, $3, $4, $5) RETURNING id, username, full_name as "fullName", email, role`,
+            [username, password_hash, fullName, email, role || 'admin']
+        );
+        res.status(201).json(result.rows[0]);
+    } catch (err) {
+        if (err.code === '23505') { // unique violation code
+            return res.status(400).json({ error: 'Username sudah digunakan' });
+        }
+        res.status(500).json({ error: err.message });
+    }
+});
+
 app.put('/api/admins/:id', authMiddleware, async (req, res) => {
     const { id } = req.params;
     const { username, fullName, role, password, email } = req.body;
     try {
         let query = 'UPDATE admin_users SET username=$1, full_name=$2, role=$3, email=$4';
         let params = [username, fullName, role, email];
-        
+
         if (password && password.trim() !== '') {
             const password_hash = await bcrypt.hash(password, 10);
             query += ', password_hash=$5 WHERE id=$6 RETURNING id, username, full_name as "fullName", role, email';
