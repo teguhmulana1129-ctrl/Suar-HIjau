@@ -6,6 +6,7 @@ const Minio = require('minio');
 const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { translateText } = require('./utils/translator');
 
 const app = express();
 app.use(cors());
@@ -211,13 +212,13 @@ app.get('/api/programs', async (req, res) => {
 });
 
 app.post('/api/programs', authMiddleware, async (req, res) => {
-    const { title, category, location, target, volunteers, startDate, image, fullDescription, impact, status } = req.body;
+    const { title, title_en, category, category_en, location, location_en, target, target_en, volunteers, startDate, image, fullDescription, full_description_en, impact, status } = req.body;
     try {
         const imageUrl = await processImage(image);
         const result = await pool.query(
-            `INSERT INTO programs (title, category, location, target, volunteers, start_date, image, full_description, impact, status) 
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`,
-            [title, category, location, target || '', volunteers || 0, startDate, imageUrl, fullDescription, JSON.stringify(impact || []), status || 'upcoming']
+            `INSERT INTO programs (title, title_en, category, category_en, location, location_en, target, target_en, volunteers, start_date, image, full_description, full_description_en, impact, status) 
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING *`,
+            [title, title_en, category, category_en, location, location_en, target || '', target_en || '', volunteers || 0, startDate, imageUrl, fullDescription, full_description_en, JSON.stringify(impact || []), status || 'upcoming']
         );
         res.status(201).json(result.rows[0]);
     } catch (err) {
@@ -227,9 +228,8 @@ app.post('/api/programs', authMiddleware, async (req, res) => {
 
 app.put('/api/programs/:id', authMiddleware, async (req, res) => {
     const { id } = req.params;
-    const { title, category, location, target, volunteers, startDate, image, fullDescription, impact, status } = req.body;
+    const { title, title_en, category, category_en, location, location_en, target, target_en, volunteers, startDate, image, fullDescription, full_description_en, impact, status } = req.body;
     try {
-        // Cek jika gambar adalah upload base64 baru
         let imageUrl = image;
         if (image && image.startsWith('data:image/')) {
             const doc = await pool.query('SELECT image FROM programs WHERE id=$1', [id]);
@@ -239,8 +239,8 @@ app.put('/api/programs/:id', authMiddleware, async (req, res) => {
         }
 
         const result = await pool.query(
-            `UPDATE programs SET title=$1, category=$2, location=$3, target=$4, volunteers=$5, start_date=$6, image=$7, full_description=$8, impact=$9, status=$10 WHERE id=$11 RETURNING *`,
-            [title, category, location, target || '', volunteers || 0, startDate, imageUrl, fullDescription, JSON.stringify(impact || []), status || 'upcoming', id]
+            `UPDATE programs SET title=$1, title_en=$2, category=$3, category_en=$4, location=$5, location_en=$6, target=$7, target_en=$8, volunteers=$9, start_date=$10, image=$11, full_description=$12, full_description_en=$13, impact=$14, status=$15 WHERE id=$16 RETURNING *`,
+            [title, title_en, category, category_en, location, location_en, target || '', target_en || '', volunteers || 0, startDate, imageUrl, fullDescription, full_description_en, JSON.stringify(impact || []), status || 'upcoming', id]
         );
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Program tidak ditemukan' });
@@ -276,13 +276,13 @@ app.get('/api/products', async (req, res) => {
 });
 
 app.post('/api/products', authMiddleware, async (req, res) => {
-    const { title, category, price, stock, material, craftTime, size, weight, image, desc, features } = req.body;
+    const { title, title_en, category, category_en, price, stock, material, material_en, craftTime, size, weight, image, desc, description_en, features } = req.body;
     try {
         const imageUrl = await processImage(image);
         const result = await pool.query(
-            `INSERT INTO products (title, category, price, stock, material, craft_time, size, weight, image, description, features) 
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`,
-            [title, category, price, stock, material, craftTime, size, weight, imageUrl, desc, JSON.stringify(features || [])]
+            `INSERT INTO products (title, title_en, category, category_en, price, stock, material, material_en, craft_time, size, weight, image, description, description_en, features) 
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING *`,
+            [title, title_en, category, category_en, price, stock, material, material_en, craftTime, size, weight, imageUrl, desc, description_en, JSON.stringify(features || [])]
         );
         res.status(201).json(result.rows[0]);
     } catch (err) {
@@ -292,7 +292,7 @@ app.post('/api/products', authMiddleware, async (req, res) => {
 
 app.put('/api/products/:id', authMiddleware, async (req, res) => {
     const { id } = req.params;
-    const { title, category, price, stock, material, craftTime, size, weight, image, desc, features } = req.body;
+    const { title, title_en, category, category_en, price, stock, material, material_en, craftTime, size, weight, image, desc, description_en, features } = req.body;
     try {
         let imageUrl = image;
         if (image && image.startsWith('data:image/')) {
@@ -303,8 +303,8 @@ app.put('/api/products/:id', authMiddleware, async (req, res) => {
         }
 
         const result = await pool.query(
-            `UPDATE products SET title=$1, category=$2, price=$3, stock=$4, material=$5, craft_time=$6, size=$7, weight=$8, image=$9, description=$10, features=$11 WHERE id=$12 RETURNING *`,
-            [title, category, price, stock, material, craftTime, size, weight, imageUrl, desc, JSON.stringify(features), id]
+            `UPDATE products SET title=$1, title_en=$2, category=$3, category_en=$4, price=$5, stock=$6, material=$7, material_en=$8, craft_time=$9, size=$10, weight=$11, image=$12, description=$13, description_en=$14, features=$15 WHERE id=$16 RETURNING *`,
+            [title, title_en, category, category_en, price, stock, material, material_en, craftTime, size, weight, imageUrl, desc, description_en, JSON.stringify(features), id]
         );
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Produk tidak ditemukan' });
@@ -340,13 +340,13 @@ app.get('/api/events', async (req, res) => {
 });
 
 app.post('/api/events', authMiddleware, async (req, res) => {
-    const { title, date, time, location, price, status, image, description, fullDescription, rundown, requirements } = req.body;
+    const { title, title_en, date, time, location, location_en, price, status, image, description, description_en, fullDescription, full_description_en, rundown, requirements } = req.body;
     try {
         const imageUrl = await processImage(image);
         const result = await pool.query(
-            `INSERT INTO events (title, date, time, location, price, status, image, description, full_description, rundown, requirements) 
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`,
-            [title, date, time, location, price, status, imageUrl, description, fullDescription, JSON.stringify(rundown || []), JSON.stringify(requirements || [])]
+            `INSERT INTO events (title, title_en, date, time, location, location_en, price, status, image, description, description_en, full_description, full_description_en, rundown, requirements) 
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING *`,
+            [title, title_en, date, time, location, location_en, price, status, imageUrl, description, description_en, fullDescription, full_description_en, JSON.stringify(rundown || []), JSON.stringify(requirements || [])]
         );
         res.status(201).json(result.rows[0]);
     } catch (err) {
@@ -356,7 +356,7 @@ app.post('/api/events', authMiddleware, async (req, res) => {
 
 app.put('/api/events/:id', authMiddleware, async (req, res) => {
     const { id } = req.params;
-    const { title, date, time, location, price, status, image, description, fullDescription, rundown, requirements } = req.body;
+    const { title, title_en, date, time, location, location_en, price, status, image, description, description_en, fullDescription, full_description_en, rundown, requirements } = req.body;
     try {
         let imageUrl = image;
         if (image && image.startsWith('data:image/')) {
@@ -367,8 +367,8 @@ app.put('/api/events/:id', authMiddleware, async (req, res) => {
         }
 
         const result = await pool.query(
-            `UPDATE events SET title=$1, date=$2, time=$3, location=$4, price=$5, status=$6, image=$7, description=$8, full_description=$9, rundown=$10, requirements=$11 WHERE id=$12 RETURNING *`,
-            [title, date, time, location, price, status, imageUrl, description, fullDescription, JSON.stringify(rundown), JSON.stringify(requirements), id]
+            `UPDATE events SET title=$1, title_en=$2, date=$3, time=$4, location=$5, location_en=$6, price=$7, status=$8, image=$9, description=$10, description_en=$11, full_description=$12, full_description_en=$13, rundown=$14, requirements=$15 WHERE id=$16 RETURNING *`,
+            [title, title_en, date, time, location, location_en, price, status, imageUrl, description, description_en, fullDescription, full_description_en, JSON.stringify(rundown), JSON.stringify(requirements), id]
         );
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Event tidak ditemukan' });
@@ -404,13 +404,13 @@ app.get('/api/news', async (req, res) => {
 });
 
 app.post('/api/news', authMiddleware, async (req, res) => {
-    const { title, slug, category, author, date, image, excerpt, content, tags, sections } = req.body;
+    const { title, title_en, slug, category, category_en, author, date, image, excerpt, excerpt_en, content, content_en, tags, sections, sections_en } = req.body;
     try {
         const imageUrl = await processImage(image);
         const result = await pool.query(
-            `INSERT INTO news (title, slug, category, author, date, image, excerpt, content, tags, sections) 
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`,
-            [title, slug, category, author, date || new Date(), imageUrl, excerpt, content, tags, JSON.stringify(sections || [])]
+            `INSERT INTO news (title, title_en, slug, category, category_en, author, date, image, excerpt, excerpt_en, content, content_en, tags, sections, sections_en) 
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING *`,
+            [title, title_en, slug, category, category_en, author, date || new Date(), imageUrl, excerpt, excerpt_en, content, content_en, tags, JSON.stringify(sections || []), JSON.stringify(sections_en || [])]
         );
         res.status(201).json(result.rows[0]);
     } catch (err) {
@@ -420,7 +420,7 @@ app.post('/api/news', authMiddleware, async (req, res) => {
 
 app.put('/api/news/:id', authMiddleware, async (req, res) => {
     const { id } = req.params;
-    const { title, slug, category, author, date, image, excerpt, content, tags, sections } = req.body;
+    const { title, title_en, slug, category, category_en, author, date, image, excerpt, excerpt_en, content, content_en, tags, sections, sections_en } = req.body;
     try {
         let imageUrl = image;
         if (image && image.startsWith('data:image/')) {
@@ -431,8 +431,8 @@ app.put('/api/news/:id', authMiddleware, async (req, res) => {
         }
 
         const result = await pool.query(
-            `UPDATE news SET title=$1, slug=$2, category=$3, author=$4, date=$5, image=$6, excerpt=$7, content=$8, tags=$9, sections=$10 WHERE id=$11 RETURNING *`,
-            [title, slug, category, author, date, imageUrl, excerpt, content, tags, JSON.stringify(sections || []), id]
+            `UPDATE news SET title=$1, title_en=$2, slug=$3, category=$4, category_en=$5, author=$6, date=$7, image=$8, excerpt=$9, excerpt_en=$10, content=$11, content_en=$12, tags=$13, sections=$14, sections_en=$15 WHERE id=$16 RETURNING *`,
+            [title, title_en, slug, category, category_en, author, date, imageUrl, excerpt, excerpt_en, content, content_en, tags, JSON.stringify(sections || []), JSON.stringify(sections_en || []), id]
         );
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Berita tidak ditemukan' });
@@ -468,12 +468,12 @@ app.get('/api/team', async (req, res) => {
 });
 
 app.post('/api/team', authMiddleware, async (req, res) => {
-    const { name, role, bio, image } = req.body;
+    const { name, role, role_en, bio, bio_en, image } = req.body;
     try {
         const imageUrl = await processImage(image);
         const result = await pool.query(
-            `INSERT INTO team (name, role, bio, image) VALUES ($1, $2, $3, $4) RETURNING *`,
-            [name, role, bio, imageUrl]
+            `INSERT INTO team (name, role, role_en, bio, bio_en, image) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
+            [name, role, role_en, bio, bio_en, imageUrl]
         );
         res.status(201).json(result.rows[0]);
     } catch (err) {
@@ -483,7 +483,7 @@ app.post('/api/team', authMiddleware, async (req, res) => {
 
 app.put('/api/team/:id', authMiddleware, async (req, res) => {
     const { id } = req.params;
-    const { name, role, bio, image } = req.body;
+    const { name, role, role_en, bio, bio_en, image } = req.body;
     try {
         let imageUrl = image;
         if (image && image.startsWith('data:image/')) {
@@ -494,8 +494,8 @@ app.put('/api/team/:id', authMiddleware, async (req, res) => {
         }
 
         const result = await pool.query(
-            `UPDATE team SET name=$1, role=$2, bio=$3, image=$4 WHERE id=$5 RETURNING *`,
-            [name, role, bio, imageUrl, id]
+            `UPDATE team SET name=$1, role=$2, role_en=$3, bio=$4, bio_en=$5, image=$6 WHERE id=$7 RETURNING *`,
+            [name, role, role_en, bio, bio_en, imageUrl, id]
         );
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Tim tidak ditemukan' });
@@ -574,7 +574,28 @@ app.put('/api/admins/:id', authMiddleware, async (req, res) => {
     }
 });
 
-// START SERVER
-app.listen(PORT, () => {
-    console.log(`🚀 Suar Hijau API berjalan di port ${PORT}`);
+
+
+// ======================================
+// UTILS
+// ======================================
+app.post('/api/utils/translate', async (req, res) => {
+    const { text, target = 'en' } = req.body;
+    if (!text) return res.status(400).json({ error: 'Text is required' });
+    
+    try {
+        const translatedText = await translateText(text, target);
+        res.json({ translatedText });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
+
+// START SERVER
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`🚀 Suar Hijau API berjalan di port ${PORT}`);
+    });
+}
+
+module.exports = app;
