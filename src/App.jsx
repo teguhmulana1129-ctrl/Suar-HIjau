@@ -16,6 +16,7 @@ import Contact from './pages/Contact';
 import Programs from './pages/Programs';
 import Events from './pages/Events';
 import EventDetail from './pages/EventDetail';
+import BambooVarieties from './pages/BambooVarieties';
 import { LanguageProvider } from './context/LanguageContext';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/auth/ProtectedRoute';
@@ -57,6 +58,7 @@ function AppContent() {
         {!isMinimalRoute && <Header onMenuClick={() => setIsMenuOpen(true)} />}
         {!isMinimalRoute && <MenuOverlay isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />}
 
+<<<<<<< HEAD
         <main>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -69,6 +71,23 @@ function AppContent() {
             <Route path="/events/:id" element={<EventDetail />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/programs" element={<Programs />} />
+=======
+          <main>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/team" element={<Team />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/news" element={<News />} />
+              <Route path="/news/:id" element={<NewsDetail />} />
+              <Route path="/events" element={<Events />} />
+              <Route path="/events/:id" element={<EventDetail />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/programs" element={<Programs />} />
+              <Route path="/varieties" element={<BambooVarieties />} />
+            </Routes>
+          </main>
+>>>>>>> origin/main
 
             {/* Dashboard Routes */}
             <Route path="/login" element={<Login />} />
