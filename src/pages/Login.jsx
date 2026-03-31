@@ -5,6 +5,7 @@ import { Mail, Lock, Loader2, ArrowLeft, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 // Using the same logo as dashboard layout
 import logoSuar from '../assets/suar_full_white.png';
+import { useStore } from '../hooks/useStore';
 
 export default function Login() {
     const [username, setUsername] = useState('');
@@ -13,6 +14,7 @@ export default function Login() {
     const [isLoggingIn, setIsLoggingIn] = useState(false);
     const navigate = useNavigate();
     const { login, user } = useAuth();
+    const { refreshData } = useStore();
 
     if (user) {
         return <Navigate to="/dashboard" replace />;
@@ -26,6 +28,7 @@ export default function Login() {
         const result = await login(username, password);
 
         if (result.success) {
+            await refreshData();
             navigate('/dashboard');
         } else {
             setError(result.error || 'Login failed');

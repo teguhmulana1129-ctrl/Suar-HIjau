@@ -10,7 +10,7 @@ const emptyAdmin = {
 };
 
 export default function AdminsPage() {
-    const { data, loading, error, updateItem, deleteItem } = useStore();
+    const { data, loading, error, addItem, updateItem, deleteItem } = useStore();
     const [searchQuery, setSearchQuery] = useState('');
     const [showForm, setShowForm] = useState(false);
     const [editId, setEditId] = useState(null);
