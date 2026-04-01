@@ -7,7 +7,10 @@ import {
 } from 'lucide-react';
 
 const emptyProduct = {
-    title: '', desc: '', image: '', price: '', category: 'Wadah',
+    title: '', title_en: '',
+    desc: '', description_en: '',
+    image: '', price: '',
+    category: 'Wadah', category_en: 'Container',
     material: '100% Bambu Pilihan',
     stock: 'Tersedia'
 };
@@ -49,10 +52,13 @@ export default function ProductsPage() {
         setForm({
             ...emptyProduct,
             title: item.title || '',
+            title_en: item.title_en || '',
             desc: item.desc || item.description || '',
+            description_en: item.description_en || '',
             image: item.image || '',
             price: item.price || '',
             category: item.category || 'Wadah',
+            category_en: item.category_en || 'Container',
             material: item.material || '100% Bambu Pilihan',
             stock: item.stock || 'Tersedia'
         });
@@ -276,21 +282,18 @@ export default function ProductsPage() {
                                 </div>
                             </div>
 
-                            {/* General Info Section */}
                             <div className="grid sm:grid-cols-2 gap-4">
                                 <div className="space-y-1">
-                                    <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">NAMA PRODUK *</label>
+                                    <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">NAMA PRODUK (ID) *</label>
                                     <input required value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-semibold text-dark-900 placeholder:text-dark-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none" placeholder="Masukkan nama produk..." />
+                                </div>
+                                <div className="space-y-1">
+                                    <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">PRODUCT NAME (EN)</label>
+                                    <input value={form.title_en} onChange={e => setForm(f => ({ ...f, title_en: e.target.value }))} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-semibold text-dark-900 placeholder:text-dark-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none" placeholder="Enter product name..." />
                                 </div>
                                 <div className="space-y-1">
                                     <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">HARGA *</label>
                                     <input required value={form.price} onChange={e => setForm(f => ({ ...f, price: formatRupiah(e.target.value) }))} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-semibold text-primary-700 placeholder:text-dark-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none" placeholder="Rp 0" />
-                                </div>
-                                <div className="space-y-1">
-                                    <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">KATEGORI</label>
-                                    <select value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-semibold text-dark-900 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none cursor-pointer">
-                                        {categories.map(c => <option key={c} value={c}>{c}</option>)}
-                                    </select>
                                 </div>
                                 <div className="space-y-1">
                                     <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">STATUS KETERSEDIAAN</label>
@@ -300,15 +303,27 @@ export default function ProductsPage() {
                                         <option value="Habis">Habis</option>
                                     </select>
                                 </div>
-                                <div className="sm:col-span-2 space-y-1">
-                                    <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">MATERIAL / BAHAN</label>
-                                    <input value={form.material} onChange={e => setForm(f => ({ ...f, material: e.target.value }))} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-medium text-dark-900 placeholder:text-dark-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none" placeholder="Contoh: 100% Bambu Pilihan..." />
+                                <div className="space-y-1">
+                                    <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">KATEGORI (ID)</label>
+                                    <select value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-semibold text-dark-900 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none cursor-pointer">
+                                        {categories.map(c => <option key={c} value={c}>{c}</option>)}
+                                    </select>
+                                </div>
+                                <div className="space-y-1">
+                                    <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">CATEGORY (EN)</label>
+                                    <input value={form.category_en} onChange={e => setForm(f => ({ ...f, category_en: e.target.value }))} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-semibold text-dark-900 placeholder:text-dark-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none" placeholder="Container, Packaging..." />
                                 </div>
                             </div>
 
-                            <div className="space-y-1">
-                                <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">DESKRIPSI PRODUK</label>
-                                <textarea value={form.desc} onChange={e => setForm(f => ({ ...f, desc: e.target.value }))} rows={3} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-medium text-dark-900 placeholder:text-dark-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none resize-none" placeholder="Tuliskan deskripsi produk dengan lengkap..." />
+                            <div className="grid sm:grid-cols-2 gap-4">
+                                <div className="space-y-1">
+                                    <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">DESKRIPSI PRODUK (ID)</label>
+                                    <textarea value={form.desc} onChange={e => setForm(f => ({ ...f, desc: e.target.value }))} rows={3} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-medium text-dark-900 placeholder:text-dark-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none resize-none" placeholder="Tuliskan deskripsi produk dengan lengkap..." />
+                                </div>
+                                <div className="space-y-1">
+                                    <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">PRODUCT DESCRIPTION (EN)</label>
+                                    <textarea value={form.description_en} onChange={e => setForm(f => ({ ...f, description_en: e.target.value }))} rows={3} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-medium text-dark-900 placeholder:text-dark-300 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none resize-none" placeholder="Write full product description..." />
+                                </div>
                             </div>
 
                             {/* Footer Section */}

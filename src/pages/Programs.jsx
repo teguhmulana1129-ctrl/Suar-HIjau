@@ -66,8 +66,12 @@ export default function Programs() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
                 >
-                    <p className="text-secondary font-semibold tracking-wider uppercase text-sm mb-4 font-sans">{language === 'ID' ? 'Program Konservasi' : 'Conservation Programs'}</p>
-                    <h1 className="text-4xl md:text-6xl font-bold text-neutral-900 font-display mb-8">{language === 'ID' ? 'Aksi Nyata Untuk Bumi' : 'Real Action for the Earth'}</h1>
+                    <p className="text-secondary font-semibold tracking-wider uppercase text-sm mb-4 font-sans">
+                        {language === 'ID' ? 'Program Konservasi' : 'Conservation Programs'}
+                    </p>
+                    <h1 className="text-4xl md:text-6xl font-bold text-neutral-900 font-display mb-8">
+                        {language === 'ID' ? 'Aksi Nyata Untuk Bumi' : 'Real Action for the Earth'}
+                    </h1>
                     <p className="text-xl text-neutral-600 max-w-3xl mx-auto font-sans leading-relaxed">
                         {language === 'ID'
                             ? 'Bergabunglah dengan program konservasi kami untuk menciptakan dampak nyata bagi lingkungan dan masyarakat.'
@@ -138,7 +142,7 @@ export default function Programs() {
                                                 <div className="absolute bottom-6 left-6 right-6">
                                                     <span className="inline-flex items-center gap-2 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-semibold text-primary-dark">
                                                         <IconComponent className="w-4 h-4" />
-                                                        {program.category}
+                                                        {language === 'EN' && program.category_en ? program.category_en : program.category}
                                                     </span>
                                                 </div>
                                             </div>
@@ -148,7 +152,7 @@ export default function Programs() {
                                                 <div className="flex items-center gap-4 text-sm text-neutral-500 mb-4">
                                                     <span className="flex items-center gap-1">
                                                         <MapPin className="w-4 h-4" />
-                                                        {program.location}
+                                                        {language === 'EN' && program.location_en ? program.location_en : program.location}
                                                     </span>
                                                     <span className="flex items-center gap-1">
                                                         <Calendar className="w-4 h-4" />
@@ -156,15 +160,21 @@ export default function Programs() {
                                                     </span>
                                                 </div>
 
-                                                <h2 className="text-2xl lg:text-3xl font-bold text-neutral-900 font-display mb-4">{program.title}</h2>
+                                                <h2 className="text-2xl lg:text-3xl font-bold text-neutral-900 font-display mb-4">
+                                                    {language === 'EN' && program.title_en ? program.title_en : program.title}
+                                                </h2>
 
-                                                <p className="text-neutral-600 leading-relaxed mb-6 whitespace-pre-line">{fullDesc}</p>
+                                                <p className="text-neutral-600 leading-relaxed mb-6 whitespace-pre-line">
+                                                    {language === 'EN' && program.full_description_en ? program.full_description_en : fullDesc}
+                                                </p>
 
                                                 {/* Status & Target */}
                                                 <div className="mb-6 flex items-center justify-between p-4 bg-neutral-50 rounded-2xl border border-neutral-100">
                                                     <div>
                                                         <p className="text-xs text-neutral-500 font-semibold mb-1 uppercase tracking-wider">{language === 'ID' ? 'Target' : 'Target'}</p>
-                                                        <p className="text-sm font-bold text-neutral-900">{program.target}</p>
+                                                        <p className="text-sm font-bold text-neutral-900">
+                                                            {language === 'EN' && program.target_en ? program.target_en : program.target}
+                                                        </p>
                                                     </div>
                                                     <div className="text-right">
                                                         <p className="text-xs text-neutral-500 font-semibold mb-1 uppercase tracking-wider">{language === 'ID' ? 'Status' : 'Status'}</p>

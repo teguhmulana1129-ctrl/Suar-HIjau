@@ -16,6 +16,7 @@ import Contact from './pages/Contact';
 import Programs from './pages/Programs';
 import Events from './pages/Events';
 import EventDetail from './pages/EventDetail';
+import BambooVarieties from './pages/BambooVarieties';
 import { LanguageProvider } from './context/LanguageContext';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/auth/ProtectedRoute';
@@ -69,6 +70,7 @@ function AppContent() {
             <Route path="/events/:id" element={<EventDetail />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/programs" element={<Programs />} />
+            <Route path="/varieties" element={<BambooVarieties />} />
 
             {/* Dashboard Routes */}
             <Route path="/login" element={<Login />} />

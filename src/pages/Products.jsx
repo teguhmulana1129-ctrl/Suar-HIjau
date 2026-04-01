@@ -50,25 +50,33 @@ export default function Products() {
     }, [location.search, data.products]);
 
     // Format PRODUCTS from backend (which doesn't have features/craftTime by default in schema)
-    const PRODUCTS_DETAILED = data.products.map((product, idx) => ({
-        ...product,
-        // Backend overrides
-        price: product.price || ['Rp 85.000', 'Rp 45.000', 'Rp 35.000', 'Rp 55.000'][idx] || 'Rp 50.000',
-        category: product.category || (language === 'ID' ? 'Lainnya' : 'Other'),
-        material: product.material || (language === 'ID' ? '100% Bambu Pilihan' : '100% Premium Bamboo'),
-        craftTime: [
-            language === 'ID' ? '3-5 hari' : '3-5 days',
-            language === 'ID' ? '2-3 hari' : '2-3 days',
-            language === 'ID' ? '1-2 hari' : '1-2 days',
-            language === 'ID' ? '2-4 hari' : '2-4 days'
-        ][idx] || (language === 'ID' ? '2-3 hari' : '2-3 days'),
-        size: ['30 x 25 x 15 cm', '20 x 15 x 10 cm', 'Diameter 45 cm', 'Diameter 40 cm'][idx] || '25 x 20 cm',
-        weight: ['500g', '200g', '800g', '600g'][idx] || '400g',
-        features: language === 'ID'
-            ? ['Dibuat handmade oleh pengrajin lokal', 'Material bambu berkualitas tinggi', 'Ramah lingkungan & biodegradable', 'Desain tradisional autentik']
-            : ['Handmade by local artisans', 'High-quality bamboo material', 'Eco-friendly & biodegradable', 'Authentic traditional design'],
-        stock: product.stock || 'Tersedia',
-    }));
+    const PRODUCTS_DETAILED = data.products.map((product, idx) => {
+        const title = language === 'EN' && product.title_en ? product.title_en : product.title;
+        const category = language === 'EN' && product.category_en ? product.category_en : product.category;
+        const description = language === 'EN' && product.description_en ? product.description_en : (product.description || product.desc);
+
+        return {
+            ...product,
+            title,
+            category: category || (language === 'ID' ? 'Lainnya' : 'Other'),
+            description,
+            // Backend overrides
+            price: product.price || ['Rp 85.000', 'Rp 45.000', 'Rp 35.000', 'Rp 55.000'][idx] || 'Rp 50.000',
+            material: product.material || (language === 'ID' ? '100% Bambu Pilihan' : '100% Premium Bamboo'),
+            craftTime: [
+                language === 'ID' ? '3-5 hari' : '3-5 days',
+                language === 'ID' ? '2-3 hari' : '2-3 days',
+                language === 'ID' ? '1-2 hari' : '1-2 days',
+                language === 'ID' ? '2-4 hari' : '2-4 days'
+            ][idx] || (language === 'ID' ? '2-3 hari' : '2-3 days'),
+            size: ['30 x 25 x 15 cm', '20 x 15 x 10 cm', 'Diameter 45 cm', 'Diameter 40 cm'][idx] || '25 x 20 cm',
+            weight: ['500g', '200g', '800g', '600g'][idx] || '400g',
+            features: language === 'ID'
+                ? ['Dibuat handmade oleh pengrajin lokal', 'Material bambu berkualitas tinggi', 'Ramah lingkungan & biodegradable', 'Desain tradisional autentik']
+                : ['Handmade by local artisans', 'High-quality bamboo material', 'Eco-friendly & biodegradable', 'Authentic traditional design'],
+            stock: product.stock || 'Tersedia',
+        };
+    });
 
     const categories = language === 'ID'
         ? ['Semua', 'Wadah', 'Kemasan', 'Aksesoris', 'Peralatan']
@@ -206,10 +214,10 @@ export default function Products() {
                                 {/* Content */}
                                 <div className="p-5">
                                     <h3 className="font-bold text-neutral-900 mb-1 ">
-                                        {language === 'ID' ? product.title : product.titleEN || product.title}
+                                        {product.title}
                                     </h3>
                                     <p className="text-sm text-neutral-500 line-clamp-2 mb-3">
-                                        {language === 'ID' ? (product.description || product.desc) : product.descEN || (product.description || product.desc)}
+                                        {product.description}
                                     </p>
 
                                     {/* Price & Size */}
@@ -308,10 +316,10 @@ export default function Products() {
                                 {/* Content */}
                                 <div className="p-6 md:p-8">
                                     <h2 className="text-2xl font-bold text-neutral-900 font-display mb-2">
-                                        {selectedProduct.title}
+                                        {selectedProduct.title_en && language === 'EN' ? selectedProduct.title_en : selectedProduct.title}
                                     </h2>
                                     <p className="text-neutral-600 mb-4">
-                                        {selectedProduct.desc}
+                                        {selectedProduct.description_en && language === 'EN' ? selectedProduct.description_en : (selectedProduct.description || selectedProduct.desc)}
                                     </p>
                                     <div className="text-2xl font-bold text-primary mb-6">
                                         {selectedProduct.price}

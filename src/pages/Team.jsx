@@ -1,7 +1,12 @@
 import { motion } from 'framer-motion';
 import { useStore } from '../hooks/useStore';
 
+import { useLanguage } from '../context/LanguageContext';
+import { translations } from '../data/translations';
+
 export default function Team() {
+    const { language } = useLanguage();
+    const t = translations[language];
     const { data, loading, error, getImageUrl } = useStore();
 
     return (
@@ -13,18 +18,20 @@ export default function Team() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
                 >
-                    <p className="text-secondary font-semibold tracking-wider uppercase text-sm mb-4 font-sans">Kekuatan Kami</p>
-                    <h1 className="text-4xl md:text-6xl font-bold text-neutral-900 font-display mb-8">Tim SuaR Hijau</h1>
+                    <p className="text-secondary font-semibold tracking-wider uppercase text-sm mb-4 font-sans">{language === 'ID' ? 'Kekuatan Kami' : 'Our Strength'}</p>
+                    <h1 className="text-4xl md:text-6xl font-bold text-neutral-900 font-display mb-8">{language === 'ID' ? 'Tim SuaR Hijau' : 'SuaR Hijau Team'}</h1>
                     <p className="text-xl text-neutral-600 max-w-3xl mx-auto font-sans leading-relaxed">
-                        Kami adalah gabungan ilmuwan, ahli pertanian, dan visioner yang berdedikasi membangun masa depan pangan yang lebih baik.
+                        {language === 'ID' 
+                            ? 'Kami adalah gabungan ilmuwan, ahli pertanian, dan visioner yang berdedikasi membangun masa depan pangan yang lebih baik.'
+                            : 'We are a combination of scientists, agricultural experts, and visionaries dedicated to building a better food future.'}
                     </p>
                 </motion.div>
             </section>
 
             {/* Team Grid */}
             <section className="container mx-auto px-6">
-                {loading && <p className="text-center text-neutral-500">Memuat anggota tim...</p>}
-                {error && <p className="text-center text-red-500 text-sm">Gagal memuat tim: {error}</p>}
+                {loading && <p className="text-center text-neutral-500">{language === 'ID' ? 'Memuat anggota tim...' : 'Loading team members...'}</p>}
+                {error && <p className="text-center text-red-500 text-sm">{language === 'ID' ? 'Gagal memuat tim:' : 'Failed to load team:'} {error}</p>}
 
                 {!loading && !error && (
                     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -45,9 +52,9 @@ export default function Team() {
                                     />
                                 </div>
                                 <div className="p-6">
-                                    <p className="text-xs font-bold text-secondary uppercase tracking-wider mb-2">{member.role}</p>
+                                    <p className="text-xs font-bold text-secondary uppercase tracking-wider mb-2">{language === 'EN' && member.role_en ? member.role_en : member.role}</p>
                                     <h3 className="text-xl font-bold text-neutral-900 font-display mb-3">{member.name}</h3>
-                                    <p className="text-neutral-500 text-sm leading-relaxed font-sans">{member.bio}</p>
+                                    <p className="text-neutral-500 text-sm leading-relaxed font-sans">{language === 'EN' && member.bio_en ? member.bio_en : member.bio}</p>
                                 </div>
                             </motion.div>
                         ))}
