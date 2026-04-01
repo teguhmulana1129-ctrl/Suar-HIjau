@@ -41,8 +41,12 @@ function LocationMarker({ position, setPosition, setLocationName }) {
 }
 
 const emptyEvent = {
-    title: '', date: '', time: '', location: '', image: '',
-    description: '', fullDescription: '',
+    title: '', title_en: '',
+    date: '', time: '',
+    location: '', location_en: '',
+    image: '',
+    description: '', description_en: '',
+    fullDescription: '',
     rundown: [{ time: '', activity: '' }],
     requirements: [''],
     price: 'Gratis', status: 'upcoming'
@@ -80,11 +84,14 @@ export default function EventsPage() {
         setForm({
             ...emptyEvent,
             title: item.title || '',
+            title_en: item.title_en || '',
             date: (item.date || '').slice(0, 10),
             time: item.time || '',
             location: item.location || '',
+            location_en: item.location_en || '',
             image: item.image || '',
             description: item.description || '',
+            description_en: item.description_en || '',
             fullDescription: item.fullDescription || item.full_description || '',
             rundown: rundown || [{ time: '', activity: '' }],
             requirements: requirements || [''],
@@ -301,9 +308,15 @@ export default function EventsPage() {
                         {/* Modal Body */}
                         <form onSubmit={handleSubmit} className="p-5 overflow-y-auto space-y-5 custom-scrollbar">
                             <div className="grid sm:grid-cols-2 gap-4">
-                                <div className="sm:col-span-2 space-y-1">
-                                    <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">JUDUL EVENT *</label>
-                                    <input required value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-semibold text-dark-900 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none" placeholder="Misal: Penanaman 1000 Bibit Bambu" />
+                                <div className="sm:col-span-2 grid sm:grid-cols-2 gap-4">
+                                    <div className="space-y-1">
+                                        <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">JUDUL EVENT (ID) *</label>
+                                        <input required value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-semibold text-dark-900 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none" placeholder="Misal: Penanaman 1000 Bibit Bambu" />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">EVENT TITLE (EN)</label>
+                                        <input value={form.title_en} onChange={e => setForm(f => ({ ...f, title_en: e.target.value }))} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-semibold text-dark-900 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none" placeholder="E.g.: Planting 1000 Bamboo Seedlings" />
+                                    </div>
                                 </div>
                                 <div className="space-y-1">
                                     <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">TANGGAL PELAKSANAAN *</label>
@@ -313,22 +326,28 @@ export default function EventsPage() {
                                     <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">WAKTU ACARA</label>
                                     <input value={form.time} onChange={e => setForm(f => ({ ...f, time: e.target.value }))} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-semibold text-dark-900 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none" placeholder="08:00 - 12:00 WIB" />
                                 </div>
-                                <div className="sm:col-span-2 space-y-1.5">
-                                    <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">LOKASI KEGIATAN (PETA INTERAKTIF)</label>
-                                    <input value={form.location} onChange={e => setForm(f => ({ ...f, location: e.target.value }))} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-medium text-dark-900 mb-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all" placeholder="Gunakan peta atau ketik manual..." />
-                                    <div className="h-[180px] w-full rounded-lg overflow-hidden border border-dark-200 relative z-0 shadow-sm">
-                                        <MapContainer center={[-7.817342, 112.0223]} zoom={13} style={{ height: '100%', width: '100%' }}>
-                                            <TileLayer
-                                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                                            />
-                                            <LocationMarker
-                                                position={mapPosition}
-                                                setPosition={setMapPosition}
-                                                setLocationName={(locName) => setForm(f => ({ ...f, location: locName }))}
-                                            />
-                                        </MapContainer>
+                                <div className="sm:col-span-2 grid sm:grid-cols-2 gap-4">
+                                    <div className="space-y-1">
+                                        <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">LOKASI KEGIATAN (ID)</label>
+                                        <input value={form.location} onChange={e => setForm(f => ({ ...f, location: e.target.value }))} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-medium text-dark-900 mb-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all" placeholder="Gunakan peta atau ketik manual..." />
                                     </div>
+                                    <div className="space-y-1">
+                                        <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">EVENT LOCATION (EN)</label>
+                                        <input value={form.location_en} onChange={e => setForm(f => ({ ...f, location_en: e.target.value }))} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-medium text-dark-900 mb-2 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all" placeholder="Enter location in English..." />
+                                    </div>
+                                </div>
+                                <div className="sm:col-span-2 h-[180px] w-full rounded-lg overflow-hidden border border-dark-200 relative z-0 shadow-sm">
+                                    <MapContainer center={[-7.817342, 112.0223]} zoom={13} style={{ height: '100%', width: '100%' }}>
+                                        <TileLayer
+                                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                        />
+                                        <LocationMarker
+                                            position={mapPosition}
+                                            setPosition={setMapPosition}
+                                            setLocationName={(locName) => setForm(f => ({ ...f, location: locName }))}
+                                        />
+                                    </MapContainer>
                                 </div>
                                 <div className="space-y-1">
                                     <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">BIAYA REGISTRASI</label>
@@ -360,9 +379,15 @@ export default function EventsPage() {
                                 </div>
                             </div>
 
-                            <div className="space-y-1">
-                                <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">DESKRIPSI EVENT</label>
-                                <textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} rows={3} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-medium text-dark-900 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none resize-none" placeholder="Berikan rincian menarik tentang event ini..." />
+                            <div className="grid sm:grid-cols-2 gap-4">
+                                <div className="space-y-1">
+                                    <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">DESKRIPSI EVENT (ID)</label>
+                                    <textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} rows={3} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-medium text-dark-900 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none resize-none" placeholder="Berikan rincian menarik tentang event ini..." />
+                                </div>
+                                <div className="space-y-1">
+                                    <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">EVENT DESCRIPTION (EN)</label>
+                                    <textarea value={form.description_en} onChange={e => setForm(f => ({ ...f, description_en: e.target.value }))} rows={3} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-medium text-dark-900 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none resize-none" placeholder="Provide interesting details about this event..." />
+                                </div>
                             </div>
 
                             {/* Rundown Section */}

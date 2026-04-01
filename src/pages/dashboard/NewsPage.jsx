@@ -7,9 +7,14 @@ import {
 } from 'lucide-react';
 
 const emptyNews = {
-    title: '', slug: '', excerpt: '', date: new Date().toISOString().slice(0, 10),
+    title: '', title_en: '',
+    slug: '',
+    excerpt: '', excerpt_en: '',
+    category: '', category_en: '',
+    date: new Date().toISOString().slice(0, 10),
     author: 'SuaR Indonesia', tags: '', image: '', content: '', views: 0,
-    sections: [] // Format: { type: 'text'|'heading'|'image'|'video'|'quote', content: '' }
+    sections: [], // Format: { type: 'text'|'heading'|'image'|'video'|'quote', content: '' }
+    sections_en: []
 };
 
 export default function NewsPage() {
@@ -38,18 +43,27 @@ export default function NewsPage() {
     const openAdd = () => { setForm(emptyNews); setEditId(null); setShowForm(true); };
     const openEdit = (item) => {
         let sections = [];
-        // Attempt to parse existing sections or fallback to raw content as a single text section
+        let sections_en = [];
+
         if (item.sections) {
             sections = typeof item.sections === 'string' ? JSON.parse(item.sections) : item.sections;
         } else if (item.content) {
             sections = [{ type: 'text', content: item.content }];
         }
 
+        if (item.sections_en) {
+            sections_en = typeof item.sections_en === 'string' ? JSON.parse(item.sections_en) : item.sections_en;
+        }
+
         setForm({
             ...emptyNews,
             ...item,
+            title_en: item.title_en || '',
+            excerpt_en: item.excerpt_en || '',
+            category_en: item.category_en || '',
             date: (item.date || '').slice(0, 10),
-            sections: sections
+            sections: sections,
+            sections_en: sections_en
         });
         setEditId(item.id);
         setShowForm(true);
@@ -265,10 +279,15 @@ export default function NewsPage() {
                         {/* Modal Body */}
                         <form onSubmit={handleSubmit} className="p-5 overflow-y-auto space-y-5 custom-scrollbar">
                             <div className="grid sm:grid-cols-2 gap-4">
-                                <div className="space-y-1">
-                                    <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">Title *</label>
-                                    <input required value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-semibold text-dark-900 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none" placeholder="e.g., Pelatihan Digital Marketing untuk UMKM" />
-                                    <p className="text-[9px] text-dark-400 mt-0.5">Judul utama artikel yang menarik.</p>
+                                <div className="grid sm:grid-cols-2 gap-4">
+                                    <div className="space-y-1">
+                                        <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">Title (ID) *</label>
+                                        <input required value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-semibold text-dark-900 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none" placeholder="e.g., Pelatihan Digital Marketing untuk UMKM" />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">Title (EN)</label>
+                                        <input value={form.title_en} onChange={e => setForm(f => ({ ...f, title_en: e.target.value }))} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-semibold text-dark-900 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none" placeholder="e.g., Digital Marketing Training for SMEs" />
+                                    </div>
                                 </div>
                                 <div className="space-y-1">
                                     <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">Slug *</label>
@@ -276,10 +295,15 @@ export default function NewsPage() {
                                     <p className="text-[9px] text-dark-400 mt-0.5">URL friendly, gunakan huruf kecil dan tanda hubung (-).</p>
                                 </div>
 
-                                <div className="sm:col-span-2 space-y-1 mt-2">
-                                    <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">Excerpt *</label>
-                                    <textarea required value={form.excerpt} onChange={e => setForm(f => ({ ...f, excerpt: e.target.value }))} rows={2} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-medium text-dark-900 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none resize-none" placeholder="e.g., Suar Indonesia mengadakan pelatihan digital marketing untuk membantu UMKM..." />
-                                    <p className="text-[9px] text-dark-400 mt-0.5">Ringkasan singkat artikel yang akan muncul di kartu preview.</p>
+                                <div className="grid sm:grid-cols-2 gap-4 mt-2">
+                                    <div className="space-y-1">
+                                        <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">Excerpt (ID) *</label>
+                                        <textarea required value={form.excerpt} onChange={e => setForm(f => ({ ...f, excerpt: e.target.value }))} rows={2} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-medium text-dark-900 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none resize-none" placeholder="Ringkasan singkat..." />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label className="text-[9px] font-bold text-dark-500 tracking-wider uppercase">Excerpt (EN)</label>
+                                        <textarea value={form.excerpt_en} onChange={e => setForm(f => ({ ...f, excerpt_en: e.target.value }))} rows={2} className="w-full px-3 py-2 bg-white border border-dark-200 rounded-lg text-xs font-medium text-dark-900 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all outline-none resize-none" placeholder="Short summary..." />
+                                    </div>
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-4 mt-2">

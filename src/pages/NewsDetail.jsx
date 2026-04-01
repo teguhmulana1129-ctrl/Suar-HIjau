@@ -45,13 +45,14 @@ export default function NewsDetail() {
         );
     }
 
-    const title = (post.title && typeof post.title === 'object') ? post.title[language] || post.title.ID : (post.title || '');
-    const category = (post.category && typeof post.category === 'object') ? post.category[language] || post.category.ID : (post.category || 'Berita');
-    const date = (post.date && typeof post.date === 'object') ? post.date[language] || post.date.ID : (post.date || '');
+    const title = language === 'EN' && post.title_en ? post.title_en : post.title;
+    const category = language === 'EN' && post.category_en ? post.category_en : post.category;
+    const date = post.date || '';
 
     let parsedSections = [];
-    if (post.sections) {
-        parsedSections = typeof post.sections === 'string' ? JSON.parse(post.sections) : post.sections;
+    const rawSections = language === 'EN' && post.sections_en ? post.sections_en : post.sections;
+    if (rawSections) {
+        parsedSections = typeof rawSections === 'string' ? JSON.parse(rawSections) : rawSections;
     }
 
     const legacyContent = (post.content && typeof post.content === 'object') ? post.content[language] || post.content.ID : (post.content || '');

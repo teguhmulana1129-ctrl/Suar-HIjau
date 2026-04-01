@@ -53,7 +53,7 @@ export default function EventDetail() {
                 >
                     <img
                         src={getImageUrl(event.image)}
-                        alt={language === 'ID' ? event.title : event.titleEN || event.title}
+                        alt={language === 'EN' && event.title_en ? event.title_en : event.title}
                         className="w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
@@ -62,7 +62,7 @@ export default function EventDetail() {
                             {event.status === 'upcoming' ? (language === 'ID' ? 'Akan Datang' : 'Upcoming') : (language === 'ID' ? 'Selesai' : 'Completed')}
                         </span>
                         <h1 className="text-4xl md:text-5xl font-bold font-display mb-4 leading-tight">
-                            {language === 'ID' ? event.title : event.titleEN || event.title}
+                            {language === 'EN' && event.title_en ? event.title_en : event.title}
                         </h1>
                         <div className="flex flex-wrap gap-6 text-sm md:text-base font-medium text-white/90">
                             <span className="flex items-center gap-2">
@@ -97,7 +97,7 @@ export default function EventDetail() {
                                 {language === 'ID' ? 'Tentang Acara' : 'About Event'}
                             </h2>
                             <p className="text-neutral-600 leading-relaxed text-lg whitespace-pre-line">
-                                {language === 'ID' ? (event.fullDescription || event.full_description) : (event.fullDescriptionEN || event.fullDescription || event.full_description)}
+                                {language === 'EN' && event.full_description_en ? event.full_description_en : (event.fullDescription || event.full_description)}
                             </p>
                         </motion.section>
 
@@ -141,7 +141,7 @@ export default function EventDetail() {
                                 {(event.price || event.priceEN) ? (
                                     <div className="flex items-center gap-2 text-2xl font-bold text-primary mb-1">
                                         <DollarSign className="w-6 h-6" />
-                                        {language === 'ID' ? event.price : event.priceEN || event.price}
+                                        {language === 'ID' ? event.price : event.price_en || event.price}
                                     </div>
                                 ) : (
                                     <div className="flex items-center gap-2 text-2xl font-bold text-primary mb-1">

@@ -42,10 +42,19 @@ export default function News() {
                             <p className="text-center text-neutral-500 py-10 col-span-full">Belum ada artikel yang diterbitkan.</p>
                         ) : (
                             newsData.map((post, index) => {
-                                const title = (post.title && typeof post.title === 'object') ? post.title[language] || post.title.ID : (post.title || '');
-                                const category = (post.category && typeof post.category === 'object') ? post.category[language] || post.category.ID : (post.category || 'Berita');
+                                const title = (post.title && typeof post.title === 'object') 
+                                    ? post.title[language] || post.title.ID 
+                                    : (language === 'EN' && post.title_en ? post.title_en : (post.title || ''));
+                                    
+                                const category = (post.category && typeof post.category === 'object') 
+                                    ? post.category[language] || post.category.ID 
+                                    : (language === 'EN' && post.category_en ? post.category_en : (post.category || 'Berita'));
+                                    
                                 const date = (post.date && typeof post.date === 'object') ? post.date[language] || post.date.ID : (post.date || '');
-                                const excerpt = (post.excerpt && typeof post.excerpt === 'object') ? post.excerpt[language] || post.excerpt.ID : (post.excerpt || '');
+                                
+                                const excerpt = (post.excerpt && typeof post.excerpt === 'object') 
+                                    ? post.excerpt[language] || post.excerpt.ID 
+                                    : (language === 'EN' && post.excerpt_en ? post.excerpt_en : (post.excerpt || ''));
 
                                 return (
                                     <motion.article

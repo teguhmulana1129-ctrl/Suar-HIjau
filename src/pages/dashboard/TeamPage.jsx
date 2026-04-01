@@ -7,8 +7,8 @@ import {
 } from 'lucide-react';
 
 const emptyMember = {
-    name: '', role: '', image: '',
-    email: '', linkedin: '', bio: ''
+    name: '', role: '', role_en: '', image: '',
+    email: '', linkedin: '', bio: '', bio_en: ''
 };
 
 export default function TeamPage() {
@@ -35,7 +35,12 @@ export default function TeamPage() {
 
     const openAdd = () => { setForm(emptyMember); setEditId(null); setShowForm(true); };
     const openEdit = (item) => {
-        setForm({ ...emptyMember, ...item });
+        setForm({
+            ...emptyMember,
+            ...item,
+            role_en: item.role_en || '',
+            bio_en: item.bio_en || ''
+        });
         setEditId(item.id);
         setShowForm(true);
     };
@@ -213,8 +218,12 @@ export default function TeamPage() {
                                     <input required value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} className="w-full px-3 py-2 bg-dark-50 border-none rounded-lg text-xs font-bold text-dark-800 focus:ring-2 focus:ring-primary-500 transition-all" />
                                 </div>
                                 <div className="space-y-1">
-                                    <label className="text-[9px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">PERAN / JABATAN *</label>
+                                    <label className="text-[9px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">PERAN / JABATAN (ID) *</label>
                                     <input required value={form.role} onChange={e => setForm(f => ({ ...f, role: e.target.value }))} className="w-full px-3 py-2 bg-dark-50 border-none rounded-lg text-xs font-bold text-primary-700 focus:ring-2 focus:ring-primary-500 transition-all font-serif italic" placeholder="Contoh: Koordinator Lapangan" />
+                                </div>
+                                <div className="space-y-1">
+                                    <label className="text-[9px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">ROLE / POSITION (EN)</label>
+                                    <input value={form.role_en} onChange={e => setForm(f => ({ ...f, role_en: e.target.value }))} className="w-full px-3 py-2 bg-dark-50 border-none rounded-lg text-xs font-bold text-primary-700 focus:ring-2 focus:ring-primary-500 transition-all font-serif italic" placeholder="E.g.: Field Coordinator" />
                                 </div>
                                 <div className="space-y-1">
                                     <label className="text-[9px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">EMAIL PROFESIONAL</label>
@@ -243,9 +252,15 @@ export default function TeamPage() {
                                 </div>
                             </div>
 
-                            <div className="space-y-1">
-                                <label className="text-[9px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">BIOGRAFI SINGKAT</label>
-                                <textarea value={form.bio} onChange={e => setForm(f => ({ ...f, bio: e.target.value }))} rows={3} className="w-full px-3 py-2 bg-dark-50 border-none rounded-lg text-xs font-medium text-dark-800 focus:ring-2 focus:ring-primary-500 transition-all resize-none leading-relaxed" placeholder="Tuliskan sedikit tentang semangat dan dedikasi anggota ini..." />
+                             <div className="grid sm:grid-cols-2 gap-4">
+                                <div className="space-y-1">
+                                    <label className="text-[9px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">BIOGRAFI SINGKAT (ID)</label>
+                                    <textarea value={form.bio} onChange={e => setForm(f => ({ ...f, bio: e.target.value }))} rows={3} className="w-full px-3 py-2 bg-dark-50 border-none rounded-lg text-xs font-medium text-dark-800 focus:ring-2 focus:ring-primary-500 transition-all resize-none leading-relaxed" placeholder="Tuliskan sedikit tentang semangat anggota ini..." />
+                                </div>
+                                <div className="space-y-1">
+                                    <label className="text-[9px] font-black text-dark-300 tracking-[0.2em] uppercase px-1">SHORT BIO (EN)</label>
+                                    <textarea value={form.bio_en} onChange={e => setForm(f => ({ ...f, bio_en: e.target.value }))} rows={3} className="w-full px-3 py-2 bg-dark-50 border-none rounded-lg text-xs font-medium text-dark-800 focus:ring-2 focus:ring-primary-500 transition-all resize-none leading-relaxed" placeholder="Write a bit about this member's passion..." />
+                                </div>
                             </div>
 
                             <div className="flex gap-2.5 pt-3 border-t border-dark-50">

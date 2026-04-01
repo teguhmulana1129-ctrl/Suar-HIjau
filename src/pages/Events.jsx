@@ -87,7 +87,7 @@ export default function Events() {
                                     {/* Content */}
                                     <div className="p-6 md:p-8 flex flex-col justify-center flex-grow">
                                         <h3 className="text-2xl font-bold text-neutral-900 mb-3 font-display group-hover:text-primary transition-colors">
-                                            {language === 'ID' ? event.title : event.titleEN || event.title}
+                                            {language === 'EN' && event.title_en ? event.title_en : event.title}
                                         </h3>
 
                                         <div className="flex flex-col sm:flex-row gap-3 sm:gap-6 mb-4 text-sm text-neutral-600">
@@ -97,12 +97,12 @@ export default function Events() {
                                             </div>
                                             <div className="flex items-center gap-2">
                                                 <MapPin className="w-4 h-4 text-primary" />
-                                                <span>{event.location}</span>
+                                                <span>{language === 'EN' && event.location_en ? event.location_en : event.location}</span>
                                             </div>
                                         </div>
 
                                         <p className="text-neutral-600 leading-relaxed mb-6 line-clamp-2">
-                                            {language === 'ID' ? event.description : event.descriptionEN || event.description}
+                                            {language === 'EN' && event.description_en ? event.description_en : event.description}
                                         </p>
 
                                         <span className="inline-flex items-center gap-2 text-primary font-bold text-sm uppercase tracking-wide group-hover:gap-3 transition-all mt-auto">

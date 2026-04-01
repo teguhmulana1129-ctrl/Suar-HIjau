@@ -39,9 +39,13 @@ function LocationMarker({ position, setPosition, setLocationName }) {
 }
 
 const emptyProgram = {
-    title: '', category: '', location: '', target: '',
+    title: '', title_en: '',
+    category: '', category_en: '',
+    location: '', location_en: '',
+    target: '', target_en: '',
     volunteers: 0, startDate: '', image: '',
-    fullDescription: '', impact: [''], status: 'upcoming'
+    fullDescription: '', full_description_en: '',
+    impact: [''], status: 'upcoming'
 };
 
 export default function ProgramsPage() {
@@ -69,13 +73,18 @@ export default function ProgramsPage() {
         setForm({
             ...emptyProgram,
             title: item.title || '',
+            title_en: item.title_en || '',
             category: item.category || '',
+            category_en: item.category_en || '',
             location: item.location || '',
+            location_en: item.location_en || '',
             target: item.target || '',
+            target_en: item.target_en || '',
             volunteers: item.volunteers || 0,
             startDate: (item.startDate || item.start_date || '').slice(0, 10),
             image: item.image || '',
             fullDescription: item.fullDescription || item.full_description || '',
+            full_description_en: item.full_description_en || '',
             impact: impact || [''],
             status: item.status || 'upcoming'
         });
@@ -303,12 +312,20 @@ export default function ProgramsPage() {
                                     <h3 className="text-[9px] font-black text-emerald-600 uppercase tracking-widest">Informasi Dasar</h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                                         <div className="space-y-1">
-                                            <label className="text-[9px] font-bold text-slate-700 ml-1">Nama Program <span className="text-rose-500">*</span></label>
+                                            <label className="text-[9px] font-bold text-slate-700 ml-1">Nama Program (ID) <span className="text-rose-500">*</span></label>
                                             <input required value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} className="w-full px-3 py-2.5 bg-slate-50 border border-transparent rounded-lg text-xs focus:bg-white focus:border-emerald-500 transition-all outline-none" placeholder="Contoh: Reboisasi Lereng Kelud" />
                                         </div>
                                         <div className="space-y-1">
-                                            <label className="text-[9px] font-bold text-slate-700 ml-1">Kategori Inisiatif <span className="text-rose-500">*</span></label>
+                                            <label className="text-[9px] font-bold text-slate-700 ml-1">Program Name (EN)</label>
+                                            <input value={form.title_en} onChange={e => setForm(f => ({ ...f, title_en: e.target.value }))} className="w-full px-3 py-2.5 bg-slate-50 border border-transparent rounded-lg text-xs focus:bg-white focus:border-emerald-500 transition-all outline-none" placeholder="Example: Kelud Slope Reforestation" />
+                                        </div>
+                                        <div className="space-y-1">
+                                            <label className="text-[9px] font-bold text-slate-700 ml-1">Kategori Inisiatif (ID) <span className="text-rose-500">*</span></label>
                                             <input required value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} className="w-full px-3 py-2.5 bg-slate-50 border border-transparent rounded-lg text-xs focus:bg-white focus:border-emerald-500 transition-all outline-none" placeholder="Pendidikan, Konservasi..." />
+                                        </div>
+                                        <div className="space-y-1">
+                                            <label className="text-[9px] font-bold text-slate-700 ml-1">Initiative Category (EN)</label>
+                                            <input value={form.category_en} onChange={e => setForm(f => ({ ...f, category_en: e.target.value }))} className="w-full px-3 py-2.5 bg-slate-50 border border-transparent rounded-lg text-xs focus:bg-white focus:border-emerald-500 transition-all outline-none" placeholder="Education, Conservation..." />
                                         </div>
                                     </div>
                                 </div>
@@ -342,9 +359,15 @@ export default function ProgramsPage() {
                                 <div className="space-y-3">
                                     <h3 className="text-[9px] font-black text-emerald-600 uppercase tracking-widest">Lokasi & Penjadwalan</h3>
                                     <div className="space-y-2.5">
-                                        <div className="space-y-1">
-                                            <label className="text-[9px] font-bold text-slate-700 ml-1">Alamat Lengkap</label>
-                                            <input value={form.location} onChange={e => setForm(f => ({ ...f, location: e.target.value }))} className="w-full px-3 py-2.5 bg-slate-50 border border-transparent rounded-lg text-xs focus:bg-white focus:border-emerald-500 transition-all outline-none" placeholder="Jl. Raya Bambu No. 1..." />
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                            <div className="space-y-1">
+                                                <label className="text-[9px] font-bold text-slate-700 ml-1">Alamat Lengkap (ID)</label>
+                                                <input value={form.location} onChange={e => setForm(f => ({ ...f, location: e.target.value }))} className="w-full px-3 py-2.5 bg-slate-50 border border-transparent rounded-lg text-xs focus:bg-white focus:border-emerald-500 transition-all outline-none" placeholder="Jl. Raya Bambu No. 1..." />
+                                            </div>
+                                            <div className="space-y-1">
+                                                <label className="text-[9px] font-bold text-slate-700 ml-1">Full Address (EN)</label>
+                                                <input value={form.location_en} onChange={e => setForm(f => ({ ...f, location_en: e.target.value }))} className="w-full px-3 py-2.5 bg-slate-50 border border-transparent rounded-lg text-xs focus:bg-white focus:border-emerald-500 transition-all outline-none" placeholder="Bamboo Main St. No. 1..." />
+                                            </div>
                                         </div>
                                         <div className="h-[180px] w-full rounded-lg overflow-hidden border border-slate-100 relative z-0">
                                             <MapContainer center={[-7.817342, 112.0223]} zoom={13} style={{ height: '100%', width: '100%', zIndex: 0 }}>
@@ -362,8 +385,12 @@ export default function ProgramsPage() {
                                                 <input type="date" value={form.startDate} onChange={e => setForm(f => ({ ...f, startDate: e.target.value }))} className="w-full px-3 py-2.5 bg-slate-50 border border-transparent rounded-lg text-xs focus:bg-white focus:border-emerald-500 transition-all outline-none" />
                                             </div>
                                             <div className="space-y-1">
-                                                <label className="text-[9px] font-bold text-slate-700 ml-1">Target Capaian</label>
+                                                <label className="text-[9px] font-bold text-slate-700 ml-1">Target Capaian (ID)</label>
                                                 <input value={form.target} onChange={e => setForm(f => ({ ...f, target: e.target.value }))} className="w-full px-3 py-2.5 bg-slate-50 border border-transparent rounded-lg text-xs focus:bg-white focus:border-emerald-500 transition-all outline-none" placeholder="1000 Pohon, 2 Ton Sampah..." />
+                                            </div>
+                                            <div className="space-y-1">
+                                                <label className="text-[9px] font-bold text-slate-700 ml-1">Achievement Target (EN)</label>
+                                                <input value={form.target_en} onChange={e => setForm(f => ({ ...f, target_en: e.target.value }))} className="w-full px-3 py-2.5 bg-slate-50 border border-transparent rounded-lg text-xs focus:bg-white focus:border-emerald-500 transition-all outline-none" placeholder="1000 Trees, 2 Tons of Waste..." />
                                             </div>
                                         </div>
                                     </div>
@@ -386,9 +413,15 @@ export default function ProgramsPage() {
                                             </select>
                                         </div>
                                     </div>
-                                    <div className="space-y-1">
-                                        <label className="text-[9px] font-bold text-slate-700 ml-1">Narasi Program</label>
-                                        <textarea value={form.fullDescription} onChange={e => setForm(f => ({ ...f, fullDescription: e.target.value }))} rows={3} className="w-full px-3 py-2.5 bg-slate-50 border border-transparent rounded-lg text-xs focus:bg-white focus:border-emerald-500 transition-all outline-none resize-none leading-relaxed" placeholder="Ceritakan tujuan dan visi dari program ini..." />
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                        <div className="space-y-1">
+                                            <label className="text-[9px] font-bold text-slate-700 ml-1">Narasi Program (ID)</label>
+                                            <textarea value={form.fullDescription} onChange={e => setForm(f => ({ ...f, fullDescription: e.target.value }))} rows={3} className="w-full px-3 py-2.5 bg-slate-50 border border-transparent rounded-lg text-xs focus:bg-white focus:border-emerald-500 transition-all outline-none resize-none leading-relaxed" placeholder="Ceritakan tujuan dan visi dari program ini..." />
+                                        </div>
+                                        <div className="space-y-1">
+                                            <label className="text-[9px] font-bold text-slate-700 ml-1">Program Narrative (EN)</label>
+                                            <textarea value={form.full_description_en} onChange={e => setForm(f => ({ ...f, full_description_en: e.target.value }))} rows={3} className="w-full px-3 py-2.5 bg-slate-50 border border-transparent rounded-lg text-xs focus:bg-white focus:border-emerald-500 transition-all outline-none resize-none leading-relaxed" placeholder="Tell us the goals and vision of this program..." />
+                                        </div>
                                     </div>
                                 </div>
 

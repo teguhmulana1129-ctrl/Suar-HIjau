@@ -75,6 +75,14 @@ export const translations = {
             contactTitle: "KONTAK KAMI",
             phoneLabel: "PHONE :",
             emailLabel: "MAIL :"
+        },
+        productsSection: {
+            catalogue: "Katalog Produk",
+            handcrafted: "Karya Tangan",
+            byLocalArtisans: "Pengrajin Lokal",
+            weaveStory: "Setiap anyaman menceritakan kisah tradisi yang dijaga turun-temurun, dipadukan dengan desain kontemporer.",
+            viewAll: "Lihat Semua",
+            exploreCollection: "Jelajahi koleksi lengkap"
         }
     },
     EN: {
@@ -153,6 +161,14 @@ export const translations = {
             contactTitle: "CONTACT US",
             phoneLabel: "PHONE :",
             emailLabel: "MAIL :"
+        },
+        productsSection: {
+            catalogue: "Product Catalogue",
+            handcrafted: "Handcrafted",
+            byLocalArtisans: "By Local Artisans",
+            weaveStory: "Each weave tells a story of tradition preserved across generations, blended with contemporary design.",
+            viewAll: "View All",
+            exploreCollection: "Explore full collection"
         }
     }
 };

@@ -38,16 +38,14 @@ export default function HealthPuzzle() {
 
     const getTitle = (prod) => {
         if (!prod) return '';
-        const titleProp = language === 'ID' ? prod.title : (prod.titleEN || prod.title);
-        if (typeof titleProp === 'object') return titleProp[language] || titleProp.ID || '';
-        return titleProp || '';
+        if (language === 'EN' && prod.title_en) return prod.title_en;
+        return prod.title || '';
     };
 
     const getDesc = (prod) => {
         if (!prod) return '';
-        const descProp = language === 'ID' ? prod.desc : (prod.descEN || prod.desc);
-        if (typeof descProp === 'object') return descProp[language] || descProp.ID || '';
-        return descProp || '';
+        if (language === 'EN' && prod.description_en) return prod.description_en;
+        return prod.description || prod.desc || '';
     };
 
     // Prepare arrays for rendering remaining products (limited to maintain layout)
@@ -74,16 +72,14 @@ export default function HealthPuzzle() {
                     >
                         <div className="flex items-center gap-3 mb-6">
                             <div className="h-px w-12 bg-primary" />
-                            <span className="text-sm font-semibold text-primary uppercase tracking-widest">{language === 'ID' ? 'Katalog Produk' : 'Product Catalogue'}</span>
+                            <span className="text-sm font-semibold text-primary uppercase tracking-widest">{t.productsSection.catalogue}</span>
                         </div>
                         <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-neutral-900 font-display tracking-tight leading-[1.1] mb-6">
-                            {language === 'ID' ? 'Karya Tangan' : 'Handcrafted'} <br />
-                            <span className="text-primary">{language === 'ID' ? 'Pengrajin Lokal' : 'By Local Artisans'}</span>
+                            {t.productsSection.handcrafted} <br />
+                            <span className="text-primary">{t.productsSection.byLocalArtisans}</span>
                         </h2>
                         <p className="text-lg text-neutral-600 leading-relaxed">
-                            {language === 'ID'
-                                ? 'Setiap anyaman menceritakan kisah tradisi yang dijaga turun-temurun, dipadukan dengan desain kontemporer.'
-                                : 'Each weave tells a story of tradition preserved across generations, blended with contemporary design.'}
+                            {t.productsSection.weaveStory}
                         </p>
                     </motion.div>
 
@@ -273,8 +269,8 @@ export default function HealthPuzzle() {
                             <div className="w-16 h-16 flex items-center justify-center border-2 border-white/20 rounded-full mb-4 group-hover:border-primary group-hover:bg-primary/10 transition-colors">
                                 <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
                             </div>
-                            <span className="text-xl font-semibold mb-2">{language === 'ID' ? 'Lihat Semua' : 'View All'}</span>
-                            <span className="text-neutral-400 text-sm">{language === 'ID' ? 'Jelajahi koleksi lengkap' : 'Explore full collection'}</span>
+                            <span className="text-xl font-semibold mb-2">{t.productsSection.viewAll}</span>
+                            <span className="text-neutral-400 text-sm">{t.productsSection.exploreCollection}</span>
                         </Link>
                     </motion.div>
                 </div>
